@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
@@ -26,42 +25,47 @@ const SignUpPage = () => {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <form className="w-full max-w-sm" onSubmit={handleSignUp}>
-        <h1 className="mb-4 text-center text-4xl font-bold">Sign Up</h1>
-        <p className="text-md mb-10 text-center font-light text-gray-500">
-          Create your account
-        </p>
-        <Input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <div className="flex flex-col space-y-4">
-          <Button type="submit" variant="primary">
-            Sign Up
-          </Button>
+      <form className="w-full max-w-2xl space-y-4" onSubmit={handleSignUp}>
+        <div className="mb-20 flex flex-col gap-7">
+          <h1 className="text-center text-4xl font-bold">Sign Up</h1>
+          <p className="text-md text-center font-light text-gray-500">
+            Create your account
+          </p>
+        </div>
 
+        <div className="grid grid-cols-2 gap-x-4">
+          <Input
+            type="text"
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            type="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            type="password"
+            label="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-4">
           <Button type="button" variant="back" onClick={handleGoBack}>
             Back
+          </Button>
+          {/* Make "Sign Up" button larger by spanning two columns */}
+          <Button type="submit" variant="primary">
+            Sign Up
           </Button>
         </div>
       </form>

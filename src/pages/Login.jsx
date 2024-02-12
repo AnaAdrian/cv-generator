@@ -1,52 +1,80 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import { NavLink } from "react-router-dom";
+import Error from "../ui/Error";
 import { useAuth } from "../auth/AuthContext";
+import Loader from "../ui/Loader";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const { signIn } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: formErrors, isSubmitting },
+    setError,
+    clearErrors,
+  } = useForm();
 
-  async function handleLogin(e) {
-    e.preventDefault();
+  useEffect(() => {
+    if (isSubmitting) clearErrors("auth");
+  }, [isSubmitting, clearErrors]);
+
+  async function handleLogin(data) {
+    const { name, password } = data;
     const { error } = await signIn(name, password);
-    if (!error) navigate("/app");
+    if (error) {
+      setError("auth", { message: error.message });
+    } else navigate("/app");
   }
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <form className="w-full max-w-sm" onSubmit={handleLogin}>
-        <h1 className="mb-4 text-center text-4xl font-bold">Log In</h1>
-        <p className="text-md mb-10 text-center font-light text-gray-500">
-          Welcome back!
-        </p>
+      <form className="w-full max-w-sm" onSubmit={handleSubmit(handleLogin)}>
+        <div className="mb-10 flex flex-col gap-6 text-center">
+          <h1 className=" text-4xl font-bold">Log In</h1>
+          <p className="text-md font-light text-gray-500">Welcome back!</p>
+        </div>
         <Input
           type="text"
-          placeholder="Email"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          label="Email"
+          error={formErrors?.name?.message}
+          {...register("name", {
+            required: "Email is required",
+          })}
         />
         <Input
           type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          label="Password"
+          error={formErrors?.password?.message}
+          {...register("password", {
+            required: "Password is required",
+          })}
         />
-        <div className="flex flex-col space-y-4">
+        <div className="mt-5 flex flex-col gap-5">
           <Button type="submit" variant="primary">
-            Login
+            <div className="flex justify-center gap-2 ">
+              {isSubmitting && <Loader size="sm" color="white" />}
+              Login
+            </div>
           </Button>
-          <p className="text-center text-sm text-gray-500">
-            Don&apos;t have an account?{" "}
-            <NavLink to="/signup" className="text-sky-500">
-              Sign Up
-            </NavLink>
-          </p>
+          <div className="flex flex-col gap-5 text-center">
+            <p className=" text-sm text-gray-500">
+              Don&apos;t have an account?{" "}
+              <NavLink to="/signup" className="text-sky-500">
+                Sign Up
+              </NavLink>
+            </p>
+            <div className="min-h-[25px]">
+              {" "}
+              {formErrors?.auth && (
+                <Error size="md">{formErrors.auth.message}</Error>
+              )}
+            </div>
+          </div>
         </div>
       </form>
     </div>

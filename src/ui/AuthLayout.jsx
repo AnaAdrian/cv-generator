@@ -6,7 +6,7 @@ function AuthLayout({ children }) {
       <div className="absolute inset-x-0 top-0">
         <Header />
       </div>
-      <div className="flex min-h-[800px] flex-col justify-center">
+      <div className="flex min-h-[680px] flex-col justify-center">
         {children}
       </div>
     </div>

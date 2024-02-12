@@ -1,26 +1,27 @@
 import { forwardRef } from "react";
+import Error from "../ui/Error";
 
-const Input = forwardRef(({ type, placeholder, ...rest }, ref) => {
+const Input = forwardRef(({ label, error, ...rest }, ref) => {
   return (
-    <div className="group mb-4">
+    <div className="group mb-2">
       <label
-        htmlFor={`input-${placeholder}`}
-        className="block text-sm font-light text-gray-400"
+        htmlFor={`input-${label}`}
+        className="block text-sm font-light text-gray-500"
       >
-        {placeholder}
+        {label}
       </label>
       <div className="relative mt-1">
         <input
           ref={ref}
-          type={type}
-          id={`input-${placeholder}`}
+          id={`input-${label}`}
           {...rest}
-          className="relative w-full bg-slate-50 px-3 py-3 font-medium text-gray-700 focus:outline-none"
+          className="font-small w-full border bg-slate-50 px-3 py-4 text-[15px] text-gray-500 focus:outline-none"
         />
         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-transparent">
           <div className="absolute bottom-0 h-0.5 w-0 bg-sky-500 transition-all duration-75 group-focus-within:w-full"></div>
         </div>
       </div>
+      <div className=" min-h-[25px]"> {error && <Error>{error}</Error>}</div>
     </div>
   );
 });
