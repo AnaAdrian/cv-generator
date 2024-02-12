@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn } = useAuth();
 
-  function handleLogin(e) {
-    e.preventDefault(); // Prevent form submission from reloading the page
-    console.log("Name: ", name);
-    console.log("Password: ", password);
+  async function handleLogin(e) {
+    e.preventDefault();
+    const { error } = await signIn(name, password);
+    if (!error) navigate("/app");
   }
 
   return (

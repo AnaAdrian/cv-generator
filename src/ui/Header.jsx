@@ -1,15 +1,15 @@
 import AuthNavigation from "./AuthNavigation";
 import UserDropdown from "../features/users/UserDropdown";
 
-import supabase from "../services/supabase";
+import { useAuth } from "../auth/AuthContext";
 
 function Header() {
-  const session = supabase.auth.session;
+  const { user } = useAuth();
   return (
-    <header className="flex items-center justify-between bg-white p-4 shadow-md">
+    <div className="flex items-center justify-between bg-white p-4 shadow-md">
       <h1 className="text-2xl font-bold">Logo</h1>
-      {!session ? <AuthNavigation /> : <UserDropdown />}
-    </header>
+      {user ? <UserDropdown /> : <AuthNavigation />}
+    </div>
   );
 }
 

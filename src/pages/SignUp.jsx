@@ -3,17 +3,21 @@ import { useState } from "react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { signUp } = useAuth();
 
   const navigate = useNavigate();
 
-  function handleSignUp(e) {
-    e.preventDefault(); // Prevent form submission from reloading the page
+  async function handleSignUp(e) {
+    e.preventDefault();
+    const { error } = await signUp(email, password);
+    if (!error) navigate("/signup/success");
   }
 
   function handleGoBack() {

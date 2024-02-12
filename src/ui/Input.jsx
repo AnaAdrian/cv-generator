@@ -1,4 +1,6 @@
-function Input({ type, placeholder, value, onChange }) {
+import { forwardRef } from "react";
+
+const Input = forwardRef(({ type, placeholder, ...rest }, ref) => {
   return (
     <div className="group mb-4">
       <label
@@ -9,10 +11,10 @@ function Input({ type, placeholder, value, onChange }) {
       </label>
       <div className="relative mt-1">
         <input
+          ref={ref}
           type={type}
           id={`input-${placeholder}`}
-          value={value}
-          onChange={onChange}
+          {...rest}
           className="relative w-full bg-slate-50 px-3 py-3 font-medium text-gray-700 focus:outline-none"
         />
         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-transparent">
@@ -21,6 +23,8 @@ function Input({ type, placeholder, value, onChange }) {
       </div>
     </div>
   );
-}
+});
+
+Input.displayName = "Input";
 
 export default Input;
