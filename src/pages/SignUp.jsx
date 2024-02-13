@@ -71,7 +71,7 @@ const SignUpPage = () => {
           onSubmit={handleSubmit(handleSignUp)}
         >
           <div className="mb-10 flex flex-col gap-4 text-center">
-            <h1 className="text-4xl font-bold">Sign Up</h1>
+            <h1 className="text-4xl font-bold text-gray-800">Sign Up</h1>
             <p className="text-md font-light text-gray-500">
               Create your account
             </p>
@@ -112,10 +112,15 @@ const SignUpPage = () => {
             onChange={(e) => handleInputChange(e, "confirm-password")}
           />
           <div className="mb-4 mt-4 grid grid-cols-2 gap-x-2">
-            <Button type="button" variant="back" onClick={() => navigate(-1)}>
+            <Button
+              type="button"
+              variant="back"
+              size="md"
+              onClick={() => navigate(-1)}
+            >
               Back
             </Button>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" size="md">
               <div className="flex justify-center gap-2 ">
                 {isSubmitting && <Loader size="sm" color="white" />}
                 Sign Up

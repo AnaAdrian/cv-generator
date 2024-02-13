@@ -1,4 +1,4 @@
-function Button({ children, variant, ...rest }) {
+function Button({ children, variant, size, ...rest }) {
   const variants = {
     primary: "bg-sky-500 hover:bg-sky-600 text-white active:bg-sky-700",
     secondary: "bg-gray-500 hover:bg-gray-600 text-white active:bg-gray-700",
@@ -8,11 +8,18 @@ function Button({ children, variant, ...rest }) {
     danger: "bg-red-500 hover:bg-red-600 text-white",
   };
 
+  const sizes = {
+    sm: "text-sm",
+    md: "text-md",
+    lg: "text-lg",
+  };
+
   const style = variants[variant];
+  const textSize = sizes[size];
 
   return (
     <button
-      className={`${style} rounded-[4px] px-6 py-3 text-sm font-semibold transition-all duration-100 ease-in-out `}
+      className={`${style} ${textSize} rounded-[4px] px-6 py-3 font-semibold transition-all duration-100 ease-in-out `}
       {...rest}
     >
       {children}
@@ -23,6 +30,7 @@ function Button({ children, variant, ...rest }) {
 Button.defaultProps = {
   type: "button",
   variant: "primary",
+  size: "sm",
 };
 
 export default Button;
