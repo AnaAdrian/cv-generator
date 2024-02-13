@@ -1,7 +1,20 @@
-import { forwardRef } from "react";
+import { useState, useEffect, forwardRef } from "react";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+
 import Error from "../ui/Error";
 
-const Input = forwardRef(({ label, error, ...rest }, ref) => {
+const Input = forwardRef(({ type, label, error, ...rest }, ref) => {
+  const [inputType, setInputType] = useState(type);
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    setInputType(showPassword ? "text" : type);
+  }, [showPassword, type]);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="group mb-2">
       <label
@@ -14,17 +27,31 @@ const Input = forwardRef(({ label, error, ...rest }, ref) => {
         <input
           ref={ref}
           id={`input-${label}`}
+          type={inputType}
           {...rest}
           className="font-small w-full border bg-slate-50 px-3 py-4 text-[15px] text-gray-500 focus:outline-none"
         />
+        {type === "password" && (
+          <button
+            onClick={toggleShowPassword}
+            type="button"
+            className="absolute inset-y-0 right-0 flex items-center pr-3"
+          >
+            {showPassword ? (
+              <IoEyeOffOutline className="text-gray-500" />
+            ) : (
+              <IoEyeOutline className="text-gray-500" />
+            )}
+          </button>
+        )}
 
         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-transparent">
           <div
-            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-sky-500"}  transition-all duration-75 group-focus-within:w-full`}
+            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-sky-500"} transition-all duration-75 group-focus-within:w-full`}
           ></div>
         </div>
       </div>
-      <div className=" min-h-[25px]"> {error && <Error>{error}</Error>}</div>
+      <div className="min-h-[25px]">{error && <Error>{error}</Error>}</div>
     </div>
   );
 });

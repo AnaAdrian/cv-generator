@@ -1,31 +1,55 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
-import { checkValidEmail } from "../utils/helpers";
-import { useEffect, useState } from "react";
 import Error from "../ui/Error";
 import Loader from "../ui/Loader";
 import Modal from "../ui/Modal";
 import SignUpSuccess from "../ui/SignUpSuccess";
+import { useAuth } from "../auth/AuthContext";
+import { checkValidEmail } from "../utils/helpers";
 
 const SignUpPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const { signUp } = useAuth();
   const {
     register,
     handleSubmit,
+    getValues,
+    trigger,
     formState: { errors: formErrors, isSubmitting },
     setError,
     clearErrors,
-    getValues,
-  } = useForm();
+  } = useForm({ mode: "onChange", reValidateMode: "onSubmit" });
 
-  const navigate = useNavigate();
+  console.log(formErrors);
+
+  useEffect(() => {
+    if (isSubmitting) clearErrors("auth");
+  }, [isSubmitting, clearErrors]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  function handleModalClose() {
+    closeModal();
+    navigate("/login", { replace: true });
+  }
+
+  function handleInputChange(e, field) {
+    if (
+      field === "confirm-password" &&
+      formErrors?.["confirm-password"]?.message === "Passwords do not match" &&
+      getValues("password") !== e.target.value
+    ) {
+      trigger("confirm-password");
+    } else {
+      clearErrors(field);
+    }
+  }
 
   async function handleSignUp(formData) {
     const { email, password } = formData;
@@ -37,15 +61,6 @@ const SignUpPage = () => {
       openModal();
     }
   }
-
-  function handleModalClose() {
-    closeModal();
-    navigate("/login", { replace: true });
-  }
-
-  useEffect(() => {
-    if (isSubmitting) clearErrors("auth");
-  }, [isSubmitting, clearErrors]);
 
   return (
     <>
@@ -70,6 +85,7 @@ const SignUpPage = () => {
               validate: (value) =>
                 checkValidEmail(value) || "Email format is not correct",
             })}
+            onChange={(e) => handleInputChange(e, "email")}
           />
           <Input
             type="password"
@@ -82,6 +98,7 @@ const SignUpPage = () => {
                 message: "Password must be at least 8 characters",
               },
             })}
+            onChange={(e) => handleInputChange(e, "password")}
           />
           <Input
             type="password"
@@ -92,6 +109,7 @@ const SignUpPage = () => {
               validate: (value) =>
                 value === getValues("password") || "Passwords do not match",
             })}
+            onChange={(e) => handleInputChange(e, "confirm-password")}
           />
           <div className="mb-4 mt-4 grid grid-cols-2 gap-x-2">
             <Button type="button" variant="back" onClick={() => navigate(-1)}>

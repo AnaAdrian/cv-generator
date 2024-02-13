@@ -17,7 +17,7 @@ const LoginPage = () => {
     formState: { errors: formErrors, isSubmitting },
     setError,
     clearErrors,
-  } = useForm();
+  } = useForm({ mode: "onChange", reValidateMode: "onSubmit" });
 
   useEffect(() => {
     if (isSubmitting) clearErrors("auth");
@@ -31,6 +31,10 @@ const LoginPage = () => {
     } else {
       navigate("/app", { replace: true });
     }
+  }
+
+  async function handleInputChange(field) {
+    clearErrors(field);
   }
 
   return (
@@ -47,6 +51,7 @@ const LoginPage = () => {
           {...register("name", {
             required: "This field is required.",
           })}
+          onChange={() => handleInputChange("name")}
         />
         <Input
           type="password"
@@ -55,6 +60,7 @@ const LoginPage = () => {
           {...register("password", {
             required: "This field is required.",
           })}
+          onChange={() => handleInputChange("password")}
         />
         <div className="mt-5 flex flex-col gap-5">
           <Button type="submit" variant="primary">
