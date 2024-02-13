@@ -4,9 +4,9 @@ import Loader from "../ui/Loader";
 import { useAuth } from "./AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, isLoadingSesion } = useAuth();
 
-  if (loading) return <Loader />;
+  if (isLoadingSesion) return <Loader />;
 
   return user ? children : <Navigate to="/login" />;
 };

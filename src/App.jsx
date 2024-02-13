@@ -16,12 +16,11 @@ import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
 import CustomToaster from "./ui/Toast";
 import { AuthProvider } from "./auth/AuthContext";
-import SignUpSuccess from "./pages/SignUpSuccess";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
           <Route index element={<Navigate to="/login" />} />
           <Route
@@ -41,14 +40,6 @@ function App() {
             }
           />
           <Route
-            path="/signup/success"
-            element={
-              <AuthLayout>
-                <SignUpSuccess />
-              </AuthLayout>
-            }
-          />
-          <Route
             path="/app"
             element={
               <ProtectedRoute>
@@ -62,9 +53,9 @@ function App() {
           {/* Additional routes here */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </Router>
+      </AuthProvider>
       <CustomToaster />
-    </AuthProvider>
+    </Router>
   );
 }
 

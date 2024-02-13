@@ -2,11 +2,11 @@ import Header from "./Header";
 
 function AuthLayout({ children }) {
   return (
-    <div className="relative">
-      <div className="absolute inset-x-0 top-0">
-        <Header />
-      </div>
-      <div className="flex min-h-[680px] flex-col justify-center">
+    <div className="relative flex min-h-screen flex-col">
+      {" "}
+      <Header />
+      <div className="mx-3 flex flex-1 items-center justify-center py-10">
+        {" "}
         {children}
       </div>
     </div>

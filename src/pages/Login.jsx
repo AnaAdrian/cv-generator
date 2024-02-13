@@ -23,16 +23,18 @@ const LoginPage = () => {
     if (isSubmitting) clearErrors("auth");
   }, [isSubmitting, clearErrors]);
 
-  async function handleLogin(data) {
-    const { name, password } = data;
+  async function handleLogin(formData) {
+    const { name, password } = formData;
     const { error } = await signIn(name, password);
     if (error) {
       setError("auth", { message: error.message });
-    } else navigate("/app");
+    } else {
+      navigate("/app", { replace: true });
+    }
   }
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex w-full items-center justify-center">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(handleLogin)}>
         <div className="mb-10 flex flex-col gap-6 text-center">
           <h1 className=" text-4xl font-bold">Log In</h1>
@@ -43,7 +45,7 @@ const LoginPage = () => {
           label="Email"
           error={formErrors?.name?.message}
           {...register("name", {
-            required: "Email is required",
+            required: "This field is required.",
           })}
         />
         <Input
@@ -51,7 +53,7 @@ const LoginPage = () => {
           label="Password"
           error={formErrors?.password?.message}
           {...register("password", {
-            required: "Password is required",
+            required: "This field is required.",
           })}
         />
         <div className="mt-5 flex flex-col gap-5">

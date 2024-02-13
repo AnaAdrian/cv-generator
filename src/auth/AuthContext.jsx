@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import supabase from "../services/supabase";
 
@@ -6,16 +7,28 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoadingSesion, setIsLoadingSesion] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (user) {
+      if (
+        user &&
+        (location.pathname === "/login" || location.pathname === "/signup")
+      ) {
+        navigate("/app", { replace: true });
+      }
+    }
+  }, [user, location, navigate]);
 
   useEffect(() => {
     async function checkSession() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
-      setUser(session?.user ?? null);
-      setLoading(false);
+      setUser(session?.user);
+      setIsLoadingSesion(false);
     }
     checkSession();
 
@@ -41,7 +54,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
-    loading,
+    isLoadingSesion,
     signIn: async (email, password) => {
       const result = await supabase.auth.signInWithPassword({
         email,
