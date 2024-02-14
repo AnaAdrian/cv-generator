@@ -71,8 +71,10 @@ const SignUpPage = () => {
           onSubmit={handleSubmit(handleSignUp)}
         >
           <div className="mb-10 flex flex-col gap-4 text-center">
-            <h1 className="text-4xl font-bold text-gray-800">Sign Up</h1>
-            <p className="text-md font-light text-gray-500">
+            <h1 className="text-[32px] font-bold text-gray-800 md:text-[40px]">
+              Sign Up
+            </h1>
+            <p className="text-sm font-light text-gray-500 md:text-base">
               Create your account
             </p>
           </div>

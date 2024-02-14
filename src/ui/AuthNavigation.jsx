@@ -4,7 +4,7 @@ import Button from "./Button";
 function AuthNavigation() {
   return (
     <nav>
-      <ul className="flex space-x-4">
+      <ul className="flex space-x-2 md:space-x-4">
         <li>
           <NavLink to="/login">
             <Button variant="inverse"> Log In</Button>

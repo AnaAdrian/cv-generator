@@ -9,9 +9,9 @@ function Button({ children, variant, size, ...rest }) {
   };
 
   const sizes = {
-    sm: "text-sm",
-    md: "text-md",
-    lg: "text-lg",
+    sm: "text-sm md:px-5 md:py-3 px-4 py-2",
+    md: "text-[15px] px-6 py-3",
+    lg: "text-lg px-8 py-4",
   };
 
   const style = variants[variant];
@@ -19,7 +19,7 @@ function Button({ children, variant, size, ...rest }) {
 
   return (
     <button
-      className={`${style} ${textSize} rounded-[4px] px-6 py-3 font-semibold transition-all duration-100 ease-in-out `}
+      className={`${style} ${textSize} rounded-[4px] font-semibold transition-all duration-100 ease-in-out `}
       {...rest}
     >
       {children}

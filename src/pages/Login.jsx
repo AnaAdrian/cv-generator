@@ -41,8 +41,10 @@ const LoginPage = () => {
     <div className="flex w-full items-center justify-center">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(handleLogin)}>
         <div className="mb-10 flex flex-col gap-3 text-center">
-          <h1 className=" text-[40px] font-bold text-gray-800">Log In</h1>
-          <p className="text-md font-light text-gray-500 text-opacity-85">
+          <h1 className=" text-[32px] font-bold text-gray-800 md:text-[40px]">
+            Log In
+          </h1>
+          <p className="text-sm font-light text-gray-500 text-opacity-85 md:text-base">
             Welcome back, we&apos;re glad you&apos;re here!
           </p>
         </div>
@@ -72,7 +74,7 @@ const LoginPage = () => {
             </div>
           </Button>
           <div className="flex flex-col gap-5 text-center">
-            <p className="text-md font-light text-gray-500 text-opacity-90">
+            <p className="text-sm font-light text-gray-500 text-opacity-90 md:text-base">
               Don&apos;t have an account?{" "}
               <NavLink to="/signup" className="text-sky-600 ">
                 Sign Up

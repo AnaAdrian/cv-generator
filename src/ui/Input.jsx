@@ -29,7 +29,7 @@ const Input = forwardRef(({ type, label, error, ...rest }, ref) => {
           id={`input-${label}`}
           type={inputType}
           {...rest}
-          className="font-small w-full border bg-slate-50 px-3 py-4 text-[15px] text-gray-500 focus:outline-none"
+          className="w-full border bg-slate-50 px-2 py-3 text-[15px] text-gray-500 focus:outline-none md:px-3 md:py-4"
         />
         {type === "password" && (
           <button
