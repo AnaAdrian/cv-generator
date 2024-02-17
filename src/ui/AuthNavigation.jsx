@@ -4,15 +4,20 @@ import Button from "./Button";
 function AuthNavigation() {
   return (
     <nav>
-      <ul className="flex space-x-2 md:space-x-4">
+      <ul className="flex space-x-1 md:space-x-2">
         <li>
           <NavLink to="/login">
-            <Button variant="inverse"> Log In</Button>
+            <Button variant="noBorder" size="md">
+              {" "}
+              <span className="font-normal">Log In</span>
+            </Button>
           </NavLink>
         </li>
         <li>
           <NavLink to="/signup">
-            <Button variant="primary">Sign Up</Button>
+            <Button variant="primary" size="md">
+              Sign Up
+            </Button>
           </NavLink>
         </li>
       </ul>

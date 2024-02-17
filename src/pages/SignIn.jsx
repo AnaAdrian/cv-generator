@@ -70,13 +70,16 @@ const LoginPage = () => {
           <Button type="submit" variant="primary" size="md">
             <div className="flex justify-center gap-2 ">
               {isSubmitting && <Loader size="sm" color="white" />}
-              Login
+              Continue
             </div>
           </Button>
           <div className="flex flex-col gap-5 text-center">
             <p className="text-sm font-light text-gray-500 text-opacity-90 md:text-base">
               Don&apos;t have an account?{" "}
-              <NavLink to="/signup" className="text-sky-600 ">
+              <NavLink
+                to="/signup"
+                className="text-blue-500 hover:text-blue-700 "
+              >
                 Sign Up
               </NavLink>
             </p>

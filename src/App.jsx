@@ -10,7 +10,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
 import AuthLayout from "./ui/AuthLayout";
 import ResumeEditor from "./features/resume/ResumeEditor";
-import Login from "./pages/Login";
+import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
@@ -27,7 +27,7 @@ function App() {
             path="/login"
             element={
               <AuthLayout>
-                <Login />
+                <SignIn />
               </AuthLayout>
             }
           />

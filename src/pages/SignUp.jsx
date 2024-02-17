@@ -64,20 +64,20 @@ const SignUpPage = () => {
 
   return (
     <>
-      <div className="flex w-full items-center justify-center">
+      <div className="flex w-full max-w-sm flex-col items-center justify-center">
+        <div className="mb-10 flex flex-col gap-4 text-center">
+          <h1 className="text-[32px] font-bold text-gray-800 md:text-[40px]">
+            Sign Up
+          </h1>
+          <p className="text-sm font-light text-gray-500 md:text-base">
+            Create your account
+          </p>
+        </div>
         <form
           noValidate
-          className="w-full max-w-sm"
+          className="w-full"
           onSubmit={handleSubmit(handleSignUp)}
         >
-          <div className="mb-10 flex flex-col gap-4 text-center">
-            <h1 className="text-[32px] font-bold text-gray-800 md:text-[40px]">
-              Sign Up
-            </h1>
-            <p className="text-sm font-light text-gray-500 md:text-base">
-              Create your account
-            </p>
-          </div>
           <Input
             type="email"
             label="Email"
@@ -113,17 +113,23 @@ const SignUpPage = () => {
             })}
             onChange={(e) => handleInputChange(e, "confirm-password")}
           />
-          <div className="mb-4 mt-4 grid grid-cols-2 gap-x-2">
+          <div className="mb-4 mt-4 grid grid-cols-3 gap-x-6">
             <Button
               type="button"
               variant="back"
               size="md"
+              className="col-span-1"
               onClick={() => navigate(-1)}
             >
               Back
             </Button>
-            <Button type="submit" variant="primary" size="md">
-              <div className="flex justify-center gap-2 ">
+            <Button
+              type="submit"
+              variant="primary"
+              size="md"
+              className="col-span-2"
+            >
+              <div className="flex justify-center gap-2">
                 {isSubmitting && <Loader size="sm" color="white" />}
                 Sign Up
               </div>

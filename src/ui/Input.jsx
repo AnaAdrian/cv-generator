@@ -47,7 +47,7 @@ const Input = forwardRef(({ type, label, error, ...rest }, ref) => {
 
         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-transparent">
           <div
-            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-sky-500"} transition-all duration-75 group-focus-within:w-full`}
+            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-blue-500"} transition-all duration-75 group-focus-within:w-full`}
           ></div>
         </div>
       </div>

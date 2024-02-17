@@ -5,7 +5,7 @@ function AuthLayout({ children }) {
     <div className="relative flex min-h-screen flex-col">
       {" "}
       <Header />
-      <div className="mx-6 flex flex-1 items-center justify-center py-10">
+      <div className="mx-6 flex flex-1 items-center justify-center">
         {" "}
         {children}
       </div>
