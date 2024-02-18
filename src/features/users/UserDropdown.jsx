@@ -9,7 +9,9 @@ function User() {
   return (
     <div>
       <h1>{}</h1>
-      <Button onClick={handleLogOut}>Log Out</Button>
+      <Button size="md" onClick={handleLogOut}>
+        Log Out
+      </Button>
     </div>
   );
 }

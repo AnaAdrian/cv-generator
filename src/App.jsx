@@ -53,8 +53,8 @@ function App() {
           {/* Additional routes here */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <CustomToaster />
       </AuthProvider>
-      <CustomToaster />
     </Router>
   );
 }

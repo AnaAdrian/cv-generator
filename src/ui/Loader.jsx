@@ -6,21 +6,18 @@ function Loader({ size, color }) {
   };
 
   const colors = {
-    primary: "border-sky-500",
+    primary: "border-blue-500",
     secondary: "border-red-500",
     white: "border-white",
   };
-
-  // Use Tailwind's border-opacity to control the visibility of the border
-  const borderOpacity = "border-opacity-80";
 
   const style = sizes[size];
   const borderColor = colors[color];
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center ">
       <div
-        className={`animate-spin rounded-full border-2 ${borderColor} ${borderOpacity} ${style} border-t-transparent`}
+        className={`animate-spin rounded-full border-2 ${borderColor} ${style} border-t-transparent`}
       ></div>
     </div>
   );

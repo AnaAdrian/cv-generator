@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import supabase from "../services/supabase";
@@ -11,38 +17,33 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const checkSession = useCallback(async function checkSession() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    setUser(session?.user);
+    setIsLoadingSesion(false);
+  }, []);
+
   useEffect(() => {
-    if (user) {
-      if (
-        user &&
-        (location.pathname === "/login" || location.pathname === "/signup")
-      ) {
-        navigate("/app", { replace: true });
-      }
+    if (
+      user &&
+      (location.pathname === "/login" || location.pathname === "/signup")
+    ) {
+      navigate("/app", { replace: true });
     }
   }, [user, location, navigate]);
 
   useEffect(() => {
-    async function checkSession() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user);
-      setIsLoadingSesion(false);
-    }
     checkSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        switch (event) {
-          case "SIGNED_IN":
-            setUser(session?.user);
-            break;
-          case "SIGNED_OUT":
-            setUser(null);
-            break;
-          default:
-            break;
+        if (event === "SIGNED_IN") {
+          setUser(session.user);
+        }
+        if (event === "SIGNED_OUT") {
+          setUser(null);
         }
       },
     );
@@ -50,7 +51,7 @@ export function AuthProvider({ children }) {
     return () => {
       authListener?.subscription?.unsubscribe();
     };
-  }, []);
+  }, [checkSession]);
 
   const value = {
     user,
@@ -59,6 +60,13 @@ export function AuthProvider({ children }) {
       const result = await supabase.auth.signInWithPassword({
         email,
         password,
+      });
+      return result;
+    },
+    signInWithGoogle: async () => {
+      const result = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: "http://localhost:5173/login" },
       });
       return result;
     },

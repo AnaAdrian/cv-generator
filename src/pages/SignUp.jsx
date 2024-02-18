@@ -10,15 +10,14 @@ import Modal from "../ui/Modal";
 import SignUpSuccess from "../ui/SignUpSuccess";
 import { useAuth } from "../auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
+import { FaGoogle } from "react-icons/fa6";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { signUp, signInWithGoogle, isLoadingSesion } = useAuth();
   const {
     register,
     handleSubmit,
-    getValues,
-    trigger,
     formState: { errors: formErrors, isSubmitting },
     setError,
     clearErrors,
@@ -39,16 +38,8 @@ const SignUpPage = () => {
     navigate("/login", { replace: true });
   }
 
-  function handleInputChange(e, field) {
-    if (
-      field === "confirm-password" &&
-      formErrors?.["confirm-password"]?.message === "Passwords do not match" &&
-      getValues("password") !== e.target.value
-    ) {
-      trigger("confirm-password");
-    } else {
-      clearErrors(field);
-    }
+  function handleInputChange(field) {
+    clearErrors(field);
   }
 
   async function handleSignUp(formData) {
@@ -62,9 +53,11 @@ const SignUpPage = () => {
     }
   }
 
+  if (isLoadingSesion) return <Loader size="md" color="primary" />;
+
   return (
     <>
-      <div className="flex w-full max-w-sm flex-col items-center justify-center">
+      <form noValidate className="w-full" onSubmit={handleSubmit(handleSignUp)}>
         <div className="mb-10 flex flex-col gap-4 text-center">
           <h1 className="text-[32px] font-bold text-gray-800 md:text-[40px]">
             Sign Up
@@ -73,81 +66,72 @@ const SignUpPage = () => {
             Create your account
           </p>
         </div>
-        <form
-          noValidate
-          className="w-full"
-          onSubmit={handleSubmit(handleSignUp)}
+        <Button
+          size="md"
+          fontWeight="font-small"
+          variant="google"
+          className="flex w-full items-center justify-center"
+          onClick={signInWithGoogle}
         >
-          <Input
-            type="email"
-            label="Email"
-            error={formErrors?.email?.message}
-            {...register("email", {
-              required: "This field is required.",
-              validate: (value) =>
-                checkValidEmail(value) || "Email format is not correct",
-            })}
-            onChange={(e) => handleInputChange(e, "email")}
-          />
-          <Input
-            type="password"
-            label="Password"
-            error={formErrors?.password?.message}
-            {...register("password", {
-              required: "This field is required.",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-            })}
-            onChange={(e) => handleInputChange(e, "password")}
-          />
-          <Input
-            type="password"
-            label="Confirm Password"
-            error={formErrors?.["confirm-password"]?.message}
-            {...register("confirm-password", {
-              required: "This field is required.",
-              validate: (value) =>
-                value === getValues("password") || "Passwords do not match",
-            })}
-            onChange={(e) => handleInputChange(e, "confirm-password")}
-          />
-          <div className="mb-4 mt-4 grid grid-cols-3 gap-x-6">
-            <Button
-              type="button"
-              variant="back"
-              size="md"
-              className="col-span-1"
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              size="md"
-              className="col-span-2"
-            >
-              <div className="flex justify-center gap-2">
-                {isSubmitting && <Loader size="sm" color="white" />}
-                Sign Up
-              </div>
-            </Button>
+          <FaGoogle className="hidden text-white sm:inline-flex" />
+          <span className="flex-grow text-center">Continue with Google</span>
+          <FaGoogle className="invisible hidden sm:inline-flex" />
+        </Button>
+
+        <div className="my-6 flex items-center">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-4 flex-shrink text-sm font-light text-gray-400">
+            or
+          </span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+        <Input
+          type="email"
+          label="Email address"
+          labelPosition="inside"
+          error={formErrors?.email?.message}
+          {...register("email", {
+            required: "This field is required.",
+            validate: (value) =>
+              checkValidEmail(value) || "Email format is not correct",
+          })}
+          onChange={() => handleInputChange("email")}
+        />
+        <Input
+          type="password"
+          label="Password"
+          labelPosition="inside"
+          error={formErrors?.password?.message}
+          {...register("password", {
+            required: "This field is required.",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters",
+            },
+          })}
+          onChange={() => handleInputChange("password")}
+        />
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          className="mb-3 w-full"
+        >
+          <div className="flex justify-center gap-2">
+            {isSubmitting && <Loader size="sm" color="white" />}
+            Sign Up
           </div>
-          <div className="min-h-[25px] text-center">
-            {" "}
-            {formErrors?.auth && (
-              <Error size="md">{formErrors.auth.message}</Error>
-            )}
-          </div>
-        </form>
-      </div>
-      <div className="flex max-w-64 flex-col">
-        <Modal isOpen={isModalOpen} onClose={handleModalClose}>
-          <SignUpSuccess />
-        </Modal>
-      </div>
+        </Button>
+        <div className="min-h-[25px] text-center">
+          {" "}
+          {formErrors?.auth && (
+            <Error size="md">{formErrors.auth.message}</Error>
+          )}
+        </div>
+      </form>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <SignUpSuccess />
+      </Modal>
     </>
   );
 };
