@@ -1,15 +1,13 @@
-import supabase from "../../services/supabase";
 import Button from "../../ui/Button";
+import { useAuth } from "../../auth/AuthContext";
 
 function User() {
-  function handleLogOut() {
-    supabase.auth.signOut();
-  }
+  const { signOut } = useAuth();
 
   return (
     <div>
       <h1>{}</h1>
-      <Button size="md" onClick={handleLogOut}>
+      <Button size="md" onClick={signOut}>
         Log Out
       </Button>
     </div>

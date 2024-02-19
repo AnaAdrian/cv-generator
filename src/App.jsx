@@ -22,7 +22,7 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route index element={<Navigate to="/login" />} />
+          <Route index element={<Navigate to="/login" replace />} />
           <Route
             path="/login"
             element={
