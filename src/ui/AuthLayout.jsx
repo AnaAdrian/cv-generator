@@ -1,11 +1,13 @@
 import Header from "./Header";
+import HomeButton from "./HomeButton";
 
 function AuthLayout({ children }) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      {/* Container that fills remaining space and centers its children */}
-      <div className="flex flex-1 items-center justify-center p-5">
+    <div className="flex min-h-screen flex-col px-7">
+      <Header>
+        <HomeButton />
+      </Header>
+      <div className="my-10 flex justify-center">
         <div className="w-full max-w-sm">{children}</div>
       </div>
     </div>

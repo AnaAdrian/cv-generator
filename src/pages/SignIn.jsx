@@ -4,15 +4,17 @@ import { useForm } from "react-hook-form";
 
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import Error from "../ui/Error";
 import Loader from "../ui/Loader";
-import { useAuth } from "../auth/AuthContext";
+import LoaderFullPage from "../ui/LoaderFullPage";
+import SendResetEmail from "../features/auth/SendResetEmail";
+import { useAuth } from "../features/auth/AuthContext";
 import { FaGoogle } from "react-icons/fa6";
 
 const LoginPage = () => {
-  const [isEmailRegistered, setIsEmailRegistered] = useState(false);
   const navigate = useNavigate();
-  const { signIn, signInWithGoogle, isLoadingSesion } = useAuth();
+  const [isEmailRegistered, setIsEmailRegistered] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const { signInWithEmail, signInWithGoogle, isLoggingIn } = useAuth();
   const {
     register,
     handleSubmit,
@@ -29,23 +31,28 @@ const LoginPage = () => {
     if (email) setIsEmailRegistered(true);
   }
 
-  async function handleLogin(formData) {
-    const { name, password } = formData;
-    const { error } = await signIn(name, password);
-    if (error) {
-      setError("auth", { message: error.message });
-    } else {
-      navigate("/app", { replace: true });
+  async function handleSignInWithEmail(formData) {
+    const { email, password } = formData;
+    try {
+      const { error } = await signInWithEmail(email, password);
+      if (error) {
+        setError("auth", { message: error.message });
+      } else {
+        navigate("/app", { replace: true });
+      }
+    } catch (error) {
+      console.error("Error signing in", error);
     }
   }
 
-  async function handleInputChange(field) {
-    clearErrors(field);
-  }
+  const formHandler = isEmailRegistered
+    ? handleSignInWithEmail
+    : handleCheckEmail;
 
-  const formHandler = isEmailRegistered ? handleLogin : handleCheckEmail;
+  if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
 
-  if (isLoadingSesion) return <Loader size="md" color="primary" />;
+  if (forgotPassword)
+    return <SendResetEmail onClose={() => setForgotPassword(false)} />;
 
   return (
     <form onSubmit={handleSubmit(formHandler)}>
@@ -85,11 +92,11 @@ const LoginPage = () => {
           type="text"
           label="Email address"
           labelPosition="inside"
-          error={formErrors?.name?.message}
-          {...register("name", {
+          error={formErrors?.email?.message}
+          {...register("email", {
             required: "This field is required.",
           })}
-          onChange={() => handleInputChange("name")}
+          onChange={() => clearErrors("email")}
         />
       </div>
       <div
@@ -101,11 +108,11 @@ const LoginPage = () => {
               type="password"
               label="Password"
               labelPosition="inside"
-              error={formErrors?.password?.message}
+              error={formErrors?.password?.message || formErrors?.auth?.message}
               {...register("password", {
                 required: "This field is required.",
               })}
-              onChange={() => handleInputChange("password")}
+              onChange={() => clearErrors("password")}
             />
           </div>
         )}
@@ -114,13 +121,21 @@ const LoginPage = () => {
       <div
         className={`transition-all ease-in-out ${isEmailRegistered ? "translate-y-0" : "-translate-y-5 "}`}
       >
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
           <Button type="submit" variant="primary" size="md">
             <div className="flex justify-center gap-2 ">
               {isSubmitting && <Loader size="sm" color="white" />}
               {isEmailRegistered ? "Sign In" : "Continue"}
             </div>
           </Button>
+          {isEmailRegistered && (
+            <p
+              className="md:text-normal mb-2 cursor-pointer text-center text-sm font-light text-blue-500 text-opacity-90 hover:underline "
+              onClick={() => setForgotPassword(true)}
+            >
+              Forgot password?
+            </p>
+          )}
           <div className="flex flex-col gap-5 text-center">
             <p className="text-sm font-light text-gray-500 text-opacity-90 md:text-base">
               Don&apos;t have an account?{" "}
@@ -131,12 +146,6 @@ const LoginPage = () => {
                 Sign Up
               </NavLink>
             </p>
-            <div className="min-h-[25px]">
-              {" "}
-              {formErrors?.auth && (
-                <Error size="md">{formErrors.auth.message}</Error>
-              )}
-            </div>
           </div>
         </div>
       </div>

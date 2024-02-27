@@ -1,5 +1,5 @@
 import Button from "../../ui/Button";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../auth/AuthContext";
 
 function User() {
   const { signOut } = useAuth();

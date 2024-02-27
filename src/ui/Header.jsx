@@ -1,24 +1,15 @@
-import AuthNavigation from "./AuthNavigation";
-import UserDropdown from "../features/users/UserDropdown";
-
-import { useAuth } from "../auth/AuthContext";
 import { NavLink } from "react-router-dom";
 
-function Header() {
-  const { user } = useAuth();
+function Header({ children, className }) {
   return (
-    <div className="border bg-white p-4">
-      <div className="mx-0 flex items-center justify-between md:mx-4">
-        {" "}
-        <NavLink to="/app">
-          <img
-            src={`logo.svg`}
-            alt="Your.Resume"
-            className="h-auto w-32 md:w-40"
-          />
-        </NavLink>
-        {user ? <UserDropdown /> : <AuthNavigation />}
-      </div>
+    <div
+      className={`z-50 flex min-h-20 items-center justify-between ${className}`}
+    >
+      {" "}
+      <NavLink to="/">
+        <img src="logo.svg" alt="Your.Resume" className="h-auto w-32 md:w-40" />
+      </NavLink>
+      {children}
     </div>
   );
 }

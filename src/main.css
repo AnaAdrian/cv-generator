@@ -17,3 +17,17 @@
     left: 0;
   }
 }
+
+.bounce-loader {
+  animation: bounce 0.6s infinite alternate;
+}
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.pulse-loader {
+  animation: pulse 1.5s infinite;
+}

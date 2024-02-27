@@ -1,20 +1,22 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import Error from "../ui/Error";
 import Loader from "../ui/Loader";
+import LoaderFullPage from "../ui/LoaderFullPage";
 import Modal from "../ui/Modal";
-import SignUpSuccess from "../ui/SignUpSuccess";
-import { useAuth } from "../auth/AuthContext";
+import SignUpSuccess from "../features/auth/SignUpSuccess";
+import { useAuth } from "../features/auth/AuthContext";
+import { useModal } from "../hooks/useModal";
 import { checkValidEmail } from "../utils/helpers";
 import { FaGoogle } from "react-icons/fa6";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const { signUp, signInWithGoogle, isLoadingSesion } = useAuth();
+  const { signUp, signInWithGoogle, isLoggingIn } = useAuth();
+  const { isOpen: isModalOpen, openModal, closeModal } = useModal();
   const {
     register,
     handleSubmit,
@@ -23,15 +25,9 @@ const SignUpPage = () => {
     clearErrors,
   } = useForm({ mode: "onChange", reValidateMode: "onSubmit" });
 
-  console.log(formErrors);
-
   useEffect(() => {
     if (isSubmitting) clearErrors("auth");
   }, [isSubmitting, clearErrors]);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   function handleModalClose() {
     closeModal();
@@ -53,7 +49,7 @@ const SignUpPage = () => {
     }
   }
 
-  if (isLoadingSesion) return <Loader size="md" color="primary" />;
+  if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
 
   return (
     <>
@@ -101,7 +97,7 @@ const SignUpPage = () => {
           type="password"
           label="Password"
           labelPosition="inside"
-          error={formErrors?.password?.message}
+          error={formErrors?.password?.message || formErrors?.auth?.message}
           {...register("password", {
             required: "This field is required.",
             minLength: {
@@ -122,15 +118,9 @@ const SignUpPage = () => {
             Sign Up
           </div>
         </Button>
-        <div className="min-h-[25px] text-center">
-          {" "}
-          {formErrors?.auth && (
-            <Error size="md">{formErrors.auth.message}</Error>
-          )}
-        </div>
       </form>
       <Modal isOpen={isModalOpen} onClose={handleModalClose}>
-        <SignUpSuccess />
+        <SignUpSuccess onClose={handleModalClose} />
       </Modal>
     </>
   );

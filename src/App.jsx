@@ -6,51 +6,68 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import ProtectedRoute from "./auth/ProtectedRoute";
-import AppLayout from "./ui/AppLayout";
 import AuthLayout from "./ui/AuthLayout";
-import ResumeEditor from "./features/resume/ResumeEditor";
+import CustomToaster from "./ui/Toast";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
-import CustomToaster from "./ui/Toast";
-import { AuthProvider } from "./auth/AuthContext";
+import Form from "./features/resume/form/Form";
+import ProtectedRoute from "./features/auth/ProtectedRoute";
+import PublicRoute from "./features/auth/PublicRoute";
+import { AuthProvider } from "./features/auth/AuthContext";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route index element={<Navigate to="/login" replace />} />
+          <Route
+            index
+            element={
+              <PublicRoute>
+                <Homepage />
+              </PublicRoute>
+            }
+          />
+          <Route element={<Navigate to="/login" replace />} />
           <Route
             path="/login"
             element={
-              <AuthLayout>
-                <SignIn />
-              </AuthLayout>
+              <PublicRoute>
+                <AuthLayout>
+                  <SignIn />
+                </AuthLayout>
+              </PublicRoute>
             }
           />
           <Route
             path="/signup"
             element={
-              <AuthLayout>
-                <SignUp />
-              </AuthLayout>
+              <PublicRoute>
+                <AuthLayout>
+                  <SignUp />
+                </AuthLayout>
+              </PublicRoute>
             }
           />
           <Route
             path="/app"
             element={
               <ProtectedRoute>
-                <AppLayout />
+                <Dashboard />
               </ProtectedRoute>
             }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="resume/:id" element={<ResumeEditor />} />
-          </Route>
-          {/* Additional routes here */}
+          ></Route>
+          <Route
+            path="app/resumes/:id/edit"
+            element={
+              <ProtectedRoute>
+                <Form />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <CustomToaster />
