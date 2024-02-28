@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
       setIsLoggingIn(true);
       const result = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: "http://localhost:5173/login" },
+        options: { redirectTo: "http://localhost:5173/sign-in" },
       });
       return result;
     },
@@ -63,7 +63,15 @@ export function AuthProvider({ children }) {
       return result;
     },
     resetPassword: async (email) => {
-      const result = await supabase.auth.resetPasswordForEmail(email);
+      const result = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "http://localhost:5173/sign-in/reset-password",
+      });
+      return result;
+    },
+    updatePassword: async (password) => {
+      const result = await supabase.auth.updateUser({
+        password: password,
+      });
       return result;
     },
   };
@@ -85,6 +93,7 @@ export function useAuth() {
       signUp: () => {},
       signOut: () => {},
       resetPassword: () => {},
+      updatePassword: () => {},
     };
   }
   return context;

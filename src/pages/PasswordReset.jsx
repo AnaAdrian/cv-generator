@@ -1,9 +1,7 @@
+import PasswordResetForm from "../features/auth/PasswordResetForm";
+
 function PasswordReset() {
-    return (
-        <div>
-            
-        </div>
-    )
+  return <PasswordResetForm />;
 }
 
-export default PasswordReset
+export default PasswordReset;

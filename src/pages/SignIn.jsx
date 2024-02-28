@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Input from "../ui/Input";
-import Button from "../ui/Button";
-import Loader from "../ui/Loader";
 import LoaderFullPage from "../ui/LoaderFullPage";
-import SendResetEmail from "../features/auth/SendResetEmail";
+import SendResetEmailForm from "../features/auth/SendResetEmailForm";
+import GoogleSignInOption from "../features/auth/GoogleSignInOption";
+import AuthPageTitle from "../features/auth/AuthPageTitle";
 import { useAuth } from "../features/auth/AuthContext";
-import { FaGoogle } from "react-icons/fa6";
+import Button from "../ui/Button";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -52,41 +52,19 @@ const LoginPage = () => {
   if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
 
   if (forgotPassword)
-    return <SendResetEmail onClose={() => setForgotPassword(false)} />;
+    return <SendResetEmailForm onClose={() => setForgotPassword(false)} />;
 
   return (
     <form onSubmit={handleSubmit(formHandler)}>
       <div
         className={`transition-all ease-in-out ${isEmailRegistered ? "translate-y-0" : "translate-y-5"}`}
       >
-        <div className="mb-10 flex flex-col gap-3 text-center">
-          <h1 className="text-[32px] font-bold text-gray-800 md:text-[40px]">
-            Log In
-          </h1>
-          <p className="text-sm font-light text-gray-500 text-opacity-85 md:text-base">
-            Welcome back, we&apos;re glad you&apos;re here!
-          </p>
-        </div>
+        <AuthPageTitle
+          title="Log In"
+          text="Welcome back, we're glad you're here!"
+        />
 
-        <Button
-          size="md"
-          fontWeight="font-small"
-          variant="google"
-          className="flex w-full items-center justify-center"
-          onClick={signInWithGoogle}
-        >
-          <FaGoogle className="hidden text-white sm:inline-flex" />
-          <span className="flex-grow text-center">Continue with Google</span>
-          <FaGoogle className="invisible hidden sm:inline-flex" />
-        </Button>
-
-        <div className="my-6 flex items-center">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-4 flex-shrink text-sm font-light text-gray-400">
-            or
-          </span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
+        <GoogleSignInOption onClick={signInWithGoogle} />
 
         <Input
           type="text"
@@ -99,6 +77,7 @@ const LoginPage = () => {
           onChange={() => clearErrors("email")}
         />
       </div>
+
       <div
         className={`transition-opacity duration-300 ease-in-out ${isEmailRegistered ? "translate-y-0 opacity-100" : "mt-12 -translate-y-5 opacity-0"}`}
       >
@@ -121,32 +100,31 @@ const LoginPage = () => {
       <div
         className={`transition-all ease-in-out ${isEmailRegistered ? "translate-y-0" : "-translate-y-5 "}`}
       >
+        <Button type="submit" showLoader={isSubmitting} className="mb-4 w-full">
+          {isEmailRegistered ? "Sign in" : "Continue"}
+        </Button>
+
         <div className="flex flex-col gap-3">
-          <Button type="submit" variant="primary" size="md">
-            <div className="flex justify-center gap-2 ">
-              {isSubmitting && <Loader size="sm" color="white" />}
-              {isEmailRegistered ? "Sign In" : "Continue"}
-            </div>
-          </Button>
           {isEmailRegistered && (
-            <p
-              className="md:text-normal mb-2 cursor-pointer text-center text-sm font-light text-blue-500 text-opacity-90 hover:underline "
-              onClick={() => setForgotPassword(true)}
-            >
-              Forgot password?
+            <p className="text-normal mb-2 text-center text-sm font-light text-blue-600 text-opacity-90  ">
+              <span
+                className="cursor-pointer hover:underline"
+                onClick={() => setForgotPassword(true)}
+              >
+                Forgot password?
+              </span>
             </p>
           )}
-          <div className="flex flex-col gap-5 text-center">
-            <p className="text-sm font-light text-gray-500 text-opacity-90 md:text-base">
-              Don&apos;t have an account?{" "}
-              <NavLink
-                to="/signup"
-                className="text-blue-500 hover:text-blue-700 "
-              >
-                Sign Up
-              </NavLink>
-            </p>
-          </div>
+
+          <p className="text-center text-sm font-light text-gray-500 text-opacity-90 md:text-base">
+            Don&apos;t have an account?{" "}
+            <NavLink
+              to="/sign-up"
+              className="text-blue-500 hover:text-blue-700 "
+            >
+              Sign Up
+            </NavLink>
+          </p>
         </div>
       </div>
     </form>

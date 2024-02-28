@@ -7,8 +7,9 @@ function AuthLayout({ children }) {
       <Header>
         <HomeButton />
       </Header>
+
       <div className="my-10 flex justify-center">
-        <div className="w-full max-w-sm">{children}</div>
+        <div className="w-full max-w-[410px]">{children}</div>
       </div>
     </div>
   );

@@ -4,14 +4,14 @@ import Button from "../../ui/Button";
 import Loader from "../../ui/Loader";
 import Input from "../../ui/Input";
 import Modal from "../../ui/Modal";
-import PasswordResetConfirm from "./PasswordResetConfirm";
-import { useModal } from "../../hooks/useModal";
 import { useAuth } from "./AuthContext";
 import { showToast } from "../../ui/Toast";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { useModalState } from "../../contexts/ModalStateProvider";
 
-function SendResetEmail({ onClose }) {
+function SendResetEmailForm({ onClose }) {
   const { resetPassword } = useAuth();
-  const { isOpen: isModalOpen, openModal } = useModal();
+  const { openModal, closeModal } = useModalState();
   const {
     register,
     handleSubmit,
@@ -23,27 +23,37 @@ function SendResetEmail({ onClose }) {
     const { email } = formData;
     if (email) {
       try {
-        await resetPassword(email);
+        const { error } = await resetPassword(email);
+        if (error) {
+          showToast("Something went wrong", "error");
+          console.error("Error sending reset email", error);
+          return;
+        }
         openModal();
       } catch (error) {
-        showToast("error", error.message);
+        showToast("Something went wrong", "error");
+        console.error("Error sending reset email", error);
       }
     }
+  }
+
+  function handleCloseModal() {
+    closeModal();
+    onClose();
   }
 
   return (
     <form onSubmit={handleSubmit(formHandler)}>
       <div className="mb-10 flex flex-col gap-1 ">
-        <h2 className="text-2xl font-normal text-gray-800">
+        <h2 className=" text-2xl font-normal text-gray-800">
           Reset your password?
         </h2>
         <div className="flex-grow border-t border-gray-300"></div>
 
-        <p className="mt-3 text-sm font-light text-gray-500">
+        <p className=" mt-3 text-sm font-light text-gray-800">
           Please provide the email address that you used when you signed up for
-          your account.
-          <br /> <br /> We will send you an email that will allow you to reset
-          your password.
+          your account. <br /> <br />
+          We will send you an email that will allow you to reset your password.
         </p>
       </div>
 
@@ -59,32 +69,36 @@ function SendResetEmail({ onClose }) {
       />
       <div className="flex flex-row gap-2">
         <Button
-          type="button"
-          size="md"
           variant="back"
-          className="flex-shrink-0"
+          className="flex-shrink-0 text-xs md:text-sm"
           onClick={onClose}
         >
-          Go Back
+          <IoIosArrowRoundBack />
+          Back
         </Button>
+
         <Button
           type="submit"
           size="md"
-          variant="primary"
-          className="flex flex-grow justify-center gap-2"
+          className="flex-grow text-xs md:text-sm"
         >
           {" "}
-          {/* Set width to 2/3 and apply flex styling */}
           {isSubmitting && <Loader size="sm" color="white" />}
-          Send verification email
+          {isSubmitting
+            ? "Sending verification email"
+            : "Send verification email"}
         </Button>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={onClose}>
-        <PasswordResetConfirm onClose={onClose} />
+      <Modal onClose={handleCloseModal}>
+        <Modal.Title>Email Sent</Modal.Title>
+        <Modal.Content>
+          We&apos;ve sent you an email with instructions to reset your password.
+        </Modal.Content>
+        <Modal.Button>Got it</Modal.Button>
       </Modal>
     </form>
   );
 }
 
-export default SendResetEmail;
+export default SendResetEmailForm;

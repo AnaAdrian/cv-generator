@@ -1,3 +1,5 @@
+import Loader from "./Loader";
+
 function Button({
   children,
   variant,
@@ -5,6 +7,7 @@ function Button({
   className,
   fontWeight,
   icon,
+  showLoader,
   ...rest
 }) {
   const variants = {
@@ -28,10 +31,11 @@ function Button({
 
   return (
     <button
-      className={`${type} ${textSize} ${fontWeight} rounded-[4px] transition-all duration-100 ease-in-out ${className}`}
+      className={`${className} ${type} ${textSize} ${fontWeight} flex items-center justify-center gap-2 rounded-[4px] transition-all duration-100 ease-in-out`}
       {...rest}
     >
-      {icon && <icon />} {/* Render icon if provided */}
+      {icon && <icon />}
+      {showLoader && <Loader size="sm" color="white" />}
       {children}
     </button>
   );
@@ -40,9 +44,10 @@ function Button({
 Button.defaultProps = {
   type: "button",
   variant: "primary",
-  size: "sm",
+  size: "md",
   className: "",
-  fontWeight: "font-semibold", // Default font weight
+  fontWeight: "font-semibold",
+  showLoader: false,
 };
 
 export default Button;
