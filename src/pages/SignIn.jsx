@@ -1,5 +1,5 @@
 import { useNavigate, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Input from "../ui/Input";
@@ -10,13 +10,14 @@ import AuthPageTitle from "../features/auth/AuthPageTitle";
 import Button from "../ui/Button";
 import { useAuth } from "../features/auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
-import { handleKeyDown } from "../utils/formUtils";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
   const { signInWithEmail, signInWithGoogle, isLoggingIn } = useAuth();
+  const submitButtonRef = useRef(null);
+
   const {
     register,
     handleSubmit,
@@ -24,18 +25,19 @@ const LoginPage = () => {
     setError,
     clearErrors,
     setFocus,
+    getValues,
+    reset,
   } = useForm({ mode: "onChange", reValidateMode: "onSubmit" });
-
-  const formHandler = isEmailValid ? handleSignInWithEmail : handleCheckEmail;
-  const handleKeySubmit = handleKeyDown(handleSubmit(formHandler), setFocus);
 
   useEffect(() => {
     if (isSubmitting) clearErrors("auth");
   }, [isSubmitting, clearErrors]);
 
   function handleCheckEmail({ email }) {
-    if (checkValidEmail(email)) setIsEmailValid(true);
-    else setError("email", { message: "Email format is not correct." });
+    if (checkValidEmail(email)) {
+      setIsEmailValid(true);
+      setTimeout(() => setFocus("password"), 0);
+    } else setError("email", { message: "Email format is not correct." });
   }
 
   async function handleSignInWithEmail(formData) {
@@ -52,10 +54,31 @@ const LoginPage = () => {
     }
   }
 
+  function handleKeyDownOnInput(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+      submitButtonRef.current.click();
+      setFocus("password");
+    }
+  }
+
+  function handleReturnFromResetPassword() {
+    reset({ ...getValues(), password: "" });
+    setForgotPassword(false);
+  }
+
+  const formHandler = isEmailValid ? handleSignInWithEmail : handleCheckEmail;
+
   if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
 
   if (forgotPassword)
-    return <SendResetEmailForm onClose={() => setForgotPassword(false)} />;
+    return (
+      <SendResetEmailForm
+        email={getValues("email")}
+        onClose={handleReturnFromResetPassword}
+      />
+    );
 
   return (
     <form onSubmit={handleSubmit(formHandler)}>
@@ -73,7 +96,7 @@ const LoginPage = () => {
           type="text"
           label="Email address"
           labelPosition="inside"
-          onKeyDown={(e) => handleKeySubmit(e, "password")}
+          onKeyDown={handleKeyDownOnInput}
           error={formErrors?.email?.message}
           {...register("email", {
             required: "This field is required.",
@@ -92,7 +115,7 @@ const LoginPage = () => {
             type="password"
             label="Password"
             labelPosition="inside"
-            onKeyDown={handleKeySubmit}
+            onKeyDown={handleKeyDownOnInput}
             error={formErrors?.password?.message || formErrors?.auth?.message}
             {...register("password", {
               required: "This field is required.",
@@ -106,6 +129,7 @@ const LoginPage = () => {
         className={`transition-all ease-in-out ${isEmailValid ? "translate-y-0" : "-translate-y-5 "}`}
       >
         <Button
+          ref={submitButtonRef}
           type="submit"
           showLoader={isSubmitting}
           className="mb-6 w-full font-normal md:font-semibold"

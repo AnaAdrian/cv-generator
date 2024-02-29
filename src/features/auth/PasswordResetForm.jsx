@@ -2,17 +2,18 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../../ui/Button";
-import Loader from "../../ui/Loader";
 import Input from "../../ui/Input";
 import Modal from "../../ui/Modal";
 import { useAuth } from "./AuthContext";
 import { showToast } from "../../ui/Toast";
 import { useModalState } from "../../contexts/ModalStateProvider";
+import { useRef } from "react";
 
 function PasswordResetForm() {
   const navigate = useNavigate();
   const { updatePassword } = useAuth();
   const { openModal, closeModal } = useModalState();
+  const submitButtonRef = useRef();
   const {
     register,
     handleSubmit,
@@ -43,6 +44,14 @@ function PasswordResetForm() {
     navigate("/app");
   }
 
+  function handleKeyDownOnInput(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+      submitButtonRef.current.click();
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit(formHandler)}>
       <div className="mb-10 flex flex-col gap-4">
@@ -59,6 +68,7 @@ function PasswordResetForm() {
         type="password"
         label="Enter new password"
         labelPosition="inside"
+        onKeyDown={handleKeyDownOnInput}
         error={formErrors?.password?.message}
         {...register("password", {
           required: "This field is required.",
@@ -70,21 +80,20 @@ function PasswordResetForm() {
         onChange={() => clearErrors("password")}
       />
       <Button
+        ref={submitButtonRef}
         type="submit"
-        size="md"
-        variant="primary"
-        className="flex w-full items-center justify-center gap-2 text-xs md:text-sm"
+        showLoader={isSubmitting}
+        className="w-full font-semibold"
       >
-        {" "}
-        {isSubmitting && <Loader size="sm" color="white" />}
-        {isSubmitting ? "Updating Password" : "Update Password"}
+        Update Password
       </Button>
 
       <Modal onClose={handleCloseModal}>
         <Modal.Title>Password Updated</Modal.Title>
         <Modal.Content>
-          {" "}
-          Your password has been updated successfully.
+          Your password has been successfully updated. You will be able to use
+          the new password for all future logins. You remain logged in for this
+          session.
         </Modal.Content>
         <Modal.Button>Close</Modal.Button>
       </Modal>
