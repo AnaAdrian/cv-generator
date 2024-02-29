@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 import Input from "../ui/Input";
 import LoaderFullPage from "../ui/LoaderFullPage";
@@ -12,11 +13,14 @@ import { useAuth } from "../features/auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
 import { useModalState } from "../contexts/ModalStateProvider";
 import { showToast } from "../ui/Toast";
+import { onPressEnter } from "../utils/formUtils";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
   const { signUp, signInWithGoogle, isLoggingIn } = useAuth();
   const { openModal, closeModal } = useModalState();
+  const submutButtonRef = useRef(null);
+
   const {
     register,
     handleSubmit,
@@ -29,23 +33,28 @@ const SignUpPage = () => {
     const { email, password } = formData;
     try {
       const { error } = await signUp(email, password);
-
       if (error) {
-        if (error.code === 200)
-          setError("email", { message: "Email already in use" });
-        else showToast("Something went wrong", "error");
+        throw error;
       } else {
         openModal();
       }
     } catch (error) {
-      showToast("Something went wrong", "error");
-      console.error("Error signing up", error);
+      if (error.message === "User already registered") {
+        setError("email", { message: "Email already in use" });
+      } else {
+        showToast("Something went wrong", "error");
+        console.error("Error signing up", error);
+      }
     }
   }
 
   function handleModalClose() {
     closeModal();
     navigate("/sign-in", { replace: true });
+  }
+
+  function handleKeyDownOnInput(e) {
+    onPressEnter(e, submutButtonRef);
   }
 
   if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
@@ -60,6 +69,7 @@ const SignUpPage = () => {
           type="email"
           label="Email address"
           labelPosition="inside"
+          onKeyDown={handleKeyDownOnInput}
           error={formErrors?.email?.message}
           {...register("email", {
             required: "This field is required.",
@@ -73,6 +83,7 @@ const SignUpPage = () => {
           type="password"
           label="Password"
           labelPosition="inside"
+          onKeyDown={handleKeyDownOnInput}
           error={formErrors?.password?.message}
           {...register("password", {
             required: "This field is required.",
@@ -85,6 +96,7 @@ const SignUpPage = () => {
         />
 
         <Button
+          ref={submutButtonRef}
           type="submit"
           showLoader={isSubmitting}
           className="mb-6 w-full font-semibold"

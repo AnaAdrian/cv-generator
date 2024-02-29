@@ -1,12 +1,8 @@
-export function handleKeyDown(formHandler, setFocus) {
-    return function (e, nextFocus) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const target = e.target;
-            target.blur();
-            formHandler();
-            nextFocus ? setTimeout(() => setFocus(nextFocus), 0) : null;
-        }
-    };
-
+export function onPressEnter(e, ref, setFocus, nextFocus) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        e.target.blur();
+        ref.current.click();
+        nextFocus ? setTimeout(() => setFocus(nextFocus), 0) : null;
+    }
 }
