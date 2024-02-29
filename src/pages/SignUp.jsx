@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 import Input from "../ui/Input";
 import LoaderFullPage from "../ui/LoaderFullPage";
@@ -12,6 +11,7 @@ import AuthPageTitle from "../features/auth/AuthPageTitle";
 import { useAuth } from "../features/auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
 import { useModalState } from "../contexts/ModalStateProvider";
+import { showToast } from "../ui/Toast";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -21,22 +21,25 @@ const SignUpPage = () => {
     register,
     handleSubmit,
     formState: { errors: formErrors, isSubmitting },
-    setError,
     clearErrors,
+    setError,
   } = useForm({ mode: "onChange", reValidateMode: "onSubmit" });
-
-  useEffect(() => {
-    if (isSubmitting) clearErrors("auth");
-  }, [isSubmitting, clearErrors]);
 
   async function handleSignUp(formData) {
     const { email, password } = formData;
-    const { error } = await signUp(email, password);
+    try {
+      const { error } = await signUp(email, password);
 
-    if (error) {
-      setError("auth", { message: error.message });
-    } else {
-      openModal();
+      if (error) {
+        if (error.code === 200)
+          setError("email", { message: "Email already in use" });
+        else showToast("Something went wrong", "error");
+      } else {
+        openModal();
+      }
+    } catch (error) {
+      showToast("Something went wrong", "error");
+      console.error("Error signing up", error);
     }
   }
 
@@ -61,7 +64,7 @@ const SignUpPage = () => {
           {...register("email", {
             required: "This field is required.",
             validate: (value) =>
-              checkValidEmail(value) || "Email format is not correct",
+              checkValidEmail(value) || "Email format is not correct.",
           })}
           onChange={() => clearErrors("email")}
         />
@@ -81,14 +84,18 @@ const SignUpPage = () => {
           onChange={() => clearErrors("password")}
         />
 
-        <Button type="submit" showLoader={isSubmitting} className="mb-4 w-full">
+        <Button
+          type="submit"
+          showLoader={isSubmitting}
+          className="mb-6 w-full font-semibold"
+        >
           Sign Up
         </Button>
       </form>
 
-      <p className="mb-3 text-center text-sm font-light text-gray-500 text-opacity-90 md:text-base">
-        Already have an account?{" "}
-        <NavLink to="/sign-in" className="text-blue-500 hover:text-blue-700 ">
+      <p className="mb-3 text-center text-sm text-gray-400 text-opacity-90 md:text-base">
+        I already have an account —{" "}
+        <NavLink to="/sign-in" className="text-blue-400 hover:text-blue-500 ">
           Sign In
         </NavLink>
       </p>
@@ -104,7 +111,7 @@ const SignUpPage = () => {
           Please check your inbox and follow the instructions to complete your
           sign-up.
         </Modal.Content>
-        <Modal.Button>Got it</Modal.Button>
+        <Modal.Button>Close</Modal.Button>
       </Modal>
     </>
   );

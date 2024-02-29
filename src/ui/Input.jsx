@@ -34,7 +34,7 @@ const Input = forwardRef(
             type={inputType}
             placeholder={labelPosition === "inside" ? label : ""}
             {...rest}
-            className={`${labelPosition === "inside" ? "font-light" : ""} w-full border bg-slate-50 px-2 py-3 text-[15px] text-gray-500 focus:outline-none md:px-3 md:py-4`}
+            className={`w-full border bg-slate-50 px-2 py-3 text-[15px] text-gray-500 focus:outline-none md:px-3 md:py-4`}
           />
 
           {type === "password" && (

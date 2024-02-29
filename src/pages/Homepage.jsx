@@ -3,11 +3,11 @@ import AuthNavigation from "../features/auth/AuthNavigation";
 
 function Homepage() {
   return (
-    <div className="px-7">
+    <>
       <Header>
         <AuthNavigation />
       </Header>
-    </div>
+    </>
   );
 }
 

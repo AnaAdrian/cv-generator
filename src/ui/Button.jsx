@@ -5,7 +5,6 @@ function Button({
   variant,
   size,
   className,
-  fontWeight,
   icon,
   showLoader,
   ...rest
@@ -31,7 +30,7 @@ function Button({
 
   return (
     <button
-      className={`${className} ${type} ${textSize} ${fontWeight} flex items-center justify-center gap-2 rounded-[4px] transition-all duration-100 ease-in-out`}
+      className={`${className} ${type} ${textSize} flex items-center justify-center gap-2 rounded-[4px] transition-all duration-100 ease-in-out`}
       {...rest}
     >
       {icon && <icon />}
@@ -46,7 +45,6 @@ Button.defaultProps = {
   variant: "primary",
   size: "md",
   className: "",
-  fontWeight: "font-semibold",
   showLoader: false,
 };
 

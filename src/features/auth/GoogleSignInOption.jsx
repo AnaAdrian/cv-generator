@@ -7,9 +7,8 @@ function GoogleSignInOption({ onClick }) {
     <>
       <Button
         size="md"
-        fontWeight="font-small"
         variant="google"
-        className="flex w-full items-center justify-center"
+        className="flex w-full items-center justify-center font-normal"
         onClick={onClick}
       >
         <FaGoogle className="hidden text-white sm:inline-flex" />

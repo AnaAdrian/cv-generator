@@ -5,8 +5,8 @@ import UserDropdown from "../features/users/UserDropdown";
 
 function Dashboard() {
   return (
-    <div className="mx-5">
-      <div className="mx-auto w-full max-w-6xl">
+    <div className="flex items-center justify-center">
+      <div className="w-full max-w-6xl">
         <Header className="border-b">
           <UserDropdown />
         </Header>

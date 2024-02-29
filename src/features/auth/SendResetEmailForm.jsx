@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import Button from "../../ui/Button";
 import Loader from "../../ui/Loader";
@@ -8,10 +9,12 @@ import { useAuth } from "./AuthContext";
 import { showToast } from "../../ui/Toast";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useModalState } from "../../contexts/ModalStateProvider";
+import { checkValidEmail } from "../../utils/helpers";
 
 function SendResetEmailForm({ onClose }) {
   const { resetPassword } = useAuth();
   const { openModal, closeModal } = useModalState();
+  const [subbmitedEmail, setSubbmitedEmail] = useState("");
   const {
     register,
     handleSubmit,
@@ -29,6 +32,7 @@ function SendResetEmailForm({ onClose }) {
           console.error("Error sending reset email", error);
           return;
         }
+        setSubbmitedEmail(email);
         openModal();
       } catch (error) {
         showToast("Something went wrong", "error");
@@ -64,36 +68,29 @@ function SendResetEmailForm({ onClose }) {
         error={formErrors?.email?.message || formErrors?.auth?.message}
         {...register("email", {
           required: "This field is required.",
+          validate: (value) =>
+            checkValidEmail(value) || "Email format is not correct.",
         })}
         onChange={() => clearErrors("email")}
       />
       <div className="flex flex-row gap-2">
-        <Button
-          variant="back"
-          className="flex-shrink-0 text-xs md:text-sm"
-          onClick={onClose}
-        >
+        <Button variant="back" className="flex-shrink-0" onClick={onClose}>
           <IoIosArrowRoundBack />
           Back
         </Button>
 
-        <Button
-          type="submit"
-          size="md"
-          className="flex-grow text-xs md:text-sm"
-        >
+        <Button type="submit" size="md" className="flex-grow">
           {" "}
           {isSubmitting && <Loader size="sm" color="white" />}
-          {isSubmitting
-            ? "Sending verification email"
-            : "Send verification email"}
+          <p>Send Reset Email</p>
         </Button>
       </div>
 
       <Modal onClose={handleCloseModal}>
         <Modal.Title>Email Sent</Modal.Title>
         <Modal.Content>
-          We&apos;ve sent you an email with instructions to reset your password.
+          {`An email with password reset instructions has been sent to your email
+          address ${subbmitedEmail}, if it exists on our system.`}
         </Modal.Content>
         <Modal.Button>Got it</Modal.Button>
       </Modal>

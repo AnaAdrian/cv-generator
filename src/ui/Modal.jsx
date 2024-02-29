@@ -24,7 +24,7 @@ function Modal({ onClose, children }) {
           <button onClick={onClose} className="absolute right-2 top-2 text-xl">
             <HiX />
           </button>
-          <div className="p-5 text-center">{children}</div>
+          <div className="max-w-lg p-5 text-center">{children}</div>
         </div>
       </div>
     </ModalContext.Provider>,
@@ -45,7 +45,9 @@ function ModalButton({ children }) {
 
   return (
     <div className="flex justify-center">
-      <Button onClick={onClose}>{children}</Button>
+      <Button className="font-semibold" variant="primary" onClick={onClose}>
+        {children}
+      </Button>
     </div>
   );
 }
