@@ -10,7 +10,6 @@ import AuthPageTitle from "../features/auth/AuthPageTitle";
 import Button from "../ui/Button";
 import { useAuth } from "../features/auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
-import { onPressEnter } from "../utils/formUtils";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -56,7 +55,12 @@ const LoginPage = () => {
   }
 
   function handleKeyDownOnInput(e) {
-    onPressEnter(e, submitButtonRef, setFocus, "password");
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+      submitButtonRef.current.click();
+      setFocus("password");
+    }
   }
 
   function handleReturnFromResetPassword() {

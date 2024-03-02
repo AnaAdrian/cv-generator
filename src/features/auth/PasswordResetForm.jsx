@@ -8,7 +8,6 @@ import { useAuth } from "./AuthContext";
 import { showToast } from "../../ui/Toast";
 import { useModalState } from "../../contexts/ModalStateProvider";
 import { useRef } from "react";
-import { onPressEnter } from "../../utils/formUtils";
 
 function PasswordResetForm() {
   const navigate = useNavigate();
@@ -46,7 +45,11 @@ function PasswordResetForm() {
   }
 
   function handleKeyDownOnInput(e) {
-    onPressEnter(e, submitButtonRef);
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+      submitButtonRef.current.click();
+    }
   }
 
   return (
@@ -77,10 +80,10 @@ function PasswordResetForm() {
         onChange={() => clearErrors("password")}
       />
       <Button
+        ref={submitButtonRef}
         type="submit"
         showLoader={isSubmitting}
-        ref={submitButtonRef}
-        className="flex w-full items-center justify-center gap-2 text-xs md:text-sm"
+        className="w-full font-semibold"
       >
         Update Password
       </Button>
@@ -88,8 +91,9 @@ function PasswordResetForm() {
       <Modal onClose={handleCloseModal}>
         <Modal.Title>Password Updated</Modal.Title>
         <Modal.Content>
-          {" "}
-          Your password has been updated successfully.
+          Your password has been successfully updated. You will be able to use
+          the new password for all future logins. You remain logged in for this
+          session.
         </Modal.Content>
         <Modal.Button>Close</Modal.Button>
       </Modal>

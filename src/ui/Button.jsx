@@ -3,18 +3,7 @@ import { forwardRef } from "react";
 import Loader from "./Loader";
 
 const Button = forwardRef(
-  (
-    {
-      children,
-      variant,
-      size,
-      className,
-      icon: Icon, // Renamed to follow React component naming convention
-      showLoader,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ children, variant, size, className, showLoader, ...rest }, ref) => {
     const variants = {
       primary: "bg-blue-500 hover:bg-blue-600 text-white active:bg-blue-700",
       secondary: "bg-gray-500 hover:bg-gray-600 text-white active:bg-gray-700",
@@ -40,7 +29,6 @@ const Button = forwardRef(
         className={`${className} ${type} ${textSize} flex items-center justify-center gap-2 rounded-[4px] transition-all duration-100 ease-in-out`}
         {...rest}
       >
-        {Icon && <Icon />}
         {showLoader && <Loader size="sm" color="white" />}
         {children}
       </button>

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
+import { useRef } from "react";
 
 import Button from "../../ui/Button";
-import Loader from "../../ui/Loader";
 import Input from "../../ui/Input";
 import Modal from "../../ui/Modal";
 import { useAuth } from "./AuthContext";
@@ -10,9 +10,11 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useModalState } from "../../contexts/ModalStateProvider";
 import { checkValidEmail } from "../../utils/helpers";
 
-function SendResetEmailForm({ onClose }) {
+function SendResetEmailForm({ email, onClose }) {
   const { resetPassword } = useAuth();
   const { openModal, closeModal } = useModalState();
+  const submitButtonRef = useRef();
+
   const {
     register,
     handleSubmit,
@@ -35,6 +37,14 @@ function SendResetEmailForm({ onClose }) {
         showToast("Something went wrong", "error");
         console.error("Error sending reset email", error);
       }
+    }
+  }
+
+  function handleKeyDownOnInput(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+      submitButtonRef.current.click();
     }
   }
 
@@ -62,6 +72,8 @@ function SendResetEmailForm({ onClose }) {
         type="text"
         label="Email address"
         labelPosition="inside"
+        defaultValue={email}
+        onKeyDown={handleKeyDownOnInput}
         error={formErrors?.email?.message || formErrors?.auth?.message}
         {...register("email", {
           required: "This field is required.",
@@ -80,10 +92,13 @@ function SendResetEmailForm({ onClose }) {
           Back
         </Button>
 
-        <Button type="submit" size="md" className="flex-grow font-semibold">
-          {" "}
-          {isSubmitting && <Loader size="sm" color="white" />}
-          <p>Send Reset Email</p>
+        <Button
+          ref={submitButtonRef}
+          type="submit"
+          showLoader={isSubmitting}
+          className="flex-grow font-semibold"
+        >
+          Send Reset Email
         </Button>
       </div>
 

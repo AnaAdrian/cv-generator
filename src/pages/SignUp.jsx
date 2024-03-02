@@ -13,7 +13,6 @@ import { useAuth } from "../features/auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
 import { useModalState } from "../contexts/ModalStateProvider";
 import { showToast } from "../ui/Toast";
-import { onPressEnter } from "../utils/formUtils";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -54,7 +53,11 @@ const SignUpPage = () => {
   }
 
   function handleKeyDownOnInput(e) {
-    onPressEnter(e, submutButtonRef);
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+      submutButtonRef.current.click();
+    }
   }
 
   if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
