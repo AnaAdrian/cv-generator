@@ -9,7 +9,7 @@ function LoaderFullPage({ size, color }) {
 }
 
 LoaderFullPage.defaultProps = {
-  size: "lg",
+  size: "md",
   color: "primary",
 };
 

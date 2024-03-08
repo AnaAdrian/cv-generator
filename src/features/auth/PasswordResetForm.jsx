@@ -27,7 +27,7 @@ function PasswordResetForm() {
       try {
         const { error } = await updatePassword(password);
         if (error) {
-          showToast("Something went wrong", "error");
+          showToast(error.message, "error");
           console.error("Error updating the password", error);
           return;
         }

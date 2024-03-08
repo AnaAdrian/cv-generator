@@ -60,7 +60,7 @@ const SignUpPage = () => {
     }
   }
 
-  if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
+  if (isLoggingIn) return <LoaderFullPage/>;
 
   return (
     <>

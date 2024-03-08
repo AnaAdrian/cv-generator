@@ -15,7 +15,7 @@ export default function CustomToaster() {
         },
         style: {
           fontSize: "16px",
-          maxWidth: "500px",
+          maxWidth: "900px",
           padding: "16px 24px",
           backgroundColor: "white",
           color: "black",

@@ -70,7 +70,7 @@ const LoginPage = () => {
 
   const formHandler = isEmailValid ? handleSignInWithEmail : handleCheckEmail;
 
-  if (isLoggingIn) return <LoaderFullPage size="lg" color="primary" />;
+  if (isLoggingIn) return <LoaderFullPage />;
 
   if (forgotPassword)
     return (
