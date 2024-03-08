@@ -10,6 +10,9 @@ export default {
         'sans': ['Ubuntu', 'sans-serif'],
         "inter": ["Inter", "serif"],
       },
+      boxShadow: {
+        "custom": 'rgba(16, 56, 112, 0.32) 0px 0px 1px, rgba(16, 56, 112, 0.08) 0px 2px 4px -1px, rgba(16, 56, 112, 0.12) 0px 8px 20px -4px',
+      },
     },
   },
 

@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { createBlankResume } from "../../services/apiResume";
+import { useState } from "react";
 
 import Button from "../../ui/Button";
 import LoaderFullPage from "../../ui/LoaderFullPage";
+import CardSection from "./card/CardSection";
 import { useAuth } from "../auth/AuthContext";
-import { useState } from "react";
+import { createBlankResume } from "../../services/apiResume";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 function CreateResume() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const isMobile = useWindowResize(768);
   const navigate = useNavigate();
 
   const handleCreateResume = async () => {
@@ -24,18 +27,18 @@ function CreateResume() {
 
   if (loading) return <LoaderFullPage />;
 
-  return (
-    <div className="my-5">
+  if (isMobile)
+    return (
       <Button
-        className="w-full"
+        className="my-5 w-full"
         fontWeight="font-normal"
-        size="md"
         onClick={handleCreateResume}
       >
         + New Resume
       </Button>
-    </div>
-  );
+    );
+
+  return <CardSection onClick={handleCreateResume} />;
 }
 
 export default CreateResume;

@@ -1,4 +1,4 @@
-function Form() {
+function Form({ resumeId }) {
   return <div></div>;
 }
 

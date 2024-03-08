@@ -5,3 +5,18 @@
 body {
   padding: 0px 20px;
 }
+
+.user-enter {
+  transform: scale(0.5);
+  opacity: 0;
+  transform-origin: top right;
+}
+
+.user-enter-active {
+  transform: scale(1);
+  opacity: 1;
+  transform-origin: top right;
+  transition:
+    opacity 200ms,
+    transform 200ms;
+}

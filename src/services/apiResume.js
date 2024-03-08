@@ -34,3 +34,11 @@ export async function createBlankResume(userId) {
     return data[0].id;
 }
 
+export function getAllResumes() {
+    return supabase
+        .from('resumes')
+        .select('id, title, updated_at,')
+        .order('updated_at', { ascending: false });
+}
+
+

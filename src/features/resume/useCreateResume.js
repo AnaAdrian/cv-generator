@@ -4,6 +4,5 @@ import { createResume } from "../../services/apiResume";
 export function useCreateResume() {
     return useMutation({
         mutationFn: createResume,
-
     });
 }
