@@ -110,7 +110,10 @@ const SignUpPage = () => {
 
       <p className="mb-3 text-center text-sm text-gray-400 text-opacity-90 md:text-base">
         I already have an account —{" "}
-        <NavLink to="/sign-in" className="text-blue-400 hover:text-blue-500 ">
+        <NavLink
+          to="/app/auth/sign-in"
+          className="text-blue-400 hover:text-blue-500 "
+        >
           Sign In
         </NavLink>
       </p>

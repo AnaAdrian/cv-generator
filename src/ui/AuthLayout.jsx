@@ -1,7 +1,9 @@
+import { Outlet } from "react-router-dom";
+
 import Header from "./Header";
 import HomeButton from "./HomeButton";
 
-function AuthLayout({ children }) {
+function AuthLayout() {
   return (
     <>
       <Header>
@@ -9,7 +11,9 @@ function AuthLayout({ children }) {
       </Header>
 
       <div className="my-10 flex justify-center">
-        <div className="w-full max-w-[410px]">{children}</div>
+        <div className="w-full max-w-[410px]">
+          <Outlet />
+        </div>
       </div>
     </>
   );

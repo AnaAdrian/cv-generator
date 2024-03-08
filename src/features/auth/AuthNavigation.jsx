@@ -6,7 +6,7 @@ function AuthNavigation() {
     <nav>
       <ul className="flex space-x-1 md:space-x-2">
         <li>
-          <NavLink to="/sign-in">
+          <NavLink to="app/auth/sign-in">
             <Button variant="link" size="md">
               {" "}
               <span className="font-normal">Log In</span>
@@ -14,7 +14,7 @@ function AuthNavigation() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/sign-up">
+          <NavLink to="app/auth/sign-up">
             <Button variant="primary" size="md">
               Sign Up
             </Button>

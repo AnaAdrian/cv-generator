@@ -152,7 +152,7 @@ const LoginPage = () => {
           <p className="text-center text-sm text-gray-400 md:text-base ">
             Become a member —{" "}
             <NavLink
-              to="/sign-up"
+              to="/app/auth/sign-up"
               className="text-blue-400 hover:text-blue-500 "
             >
               Sign Up
