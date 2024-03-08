@@ -67,7 +67,7 @@ function MenuList({ children }) {
       nodeRef={listRef}
     >
       <ul
-        className="absolute top-10 z-10 flex w-[280px] flex-col rounded-lg bg-white shadow-custom"
+        className="absolute top-10 z-10 flex flex-col rounded-lg bg-white shadow-custom"
         ref={listRef}
       >
         {children}
