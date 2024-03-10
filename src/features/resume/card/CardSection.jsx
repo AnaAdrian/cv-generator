@@ -1,11 +1,17 @@
+import { Link } from "react-router-dom";
+
 import CardActions from "./CardActions";
 import CardPlusIcon from "./CardPlusIcon";
-import CardPreviewImg from "./CardPreviewImg";
 import CardText from "./CardText";
 
-function CardSection({ cardData, onClick }) {
+function CardSection({ cardData, className, onClick }) {
   const imageComponent = cardData ? (
-    <CardPreviewImg imgUrl={cardData.preview_image} />
+    <Link to={`/app/resumes/${cardData.id}/edit`}>
+      <img
+        className="absolute left-0 top-0 w-full object-cover"
+        src={cardData.preview_image}
+      />
+    </Link>
   ) : (
     <CardPlusIcon />
   );
@@ -18,13 +24,13 @@ function CardSection({ cardData, onClick }) {
 
   return (
     <article
-      className="group my-10 flex max-w-lg cursor-pointer"
+      className={`group my-10 flex w-full flex-1 items-start ${className ? className : ""}`}
       onClick={onClick}
     >
-      <div className="relative mr-8 w-48 overflow-hidden rounded-md border pb-[270px]">
+      <div className="relative mr-8 w-28 overflow-hidden rounded-md border pb-40 md:w-48 md:pb-[270px]">
         {imageComponent}
       </div>
-      <div className="min-w-0 flex-1">{contentComponent}</div>
+      <div className="flex-1">{contentComponent}</div>
     </article>
   );
 }

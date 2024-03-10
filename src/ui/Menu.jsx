@@ -11,7 +11,7 @@ import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const MenuContext = createContext();
 
-function Menu({ children }) {
+function Menu({ children, className }) {
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
@@ -19,7 +19,7 @@ function Menu({ children }) {
   const listRef = useOutsideClick(close, toggleRef);
 
   return (
-    <div className="relative flex justify-end">
+    <div className={className}>
       <MenuContext.Provider
         value={{
           open,
@@ -55,14 +55,14 @@ function MenuToggle({ children }) {
   return toggle;
 }
 
-function MenuList({ children }) {
+function MenuList({ children, classNames = "user", timeout = 200 }) {
   const { isOpen, listRef } = useContext(MenuContext);
 
   return (
     <CSSTransition
       in={isOpen}
-      timeout={{ enter: 200, exit: 0 }}
-      classNames="user"
+      timeout={{ enter: timeout, exit: 0 }}
+      classNames={classNames}
       unmountOnExit
       nodeRef={listRef}
     >

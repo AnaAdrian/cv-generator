@@ -6,17 +6,47 @@ body {
   padding: 0px 20px;
 }
 
-.user-enter {
+.user-dropdown-enter {
   transform: scale(0.5);
   opacity: 0;
   transform-origin: top right;
 }
 
-.user-enter-active {
+.user-dropdown-enter-active {
   transform: scale(1);
   opacity: 1;
   transform-origin: top right;
   transition:
     opacity 200ms,
     transform 200ms;
+}
+
+.resume-dropdown-enter {
+  transform: scale(0.5);
+  opacity: 0;
+  transform-origin: top right;
+}
+
+.resume-dropdown-enter-active {
+  transform: scale(1);
+  opacity: 1;
+  transform-origin: top right;
+  transition:
+    opacity 100ms,
+    transform 100ms;
+}
+
+.actions-dropdown-enter {
+  transform: scale(0.5);
+  opacity: 0;
+  transform-origin: top left;
+}
+
+.actions-dropdown-enter-active {
+  transform: scale(1);
+  opacity: 1;
+  transform-origin: top left;
+  transition:
+    opacity 100ms,
+    transform 100ms;
 }

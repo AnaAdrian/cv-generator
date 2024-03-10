@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
-import UserDropdown from "../features/users/UserDropdown";
+import MainDropdown from "./MainDropdown/MainDropdown";
 
 function AppLayout() {
   const { pathname } = useLocation();
@@ -11,14 +11,14 @@ function AppLayout() {
       {!isEditingFormPage && (
         <div className="w-full max-w-6xl">
           <Header className="border-b">
-            <UserDropdown />
+            <MainDropdown />
           </Header>
         </div>
       )}
 
       {isEditingFormPage && (
         <div className="absolute right-0 top-0 m-4">
-          <UserDropdown />
+          <MainDropdown />
         </div>
       )}
 

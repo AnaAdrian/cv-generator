@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import UserIcon from "./UserIcon";
-import { useAuth } from "../auth/AuthContext";
+import UserIcon from "./UserAvatar";
+import { useAuth } from "../../features/auth/AuthContext";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 function UserSettingsItem() {

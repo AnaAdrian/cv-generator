@@ -1,23 +1,27 @@
 import { Link, useLocation } from "react-router-dom";
 
-import Menu from "../../ui/Menu";
-import UserIcon from "./UserIcon";
-import UserSettingsItem from "./UserSettingsItem";
-import DashboardItem from "./DashboardItem";
-import { useAuth } from "../auth/AuthContext";
+import Menu from "../Menu";
+import UserAvatar from "./UserAvatar";
+import UserSettingsItem from "./DropdownAccountSettingsItem";
+import DashboardItem from "./DropdownDashboardItem";
+import { useAuth } from "../../features/auth/AuthContext";
 
-function UserDropdown() {
+function MainDropdown() {
   const { pathname } = useLocation();
   const { signOut } = useAuth();
 
   const isEditingFormPage = pathname.includes("edit");
+  const itemCommonClasses = `cursor-pointer transition-all duration-150 hover:text-blue-500`;
 
   return (
-    <Menu>
+    <Menu className="relative flex justify-end">
       <Menu.Toggle border="true">
-        <UserIcon showBorder={true} />
+        <UserAvatar showBorder={true} />
       </Menu.Toggle>
-      <Menu.List>
+      <Menu.List
+        classNames={isEditingFormPage ? "resume-dropdown" : "user-dropdown"}
+        timeout={isEditingFormPage ? 100 : 200}
+      >
         <div className={`${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}>
           <div className="border-b p-5">
             {isEditingFormPage ? (
@@ -33,25 +37,17 @@ function UserDropdown() {
           >
             {isEditingFormPage && (
               <Menu.Item>
-                <Link
-                  to="/app/account"
-                  className="cursor-pointer transition-all duration-150 hover:text-blue-500"
-                >
+                <Link to="/app/account" className={itemCommonClasses}>
                   Account Settings
                 </Link>
               </Menu.Item>
             )}
             <Menu.Item>
-              <div
-                onClick={() => console.log("CLICK")}
-                className="cursor-pointer transition-all duration-150 hover:text-blue-500"
-              >
-                FAQ
-              </div>
+              <Link className={itemCommonClasses}>FAQ</Link>
             </Menu.Item>
             <Menu.Item closeMenu={false}>
               <span
-                className="cursor-pointer text-gray-500 transition-all duration-150 hover:text-blue-500"
+                className={`${itemCommonClasses} text-gray-500`}
                 onClick={signOut}
               >
                 Log Out
@@ -64,4 +60,4 @@ function UserDropdown() {
   );
 }
 
-export default UserDropdown;
+export default MainDropdown;

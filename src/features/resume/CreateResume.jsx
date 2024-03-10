@@ -38,7 +38,9 @@ function CreateResume() {
       </Button>
     );
 
-  return <CardSection onClick={handleCreateResume} />;
+  return (
+    <CardSection onClick={handleCreateResume} className="cursor-pointer" />
+  );
 }
 
 export default CreateResume;
