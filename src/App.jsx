@@ -5,6 +5,8 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import ModalStateProvider from "./contexts/ModalStateProvider";
+import AppLayout from "./ui/AppLayout";
 import AuthLayout from "./ui/AuthLayout";
 import CustomToaster from "./ui/Toast";
 import SignIn from "./pages/SignIn";
@@ -18,8 +20,6 @@ import Form from "./features/resume/form/Form";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 import PublicRoute from "./features/auth/PublicRoute";
 import { AuthProvider } from "./features/auth/AuthContext";
-import ModalStateProvider from "./contexts/ModalStateProvider";
-import AppLayout from "./ui/AppLayout";
 
 function App() {
   return (

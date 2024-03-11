@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const UserIcon = forwardRef(
+const UserAvatar = forwardRef(
   ({ isOpen, size = 8, showBorder = false, ...props }, ref) => (
     <button
       {...props}
@@ -25,6 +25,6 @@ const UserIcon = forwardRef(
   ),
 );
 
-UserIcon.displayName = "UserIcon";
+UserAvatar.displayName = "UserIcon";
 
-export default UserIcon;
+export default UserAvatar;

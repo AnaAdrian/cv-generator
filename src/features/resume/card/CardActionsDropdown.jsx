@@ -27,27 +27,29 @@ function CardActionsDropdown({ cardData }) {
       <Menu.Toggle>
         <CardActionsButton Icon={RxDotsHorizontal}>More</CardActionsButton>
       </Menu.Toggle>
-      <Menu.List classNames="actions-dropdown" timeout={100}>
-        <div className="flex flex-col gap-2 px-4 py-3 shadow-sm">
-          <Menu.Item>
-            <CardActionsButton
-              onClick={handleExportToTxt}
-              Icon={AiOutlineFileText}
-            >
-              Export to TXT
-            </CardActionsButton>
-          </Menu.Item>
-          <Menu.Item>
-            <CardActionsButton onClick={handleCopy} Icon={PiCopy}>
-              Make a copy
-            </CardActionsButton>
-          </Menu.Item>
-          <Menu.Item>
-            <CardActionsButton onClick={handleDelete} Icon={TbRowRemove}>
-              Delete
-            </CardActionsButton>
-          </Menu.Item>
-        </div>
+      <Menu.List
+        classNames="actions-dropdown"
+        className="shadow-even top-9 gap-2.5 rounded-md px-4 py-3"
+        timeout={100}
+      >
+        <Menu.Item>
+          <CardActionsButton
+            onClick={handleExportToTxt}
+            Icon={AiOutlineFileText}
+          >
+            Export to TXT
+          </CardActionsButton>
+        </Menu.Item>
+        <Menu.Item>
+          <CardActionsButton onClick={handleCopy} Icon={PiCopy}>
+            Make a copy
+          </CardActionsButton>
+        </Menu.Item>
+        <Menu.Item>
+          <CardActionsButton onClick={handleDelete} Icon={TbRowRemove}>
+            Delete
+          </CardActionsButton>
+        </Menu.Item>
       </Menu.List>
     </Menu>
   );

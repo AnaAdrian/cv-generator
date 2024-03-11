@@ -11,7 +11,8 @@ export default {
         "inter": ["Inter", "serif"],
       },
       boxShadow: {
-        "custom": 'rgba(16, 56, 112, 0.32) 0px 0px 1px, rgba(16, 56, 112, 0.08) 0px 2px 4px -1px, rgba(16, 56, 112, 0.12) 0px 8px 20px -4px',
+        "menu": 'rgba(16, 56, 112, 0.32) 0px 0px 1px, rgba(16, 56, 112, 0.08) 0px 2px 4px -1px, rgba(16, 56, 112, 0.12) 0px 8px 20px -4px',
+        "even": "rgba(16, 56, 112, 0.2) 0px 0px 1px, rgba(16, 56, 112, 0.15) 0px 2px 14px"
       },
       inset: {
         "left-calc": "calc(100% + 2px)",

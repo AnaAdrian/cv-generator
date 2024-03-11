@@ -12,7 +12,7 @@ function CardActions({ cardData }) {
         <div className="group/link flex items-center gap-1">
           <Link
             to={`/app/resumes/${cardData.id}/edit`}
-            className="font-normal text-gray-800 hover:text-blue-500 md:text-xl"
+            className="text-md font-normal text-gray-800 hover:text-blue-500 md:text-xl"
           >
             {cardData.name}
           </Link>
@@ -24,13 +24,13 @@ function CardActions({ cardData }) {
       </div>
       <Link to={`/app/resumes/${cardData.id}/edit`}>
         <div className="my-5 inline-flex items-center gap-2 rounded-md bg-[#F7F9FC] p-2 font-normal hover:bg-[#EAF6FF]">
-          <div className=" rounded-md bg-rose-400 px-1  py-0.5 text-xs text-white">
+          <div className="rounded-md bg-rose-400 px-1 py-0.5 text-xs text-white">
             {cardData.resume_score}%
           </div>
-          <div className="text-sm text-gray-600">Resume score</div>
+          <div className="text-xs text-gray-600 md:text-sm">Resume score</div>
         </div>
       </Link>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2.5 text-sm md:text-base  ">
         <CardActionsButton Icon={PiArrowFatDown}>
           Download PDF
         </CardActionsButton>

@@ -1,9 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import Menu from "../Menu";
 import UserAvatar from "./UserAvatar";
 import UserSettingsItem from "./DropdownAccountSettingsItem";
 import DashboardItem from "./DropdownDashboardItem";
+import Item from "./MenuItem";
 import { useAuth } from "../../features/auth/AuthContext";
 
 function MainDropdown() {
@@ -11,7 +12,6 @@ function MainDropdown() {
   const { signOut } = useAuth();
 
   const isEditingFormPage = pathname.includes("edit");
-  const itemCommonClasses = `cursor-pointer transition-all duration-150 hover:text-blue-500`;
 
   return (
     <Menu className="relative flex justify-end">
@@ -20,40 +20,28 @@ function MainDropdown() {
       </Menu.Toggle>
       <Menu.List
         classNames={isEditingFormPage ? "resume-dropdown" : "user-dropdown"}
+        className={`shadow-menu top-10 rounded-lg bg-white ${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}
         timeout={isEditingFormPage ? 100 : 200}
       >
-        <div className={`${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}>
-          <div className="border-b p-5">
-            {isEditingFormPage ? (
-              <DashboardItem />
-            ) : (
-              <Menu.Item>
-                <UserSettingsItem />
-              </Menu.Item>
-            )}
-          </div>
-          <div
-            className={`${isEditingFormPage ? "px-10" : "px-5"} flex flex-col gap-2 py-4 font-thin`}
-          >
-            {isEditingFormPage && (
-              <Menu.Item>
-                <Link to="/app/account" className={itemCommonClasses}>
-                  Account Settings
-                </Link>
-              </Menu.Item>
-            )}
+        <Menu.Item className="border-b p-5">
+          {isEditingFormPage ? <DashboardItem /> : <UserSettingsItem />}
+        </Menu.Item>
+        <div
+          className={`${isEditingFormPage ? "px-10" : "px-5"} flex flex-col gap-2 py-4 font-thin`}
+        >
+          {isEditingFormPage && (
             <Menu.Item>
-              <Link className={itemCommonClasses}>FAQ</Link>
+              <Item to="/app/account">Account Settings</Item>
             </Menu.Item>
-            <Menu.Item closeMenu={false}>
-              <span
-                className={`${itemCommonClasses} text-gray-500`}
-                onClick={signOut}
-              >
-                Log Out
-              </span>
-            </Menu.Item>
-          </div>
+          )}
+          <Menu.Item>
+            <Item>FAQ</Item>
+          </Menu.Item>
+          <Menu.Item closeMenu={false}>
+            <Item className="text-gray-500" onClick={signOut}>
+              Log Out
+            </Item>
+          </Menu.Item>
         </div>
       </Menu.List>
     </Menu>

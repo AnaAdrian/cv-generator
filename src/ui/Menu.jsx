@@ -55,7 +55,7 @@ function MenuToggle({ children }) {
   return toggle;
 }
 
-function MenuList({ children, classNames = "user", timeout = 200 }) {
+function MenuList({ children, classNames = "user", className, timeout = 200 }) {
   const { isOpen, listRef } = useContext(MenuContext);
 
   return (
@@ -67,7 +67,7 @@ function MenuList({ children, classNames = "user", timeout = 200 }) {
       nodeRef={listRef}
     >
       <ul
-        className="absolute top-10 z-10 flex flex-col rounded-lg bg-white shadow-custom"
+        className={`absolute z-10 flex flex-col ${className ? className : ""}`}
         ref={listRef}
       >
         {children}
@@ -76,7 +76,7 @@ function MenuList({ children, classNames = "user", timeout = 200 }) {
   );
 }
 
-function MenuItem({ children, closeMenu = true }) {
+function MenuItem({ children, className, closeMenu = true }) {
   const { close } = useContext(MenuContext);
   const ref = useRef(null);
 
@@ -93,7 +93,7 @@ function MenuItem({ children, closeMenu = true }) {
   };
 
   return (
-    <li ref={ref} onClick={handleClick}>
+    <li ref={ref} onClick={handleClick} className={className ? className : ""}>
       {children}
     </li>
   );
