@@ -25,7 +25,7 @@ export async function createBlankResume(userId) {
     const { data, error } = await supabase
         .from('resumes')
         .insert({ user_id: userId })
-        .select('*');
+        .select("id");
 
     if (error) {
         console.error("Error creating resume", error);
@@ -34,11 +34,13 @@ export async function createBlankResume(userId) {
     return data[0].id;
 }
 
-export function getAllResumes() {
-    return supabase
+export async function getAllResumes() {
+    const { data, error } = await supabase
         .from('resumes')
-        .select('id, title, updated_at,')
+        .select('*')
         .order('updated_at', { ascending: false });
-}
 
+    if (error) throw error;
+    return data;
+}
 

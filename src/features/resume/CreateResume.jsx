@@ -1,52 +1,44 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
 import Button from "../../ui/Button";
 import LoaderFullPage from "../../ui/LoaderFullPage";
 import CardSection from "./card/CardSection";
 import CardPlusIcon from "./card/CardPlusIcon";
 import CardText from "./card/CardText";
-import { useAuth } from "../auth/AuthContext";
-import { createBlankResume } from "../../services/apiResume";
+import NoResumes from "./NoResumes";
 import { useWindowResize } from "../../hooks/useWindowResize";
+import { useCreateResume } from "./useCreateResume";
 
-function CreateResume() {
-  const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+function CreateResume({ noResumes }) {
+  const { mutate: createResume, isPending: isLoading } = useCreateResume();
   const isMobile = useWindowResize(768);
-  const navigate = useNavigate();
 
-  const handleCreateResume = async () => {
-    setLoading(true);
-    try {
-      const resumeId = await createBlankResume(user.id);
-      navigate(`/app/resumes/${resumeId}/edit`);
-    } catch (error) {
-      console.error("Error creating resume", error);
-    }
-    setLoading(false);
-  };
-
-  if (loading) return <LoaderFullPage />;
+  if (isLoading) return <LoaderFullPage />;
 
   if (isMobile)
     return (
-      <Button
-        className="my-5 w-full"
-        fontWeight="font-normal"
-        onClick={handleCreateResume}
-      >
-        + New Resume
-      </Button>
+      <div className="flex flex-col items-center gap-4">
+        <Button className="w-full text-lg" onClick={createResume}>
+          + New Resume
+        </Button>
+        {noResumes && <NoResumes />}
+      </div>
     );
 
-  return (
-    <CardSection
-      img={<CardPlusIcon />}
-      content={<CardText />}
-      onClick={handleCreateResume}
-      className="cursor-pointer"
-    />
+  return noResumes ? (
+    <div className="flex flex-col items-center gap-4">
+      <NoResumes />
+      <Button className="my-5" fontWeight="font-normal" onClick={createResume}>
+        + New Resume
+      </Button>
+    </div>
+  ) : (
+    <CardSection onClick={createResume} className="cursor-pointer">
+      <CardSection.Preview>
+        <CardPlusIcon />
+      </CardSection.Preview>
+      <CardSection.Content>
+        <CardText />
+      </CardSection.Content>
+    </CardSection>
   );
 }
 

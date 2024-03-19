@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 function Header({ children, className }) {
   return (
     <div
-      className={`z-50 flex min-h-20 items-center justify-between ${className ? className : ""}`}
+      className={`z-50 mb-5 flex min-h-20 items-center justify-between ${className ? className : ""}`}
     >
       {" "}
       <NavLink to="/">
