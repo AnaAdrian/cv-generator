@@ -4,6 +4,8 @@ import { useState } from "react";
 import Button from "../../ui/Button";
 import LoaderFullPage from "../../ui/LoaderFullPage";
 import CardSection from "./card/CardSection";
+import CardPlusIcon from "./card/CardPlusIcon";
+import CardText from "./card/CardText";
 import { useAuth } from "../auth/AuthContext";
 import { createBlankResume } from "../../services/apiResume";
 import { useWindowResize } from "../../hooks/useWindowResize";
@@ -39,7 +41,12 @@ function CreateResume() {
     );
 
   return (
-    <CardSection onClick={handleCreateResume} className="cursor-pointer" />
+    <CardSection
+      img={<CardPlusIcon />}
+      content={<CardText />}
+      onClick={handleCreateResume}
+      className="cursor-pointer"
+    />
   );
 }
 

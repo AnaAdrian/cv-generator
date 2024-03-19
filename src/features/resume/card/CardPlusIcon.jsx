@@ -1,4 +1,4 @@
-function CardNewIcon() {
+function CardPlusIcon() {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-[#f1f3fb] transition-all group-hover:bg-blue-500">
@@ -9,4 +9,4 @@ function CardNewIcon() {
   );
 }
 
-export default CardNewIcon;
+export default CardPlusIcon;

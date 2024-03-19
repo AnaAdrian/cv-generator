@@ -66,12 +66,12 @@ function MenuList({ children, classNames = "user", className, timeout = 200 }) {
       unmountOnExit
       nodeRef={listRef}
     >
-      <ul
+      <div
         className={`absolute z-10 flex flex-col ${className ? className : ""}`}
         ref={listRef}
       >
         {children}
-      </ul>
+      </div>
     </CSSTransition>
   );
 }
@@ -85,7 +85,8 @@ function MenuItem({ children, className, closeMenu = true }) {
 
     const firstChild = container.firstChild;
 
-    if (firstChild.contains(e.target) && e.target !== container) {
+    // If there is a child, pass the close function to it
+    if (firstChild?.contains(e.target) || !firstChild) {
       if (closeMenu) {
         close();
       }
@@ -93,9 +94,9 @@ function MenuItem({ children, className, closeMenu = true }) {
   };
 
   return (
-    <li ref={ref} onClick={handleClick} className={className ? className : ""}>
+    <div ref={ref} onClick={handleClick} className={className ? className : ""}>
       {children}
-    </li>
+    </div>
   );
 }
 
