@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Button from "../../ui/Button";
 
-function NoResumes() {
+function NoResumes({ onClick }) {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleImageLoad = () => {
@@ -8,21 +9,28 @@ function NoResumes() {
   };
 
   return (
-    <>
+    <div className={`${!imageLoaded && "hidden"} flex flex-col items-center`}>
+      <Button className="w-full text-lg md:hidden" onClick={onClick}>
+        + New Resume
+      </Button>
+
       <img
         className="w-60"
-        src="/avatar.jpg"
+        src="/avatar.png"
         alt="avatar"
         onLoad={handleImageLoad}
       />
-      <div className={`text-center ${!imageLoaded && "hidden"}`}>
+      <div className="text-center">
         <h2 className="mb-2 text-lg font-bold">Your dynamic career profile</h2>
         <p className="max-w-lg font-thin">
           Professionally designed, effective resumes. Streamline your job hunt
           with ease!
         </p>
       </div>
-    </>
+      <Button className="my-5 hidden md:flex" onClick={onClick}>
+        + New Resume
+      </Button>
+    </div>
   );
 }
 
