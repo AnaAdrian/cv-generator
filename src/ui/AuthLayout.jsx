@@ -1,13 +1,14 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import Header from "./Header";
 import HomeButton from "./HomeButton";
 
 function AuthLayout() {
+  const { pathname } = useLocation();
   return (
     <>
       <Header>
-        <HomeButton />
+        {pathname.includes("reset-password") ? "" : <HomeButton />}
       </Header>
 
       <div className="my-10 flex justify-center">

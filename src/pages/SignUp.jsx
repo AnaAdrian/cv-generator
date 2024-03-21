@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRef } from "react";
 
 import Input from "../ui/Input";
@@ -9,16 +9,15 @@ import Error from "../ui/Error";
 import Button from "../ui/Button";
 import GoogleSignInOption from "../features/auth/GoogleSignInOption";
 import AuthPageTitle from "../features/auth/AuthPageTitle";
+import ActionSuccessMessage from "../features/auth/ActionSuccessMessage";
 import { useAuth } from "../features/auth/AuthContext";
 import { checkValidEmail } from "../utils/helpers";
-import { useModalState } from "../contexts/ModalStateProvider";
 import { showToast } from "../ui/Toast";
 
 const SignUpPage = () => {
-  const navigate = useNavigate();
   const { signUp, signInWithGoogle, isLoggingIn } = useAuth();
-  const { openModal, closeModal } = useModalState();
-  const submutButtonRef = useRef(null);
+  const submitButtonRef = useRef(null);
+  const modalButtonRef = useRef(null);
 
   const {
     register,
@@ -35,7 +34,7 @@ const SignUpPage = () => {
       if (error) {
         throw error;
       } else {
-        openModal();
+        modalButtonRef.current.click();
       }
     } catch (error) {
       if (error.message === "User already registered") {
@@ -47,27 +46,26 @@ const SignUpPage = () => {
     }
   }
 
-  function handleModalClose() {
-    closeModal();
-    navigate("/sign-in", { replace: true });
-  }
-
   function handleKeyDownOnInput(e) {
     if (e.key === "Enter") {
       e.preventDefault();
       e.target.blur();
-      submutButtonRef.current.click();
+      submitButtonRef.current.click();
     }
   }
 
-  if (isLoggingIn) return <LoaderFullPage/>;
+  if (isLoggingIn) return <LoaderFullPage />;
 
   return (
     <>
       <AuthPageTitle title="Sign Up" text="Create your account" />
       <GoogleSignInOption onClick={signInWithGoogle} />
 
-      <form noValidate onSubmit={handleSubmit(handleSignUp)}>
+      <form
+        className="animate-fadeIn"
+        noValidate
+        onSubmit={handleSubmit(handleSignUp)}
+      >
         <Input
           type="email"
           label="Email address"
@@ -99,7 +97,7 @@ const SignUpPage = () => {
         />
 
         <Button
-          ref={submutButtonRef}
+          ref={submitButtonRef}
           type="submit"
           showLoader={isSubmitting}
           className="mb-6 w-full font-semibold"
@@ -117,19 +115,22 @@ const SignUpPage = () => {
           Sign In
         </NavLink>
       </p>
-
       <Error
         error={formErrors?.auth?.message}
         className="flex justify-center"
       />
-
-      <Modal onClose={handleModalClose}>
-        <Modal.Title>A verification email has been sent.</Modal.Title>
-        <Modal.Content>
-          Please check your inbox and follow the instructions to complete your
-          sign-up.
+      <Modal>
+        <Modal.Open opens="sign-up-success">
+          <button ref={modalButtonRef} className="hidden" />
+        </Modal.Open>
+        <Modal.Content name="sign-up-success">
+          <ActionSuccessMessage
+            title="Verification Email Sent"
+            text="Please check your inbox and follow the instructions to complete your
+            sign-up."
+            navigateTo="/app/auth/sign-in"
+          />
         </Modal.Content>
-        <Modal.Button>Close</Modal.Button>
       </Modal>
     </>
   );

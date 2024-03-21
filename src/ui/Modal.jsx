@@ -1,59 +1,56 @@
 import { createPortal } from "react-dom";
-import { createContext, useContext } from "react";
+import { cloneElement, createContext, useContext, useState } from "react";
 import { HiX } from "react-icons/hi";
 
-import Button from "./Button";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { useModalState } from "../contexts/ModalStateProvider";
 
 const ModalContext = createContext();
 
-function Modal({ onClose, children }) {
-  const { isOpen } = useModalState();
+function Modal({ children }) {
+  const [openContent, setOpenContent] = useState(null);
+  const open = setOpenContent;
+  const close = () => setOpenContent(null);
 
-  const ref = useOutsideClick(onClose);
-  if (!isOpen) return null;
+  return (
+    <ModalContext.Provider value={{ openContent, open, close }}>
+      {children}
+    </ModalContext.Provider>
+  );
+}
+
+function Open({ children, opens }) {
+  const { open } = useContext(ModalContext);
+  return cloneElement(children, { onClick: () => open(opens) });
+}
+
+function Content({ children, name }) {
+  const { openContent, close } = useContext(ModalContext);
+  const ref = useOutsideClick(close);
+
+  if (openContent !== name) return null;
 
   return createPortal(
-    <ModalContext.Provider value={{ onClose }}>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <>
+      <div className="animate-fadeIn fixed inset-0 z-40 bg-gray-950  bg-opacity-80"></div>
+
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           ref={ref}
-          className="relative mx-5 max-w-3xl rounded bg-white px-4 py-10"
+          className="animate-fadeInUp relative mx-5 rounded-md bg-white p-8"
         >
-          <button onClick={onClose} className="absolute right-2 top-2 text-xl">
-            <HiX />
-          </button>
-          <div className="max-w-lg p-5 text-center">{children}</div>
+          <HiX
+            onClick={close}
+            className="absolute right-6 top-6 h-6 w-6 text-xl text-gray-400 transition-all hover:text-blue-500"
+          />
+          {cloneElement(children, { onCloseModal: close })}
         </div>
       </div>
-    </ModalContext.Provider>,
+    </>,
     document.body,
   );
 }
 
-function Title({ children }) {
-  return <h2 className="mb-4 text-2xl font-bold text-gray-800">{children}</h2>;
-}
-
-function Content({ children }) {
-  return <p className="mb-10 text-gray-500">{children}</p>;
-}
-
-function ModalButton({ children }) {
-  const { onClose } = useContext(ModalContext);
-
-  return (
-    <div className="flex justify-center">
-      <Button className="font-semibold" variant="primary" onClick={onClose}>
-        {children}
-      </Button>
-    </div>
-  );
-}
-
-Modal.Title = Title;
+Modal.Open = Open;
 Modal.Content = Content;
-Modal.Button = ModalButton;
 
 export default Modal;

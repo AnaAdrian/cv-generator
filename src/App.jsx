@@ -14,7 +14,6 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import ModalStateProvider from "./contexts/ModalStateProvider";
 import AppLayout from "./ui/AppLayout";
 import AuthLayout from "./ui/AuthLayout";
 import CustomToaster, { showToast } from "./ui/Toast";
@@ -45,53 +44,51 @@ function App() {
       <ReactQueryDevtools initialIsOpen={false} />
       <Router>
         <AuthProvider>
-          <ModalStateProvider>
-            <Routes>
+          <Routes>
+            <Route
+              index
+              element={
+                <PublicRoute>
+                  <Homepage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="app/auth"
+              element={
+                <PublicRoute>
+                  <AuthLayout />
+                </PublicRoute>
+              }
+            >
+              <Route index element={<Navigate to="sign-in" replace />} />
+              <Route path="sign-in" element={<SignIn />} />
+              <Route path="sign-up" element={<SignUp />} />
               <Route
-                index
-                element={
-                  <PublicRoute>
-                    <Homepage />
-                  </PublicRoute>
-                }
-              />
-              <Route
-                path="app/auth"
-                element={
-                  <PublicRoute>
-                    <AuthLayout />
-                  </PublicRoute>
-                }
-              >
-                <Route index element={<Navigate to="sign-in" replace />} />
-                <Route path="sign-in" element={<SignIn />} />
-                <Route path="sign-up" element={<SignUp />} />
-                <Route
-                  path="reset-password"
-                  element={
-                    <ProtectedRoute>
-                      <PasswordReset />
-                    </ProtectedRoute>
-                  }
-                />
-              </Route>
-
-              <Route
-                path="/app"
+                path="reset-password"
                 element={
                   <ProtectedRoute>
-                    <AppLayout />
+                    <PasswordReset />
                   </ProtectedRoute>
                 }
-              >
-                <Route index element={<Dashboard />} />
-                <Route path="account" element={<Account />} />
-                <Route path="resumes/:id/edit" element={<Form />} />
-              </Route>
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-            <CustomToaster />
-          </ModalStateProvider>
+              />
+            </Route>
+
+            <Route
+              path="/app"
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="account" element={<Account />} />
+              <Route path="resumes/:id/edit" element={<Form />} />
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+          <CustomToaster />
         </AuthProvider>
       </Router>
     </QueryClientProvider>

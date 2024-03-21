@@ -81,7 +81,7 @@ const LoginPage = () => {
     );
 
   return (
-    <form onSubmit={handleSubmit(formHandler)}>
+    <form className="animate-fadeIn" onSubmit={handleSubmit(formHandler)}>
       <div
         className={`transition-all ease-in-out ${isEmailValid ? "translate-y-0" : "translate-y-5"}`}
       >
