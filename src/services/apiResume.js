@@ -44,3 +44,15 @@ export async function getAllResumes() {
     return data;
 }
 
+export async function deleteResume(id) {
+    const { error } = await supabase
+        .from('resumes')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.error("Error deleting resume", error);
+        throw error;
+    }
+}
+

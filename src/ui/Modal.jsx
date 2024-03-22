@@ -31,16 +31,16 @@ function Content({ children, name }) {
 
   return createPortal(
     <>
-      <div className="animate-fadeIn fixed inset-0 z-40 bg-gray-950  bg-opacity-80"></div>
+      <div className="fixed inset-0 z-40 animate-fadeIn bg-gray-950  bg-opacity-80"></div>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           ref={ref}
-          className="animate-fadeInUp relative mx-5 rounded-md bg-white p-8"
+          className="relative mx-5 animate-fadeInUp rounded-md bg-white p-4"
         >
           <HiX
             onClick={close}
-            className="absolute right-6 top-6 h-6 w-6 text-xl text-gray-400 transition-all hover:text-blue-500"
+            className="absolute right-4 top-4 h-6 w-6 text-xl text-gray-400 transition-all hover:text-blue-500"
           />
           {cloneElement(children, { onCloseModal: close })}
         </div>
@@ -52,5 +52,14 @@ function Content({ children, name }) {
 
 Modal.Open = Open;
 Modal.Content = Content;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useModal() {
+  const context = useContext(ModalContext);
+  if (!context) {
+    throw new Error("useModal must be used within a ModalProvider");
+  }
+  return context;
+}
 
 export default Modal;

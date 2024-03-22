@@ -12,7 +12,7 @@ function ActionSuccessMessage({ title, text, onCloseModal, navigateTo }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-5 text-center">
+    <div className="flex flex-col items-center justify-center gap-5 p-2 text-center md:p-4">
       <MdMarkEmailRead className="text-6xl text-slate-700" />
       <h2 className="text-xl font-bold text-gray-800 md:text-2xl">{title}</h2>
       <p className="max-w-lg text-sm font-thin text-gray-600 md:text-base">

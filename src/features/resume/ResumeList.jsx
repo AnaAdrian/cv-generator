@@ -7,16 +7,16 @@ import CardActions from "./card/CardActions";
 function ResumeList({ resumeData }) {
   const navigate = useNavigate();
 
-  return resumeData?.map((card) => (
-    <CardSection key={card.id}>
+  return resumeData?.map((resume) => (
+    <CardSection key={resume.id}>
       <CardSection.Preview>
         <CardPreviewImage
-          src={card.preview_image}
-          onClick={() => navigate(`/app/resumes/${card.id}/edit`)}
+          src={resume.preview_image}
+          onClick={() => navigate(`/app/resumes/${resume.id}/edit`)}
         />
       </CardSection.Preview>
       <CardSection.Content>
-        <CardActions cardData={card} />
+        <CardActions resume={resume} />
       </CardSection.Content>
     </CardSection>
   ));
