@@ -1,41 +1,31 @@
-import toast, { Toaster } from "react-hot-toast";
-
-export default function CustomToaster() {
-  return (
-    <Toaster
-      position="top-center"
-      gutter={12}
-      containerStyle={{ margin: "8px" }}
-      toastOptions={{
-        success: {
-          duration: 2000,
-        },
-        error: {
-          duration: 3500,
-        },
-        style: {
-          fontSize: "16px",
-          maxWidth: "900px",
-          padding: "16px 24px",
-          backgroundColor: "white",
-          color: "black",
-        },
-      }}
-    />
-  );
-}
+import toast from "react-hot-toast";
+import { MdCheckCircle, MdError, MdClose } from "react-icons/md";
 
 // eslint-disable-next-line
 export const showToast = (message, type = "success") => {
-  // Dismiss all existing toasts
-  toast.dismiss();
+  const Icon = type === "error" ? MdError : MdCheckCircle;
+  const iconColor = type === "error" ? "text-red-500" : "text-green-500";
 
-  // Show the toast based on type
-  if (type === "success") {
-    toast.success(message);
-  } else if (type === "error") {
-    toast.error(message);
-  } else {
-    console.error("Invalid toast type", type);
-  }
+  toast.custom(
+    (t) => (
+      <div
+        className={`flex max-w-md rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5 ${t.visible ? "animate-fadeIn" : "animate-fadeOut"}`}
+      >
+        {/* Icon and message container */}
+        <div className="flex items-center gap-1.5 px-4 py-3">
+          <Icon className={`${iconColor}`} size={24} />
+          <span className="flex-1 text-black">{message}</span>{" "}
+        </div>
+
+        {/* Close button and border */}
+        <button
+          className=" flex items-center rounded-r-lg border-l border-gray-200 p-2 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onClick={() => toast.dismiss(t.id)}
+        >
+          <MdClose size={20} />
+        </button>
+      </div>
+    ),
+    { id: "my-app-toast" },
+  );
 };

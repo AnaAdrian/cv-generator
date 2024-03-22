@@ -49,13 +49,13 @@ function SendResetEmailForm({ email, onClose }) {
   return (
     <>
       <form className="animate-fadeIn" onSubmit={handleSubmit(formHandler)}>
-        <div className="mb-10 flex flex-col gap-1 ">
+        <div className="mb-10 flex flex-col gap-2 ">
           <h2 className=" text-2xl font-normal text-gray-800">
             Reset your password?
           </h2>
           <div className="flex-grow border-t border-gray-300"></div>
 
-          <p className="mt-3 text-sm font-light text-gray-800">
+          <p className=" text-sm font-light text-gray-800">
             Please provide the email address that you used when you signed up
             for your account. <br /> <br />
             We will send you an email that will allow you to reset your

@@ -1,4 +1,3 @@
-import { AuthProvider } from "./features/auth/AuthContext";
 import {
   QueryCache,
   QueryClient,
@@ -14,9 +13,10 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import { Toaster } from "react-hot-toast";
+
 import AppLayout from "./ui/AppLayout";
 import AuthLayout from "./ui/AuthLayout";
-import CustomToaster, { showToast } from "./ui/Toast";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PasswordReset from "./pages/PasswordReset";
@@ -27,6 +27,8 @@ import PageNotFound from "./pages/PageNotFound";
 import Form from "./features/resume/form/Form";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 import PublicRoute from "./features/auth/PublicRoute";
+import { showToast } from "./ui/Toast";
+import { AuthProvider } from "./features/auth/AuthContext";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -41,6 +43,13 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster
+        toastOptions={{
+          custom: {
+            duration: 3000,
+          },
+        }}
+      />
       <ReactQueryDevtools initialIsOpen={false} />
       <Router>
         <AuthProvider>
@@ -88,7 +97,6 @@ function App() {
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>
-          <CustomToaster />
         </AuthProvider>
       </Router>
     </QueryClientProvider>

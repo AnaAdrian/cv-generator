@@ -11,8 +11,8 @@ function AuthLayout() {
         {pathname.includes("reset-password") ? "" : <HomeButton />}
       </Header>
 
-      <div className="my-10 flex justify-center">
-        <div className="w-full max-w-[410px]">
+      <div className="pointer-events-none fixed inset-0 flex flex-col">
+        <div className="pointer-events-auto m-auto w-full max-w-md rounded-lg p-8 shadow-none md:shadow-lg">
           <Outlet />
         </div>
       </div>
