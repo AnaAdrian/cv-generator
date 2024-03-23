@@ -1,29 +1,33 @@
 import Menu from "../../../ui/Menu";
 import CardActionsButton from "./CardActionsButton";
+import Modal from "../../../ui/Modal";
+import ConfirmDelete from "./ConfirmDelete";
+import { useCopyResume } from "../useCopyResume";
 
 import { RxDotsHorizontal } from "react-icons/rx";
 import { AiOutlineFileText } from "react-icons/ai";
 import { PiCopy } from "react-icons/pi";
 import { TbRowRemove } from "react-icons/tb";
-import Modal from "../../../ui/Modal";
-import ConfirmDelete from "./ConfirmDelete";
 
-function CardActionsDropdown({ resume }) {
+function CardActionsDropdown({ resumeId }) {
+  const { mutate: copyResume } = useCopyResume();
+
   function handleExportToTxt() {
     console.log("Exporting to TXT");
-    console.log(resume);
+    console.log(resumeId);
   }
 
   function handleCopy() {
-    console.log("Copying");
-    console.log(resume);
+    copyResume(resumeId);
   }
 
   return (
     <Modal>
       <Menu className="relative flex">
         <Menu.Toggle>
-          <CardActionsButton Icon={RxDotsHorizontal}>More</CardActionsButton>
+          <CardActionsButton>
+            <RxDotsHorizontal className="h-5 w-5 text-blue-500" /> More
+          </CardActionsButton>
         </Menu.Toggle>
         <Menu.List
           classNames="actions-dropdown"
@@ -52,7 +56,7 @@ function CardActionsDropdown({ resume }) {
           </Menu.Item>
         </Menu.List>
         <Modal.Content name="delete-confirm">
-          <ConfirmDelete resumeId={resume.id} />
+          <ConfirmDelete resumeId={resumeId} />
         </Modal.Content>
       </Menu>
     </Modal>

@@ -17,8 +17,10 @@ function CardPreview({ children }) {
   );
 }
 
-function CardContent({ children }) {
-  return <div className="flex-1">{children}</div>;
+function CardContent({ children, className }) {
+  return (
+    <div className={"flex-1" + className ? className : ""}>{children}</div>
+  );
 }
 
 CardSection.Preview = CardPreview;

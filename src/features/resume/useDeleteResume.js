@@ -18,8 +18,9 @@ export function useDeleteResume() {
 
             return { previousResumes };
         },
-        onError: (context) => {
+        onError: (err, context) => {
             queryClient.setQueryData(['resumes'], context.previousResumes);
+            console.error(err);
             showToast("Something went wrong", "error");
         },
         onSettled: () => {

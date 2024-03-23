@@ -7,18 +7,18 @@ import CardActionsDropdown from "./CardActionsDropdown";
 
 function CardActions({ resume }) {
   return (
-    <>
+    <div className="flex flex-col gap-2.5 text-sm md:text-base">
       <div className="flex flex-col gap-0.5">
-        <div className="group/link flex items-center gap-1">
+        <div className="group flex items-center gap-1">
           <Link
             to={`/app/resumes/${resume.id}/edit`}
             className="text-md font-normal text-gray-800 hover:text-blue-500 md:text-xl"
           >
-            {resume.name}
+            {resume.title}
           </Link>
-          <PiPencilSimpleBold className="mb-0.5 hidden h-5 w-5 cursor-pointer text-gray-400 hover:text-blue-500 md:group-hover/link:inline" />
+          <PiPencilSimpleBold className="mb-0.5 hidden h-5 w-5 cursor-pointer text-gray-400 hover:text-blue-500 md:group-hover:inline" />
         </div>
-        <div className="max-w-[240px] cursor-default text-xs font-extralight text-gray-400 ">
+        <div className="max-w-[240px] cursor-default text-xs font-extralight text-gray-400">
           Updated {resume.updated_at}
         </div>
       </div>
@@ -30,13 +30,14 @@ function CardActions({ resume }) {
           <div className="text-xs text-gray-600 md:text-sm">Resume score</div>
         </div>
       </Link>
-      <div className="flex flex-col gap-2.5 text-sm md:text-base  ">
-        <CardActionsButton Icon={PiArrowFatDown}>
+      <div className="flex flex-col gap-2">
+        <CardActionsButton>
+          <PiArrowFatDown className="h-5 w-5 text-blue-500" />
           Download PDF
         </CardActionsButton>
-        <CardActionsDropdown resume={resume} />
+        <CardActionsDropdown resumeId={resume.id} />
       </div>
-    </>
+    </div>
   );
 }
 

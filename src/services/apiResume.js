@@ -5,11 +5,13 @@ export async function getResumeById(id) {
         .from('resumes')
         .select(`
         *, 
-        education(*)
+        courses(*),
+        education(*),
+        hobbies(*),
         languages(*),
         work_history(*),
-        skills(*),
-        social_profiles(*)
+        social_profiles(*),
+        skills(*)
         `)
         .eq('id', id)
         .single();
@@ -21,10 +23,10 @@ export async function getResumeById(id) {
     return data;
 }
 
-export async function createBlankResume(userId) {
+export async function createResume(userId, obj = {}) {
     const { data, error } = await supabase
         .from('resumes')
-        .insert({ user_id: userId })
+        .insert({ user_id: userId, ...obj })
         .select("id");
 
     if (error) {
@@ -34,10 +36,20 @@ export async function createBlankResume(userId) {
     return data[0].id;
 }
 
+export async function copyResume(originalResumeId) {
+    const { data, error } = await supabase.rpc('duplicate_resume', { original_resume_id: originalResumeId });
+    if (error) {
+        console.error("Error copying resume", error);
+        throw error;
+    }
+    return data;
+}
+
+
 export async function getAllResumes() {
     const { data, error } = await supabase
         .from('resumes')
-        .select('*')
+        .select('id, title, updated_at, preview_image_url, score')
         .order('updated_at', { ascending: false });
 
     if (error) throw error;
@@ -56,3 +68,27 @@ export async function deleteResume(id) {
     }
 }
 
+export async function updateResume(id, updates) {
+    const { data, error } = await supabase
+        .from('resumes')
+        .update(updates)
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        console.error("Error updating resume", error);
+        throw error;
+    }
+    return data;
+}
+
+export async function calculateResumeScore(id) {
+    const { data, error } = await supabase
+        .rpc('calculate_resume_score', { resume_id: id });
+
+    if (error) {
+        console.error("Error calculating resume score", error);
+        throw error;
+    }
+    return data;
+}

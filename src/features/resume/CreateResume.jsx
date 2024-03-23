@@ -9,18 +9,22 @@ import { useCreateResume } from "./useCreateResume";
 function CreateResume({ noResumes }) {
   const { mutate: createResume, isPending: isLoading } = useCreateResume();
 
+  function handleCreateResume() {
+    createResume();
+  }
+
   if (isLoading) return <LoaderFullPage />;
 
-  if (noResumes) return <NoResumes onClick={createResume} />;
+  if (noResumes) return <NoResumes onClick={handleCreateResume} />;
 
   return (
     <>
-      <Button className="w-full text-lg md:hidden" onClick={createResume}>
+      <Button className="w-full text-lg md:hidden" onClick={handleCreateResume}>
         + New Resume
       </Button>
 
       <CardSection
-        onClick={createResume}
+        onClick={handleCreateResume}
         className="hidden cursor-pointer md:flex"
       >
         <CardSection.Preview>

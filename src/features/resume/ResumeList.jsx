@@ -7,8 +7,13 @@ import CardActions from "./card/CardActions";
 function ResumeList({ resumeData }) {
   const navigate = useNavigate();
 
+  const customDisabled = "pointer-events-none opacity-50 grayscale";
+
   return resumeData?.map((resume) => (
-    <CardSection key={resume.id}>
+    <CardSection
+      key={resume.id}
+      className={resume.id === -1 ? customDisabled : ""}
+    >
       <CardSection.Preview>
         <CardPreviewImage
           src={resume.preview_image}
