@@ -11,7 +11,7 @@ function CardSection({ children, className, onClick }) {
 
 function CardPreview({ children }) {
   return (
-    <div className="relative mr-8 w-28 overflow-hidden rounded-md border pb-40 md:w-48 md:pb-[270px]">
+    <div className="relative mr-8 h-40 w-28 overflow-hidden rounded-md border md:h-[270px] md:w-48">
       {children}
     </div>
   );

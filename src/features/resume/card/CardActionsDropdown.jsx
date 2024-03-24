@@ -23,7 +23,7 @@ function CardActionsDropdown({ resumeId }) {
 
   return (
     <Modal>
-      <Menu className="relative flex">
+      <Menu>
         <Menu.Toggle>
           <CardActionsButton>
             <RxDotsHorizontal className="h-5 w-5 text-blue-500" /> More
@@ -31,7 +31,7 @@ function CardActionsDropdown({ resumeId }) {
         </Menu.Toggle>
         <Menu.List
           classNames="actions-dropdown"
-          className="top-9 gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
+          className="relative flex gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
           timeout={100}
         >
           <Menu.Item>

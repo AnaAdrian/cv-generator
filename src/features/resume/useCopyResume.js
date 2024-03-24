@@ -24,7 +24,7 @@ export function useCopyResume() {
             delete newResume.id;
 
             // Optimistically update to the new value
-            // Note: This is a basic implementation, you might need to adjust based on your data structure
+            // ID is set to -1 temporary to indicate that this is a new resume
             queryClient.setQueryData(['resumes'], old => [...old, { ...newResume, id: -1 }]);
 
             // Return a context object with the snapshotted value
@@ -38,7 +38,8 @@ export function useCopyResume() {
             showToast("Something went wrong", "error");
         },
 
-        // Always refetch after error or success to ensure data consistency
+        // After the mutation, manually update the cache to the new value
+        // Saves a network request
         onSettled: (data) => {
             queryClient.setQueriesData(['resumes'], old => {
                 return old.map(resume => {

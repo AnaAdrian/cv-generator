@@ -5,12 +5,27 @@ import CardPlusIcon from "./card/CardPlusIcon";
 import CardText from "./card/CardText";
 import NoResumes from "./NoResumes";
 import { useCreateResume } from "./useCreateResume";
+import { useAuth } from "../auth/AuthContext";
 
 function CreateResume({ noResumes }) {
   const { mutate: createResume, isPending: isLoading } = useCreateResume();
+  const { user } = useAuth();
+
+  const fullName = user.user_metadata?.full_name;
+  let firstName = "";
+  let lastName = "";
+  if (fullName) {
+    [firstName, lastName] = fullName.split(" ");
+  }
 
   function handleCreateResume() {
-    createResume();
+    createResume({
+      template: "basic",
+      first_name: firstName || "",
+      last_name: lastName || "",
+      email: user.email,
+      score: 15,
+    });
   }
 
   if (isLoading) return <LoaderFullPage />;

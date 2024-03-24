@@ -22,9 +22,6 @@ export function useDeleteResume() {
             queryClient.setQueryData(['resumes'], context.previousResumes);
             console.error(err);
             showToast("Something went wrong", "error");
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries(['resumes']);
-        },
+        }
     });
 }

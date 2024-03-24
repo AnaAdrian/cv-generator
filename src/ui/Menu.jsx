@@ -19,7 +19,7 @@ function Menu({ children, className }) {
   const listRef = useOutsideClick(close, toggleRef);
 
   return (
-    <div className={className}>
+    <div>
       <MenuContext.Provider
         value={{
           open,
@@ -29,7 +29,7 @@ function Menu({ children, className }) {
           listRef,
         }}
       >
-        {children}
+        <div className={className ? className : ""}>{children}</div>
       </MenuContext.Provider>
     </div>
   );
@@ -67,7 +67,7 @@ function MenuList({ children, classNames = "user", className, timeout = 200 }) {
       nodeRef={listRef}
     >
       <div
-        className={`absolute z-10 flex flex-col ${className ? className : ""}`}
+        className={`absolute top-full z-10 mt-2 flex flex-col ${className ? className : ""}`}
         ref={listRef}
       >
         {children}

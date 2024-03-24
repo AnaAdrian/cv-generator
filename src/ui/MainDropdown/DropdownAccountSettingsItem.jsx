@@ -6,7 +6,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 
 function UserSettingsItem() {
   const { user } = useAuth();
-  const displayName = user.user_metadata?.full_name;
+  const displayName = user.user_metadata?.full_name || user.email;
 
   return (
     <Link

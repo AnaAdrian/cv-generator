@@ -21,7 +21,7 @@ function MainDropdown() {
       </Menu.Toggle>
       <Menu.List
         classNames={isEditingFormPage ? "resume-dropdown" : "user-dropdown"}
-        className={`top-10 rounded-lg bg-white shadow-menu ${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}
+        className={`rounded-lg bg-white shadow-menu ${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}
         timeout={isEditingFormPage ? 100 : 200}
       >
         <Menu.Item className="border-b p-5">
