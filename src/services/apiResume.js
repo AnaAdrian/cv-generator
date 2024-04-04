@@ -68,9 +68,9 @@ export async function deleteResume(id) {
     }
 }
 
-export async function updateResume(id, updates) {
+export async function updateResume(tableName, id, updates) {
     const { data, error } = await supabase
-        .from('resumes')
+        .from(tableName)
         .update(updates)
         .eq('id', id)
         .single();

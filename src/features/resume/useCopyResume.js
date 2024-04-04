@@ -32,16 +32,16 @@ export function useCopyResume() {
         },
 
         // If the mutation fails, use the context returned from onMutate to roll back
-        onError: (err, context) => {
+        onError: (error, _, context) => {
             queryClient.setQueryData(['resumes'], context.previousResumes);
-            console.error(err);
             showToast("Something went wrong", "error");
+            console.error(error);
         },
 
         // After the mutation, manually update the cache to the new value
         // Saves a network request
         onSettled: (data) => {
-            queryClient.setQueriesData(['resumes'], old => {
+            queryClient.setQueryData(['resumes'], old => {
                 return old.map(resume => {
                     if (resume.id === -1) {
                         return data[0];

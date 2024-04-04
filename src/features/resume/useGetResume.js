@@ -1,3 +1,2 @@
-function useGetResume() { }
+export function useGetResume() { }
 
-export default useGetResume;

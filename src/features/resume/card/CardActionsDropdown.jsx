@@ -1,7 +1,7 @@
 import Menu from "../../../ui/Menu";
 import CardActionsButton from "./CardActionsButton";
 import Modal from "../../../ui/Modal";
-import ConfirmDelete from "./ConfirmDelete";
+import ConfirmDelete from "../ConfirmDelete";
 import { useCopyResume } from "../useCopyResume";
 
 import { RxDotsHorizontal } from "react-icons/rx";
@@ -31,7 +31,7 @@ function CardActionsDropdown({ resumeId }) {
         </Menu.Toggle>
         <Menu.List
           classNames="actions-dropdown"
-          className="relative flex gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
+          className="relative flex max-w-[165px] gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
           timeout={100}
         >
           <Menu.Item>

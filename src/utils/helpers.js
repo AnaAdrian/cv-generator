@@ -16,3 +16,4 @@ export function formatDateTime(date) {
 
     return formattedDate;
 }
+

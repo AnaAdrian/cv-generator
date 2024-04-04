@@ -4,7 +4,18 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import Error from "../ui/Error";
 
 const Input = forwardRef(
-  ({ type, label, labelPosition, error, ...rest }, ref) => {
+  (
+    {
+      type,
+      label,
+      labelPosition,
+      error,
+      displayError = true,
+      className,
+      ...rest
+    },
+    ref,
+  ) => {
     const [inputType, setInputType] = useState(type);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -17,8 +28,8 @@ const Input = forwardRef(
     };
 
     return (
-      <div className="group mb-2">
-        {labelPosition === "outside" && (
+      <div className="group/input">
+        {label && labelPosition === "outside" && (
           <label
             htmlFor={`input-${label}`}
             className="mb-1 block text-sm font-light text-gray-500"
@@ -30,11 +41,15 @@ const Input = forwardRef(
         <div className="relative">
           <input
             ref={ref}
-            id={`input-${label}`}
+            id={`input-${label ? label : "no-label"}`}
             type={inputType}
             placeholder={labelPosition === "inside" ? label : ""}
             {...rest}
-            className={`w-full border bg-slate-50 px-2 py-3 text-[15px] text-gray-500 focus:outline-none md:px-3 md:py-4`}
+            className={
+              className
+                ? className
+                : `w-full border bg-slate-50 px-2 py-3 text-[15px] text-gray-500 focus:outline-none md:px-3 md:py-4`
+            }
           />
 
           {type === "password" && (
@@ -52,11 +67,13 @@ const Input = forwardRef(
           )}
 
           <div
-            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-blue-500"} transition-all duration-75 group-focus-within:w-full`}
+            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-blue-500"} transition-all duration-75 group-focus-within/input:w-full`}
           ></div>
         </div>
 
-        <div className="min-h-[25px]">{error && <Error error={error} />}</div>
+        {displayError && (
+          <div className="min-h-[25px]">{error && <Error error={error} />}</div>
+        )}
       </div>
     );
   },
@@ -66,7 +83,6 @@ Input.displayName = "Input";
 
 Input.defaultProps = {
   type: "text",
-  label: "Label",
   labelPosition: "outside",
 };
 

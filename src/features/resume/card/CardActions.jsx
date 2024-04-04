@@ -1,25 +1,22 @@
 import { Link } from "react-router-dom";
-
-import { PiPencilSimpleBold, PiArrowFatDown } from "react-icons/pi";
+import { PiArrowFatDown } from "react-icons/pi";
 
 import CardActionsButton from "./CardActionsButton";
 import CardActionsDropdown from "./CardActionsDropdown";
+import EditableHeader from "../EditableHeader";
 import { formatDateTime } from "../../../utils/helpers";
 
 function CardActions({ resume }) {
   return (
     <div className="flex flex-col text-sm md:text-base">
       <div className="flex flex-col gap-1">
-        <div className="group flex items-center gap-1">
-          <Link
-            to={`/app/resumes/${resume.id}/edit`}
-            className="text-md font-normal text-gray-800 hover:text-blue-500 md:text-xl"
-          >
-            {resume.title}
-          </Link>
-          <PiPencilSimpleBold className="mb-0.5 hidden h-5 w-5 cursor-pointer text-gray-400 hover:text-blue-500 md:group-hover:inline" />
-        </div>
-        <div className="max-w-[240px] cursor-default text-xs font-extralight text-gray-400">
+        <EditableHeader
+          title={resume.title}
+          id={resume.id}
+          tableName="resumes"
+          fieldName="title"
+        />
+        <div className="cursor-default text-xs font-extralight text-gray-400">
           Updated {formatDateTime(resume.updated_at)}
         </div>
       </div>

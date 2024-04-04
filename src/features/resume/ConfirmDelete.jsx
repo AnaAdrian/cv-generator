@@ -1,6 +1,6 @@
-import Button from "../../../ui/Button";
-import { useModal } from "../../../ui/Modal";
-import { useDeleteResume } from "../useDeleteResume";
+import Button from "../../ui/Button";
+import { useModal } from "../../ui/Modal";
+import { useDeleteResume } from "./useDeleteResume";
 
 function ConfirmDelete({ resumeId }) {
   const { mutate: deleteResume } = useDeleteResume();

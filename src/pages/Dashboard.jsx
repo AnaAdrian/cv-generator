@@ -11,7 +11,7 @@ function Dashboard() {
   if (isLoading) return null;
 
   return (
-    <div className={`grid gap-2 ${gridClass} animate-fadeIn`}>
+    <div className={`grid gap-2 space-y-10 ${gridClass} animate-fadeIn`}>
       <CreateResume noResumes={noResumes} />
       <ResumeList resumeData={resumeData} />
     </div>

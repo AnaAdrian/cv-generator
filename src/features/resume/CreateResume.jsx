@@ -43,7 +43,7 @@ function CreateResume({ noResumes }) {
         className="hidden cursor-pointer md:flex"
       >
         <CardSection.Preview>
-          <CardPlusIcon />
+          <CardPlusIcon className=" group-hover/card:bg-blue-500" />
         </CardSection.Preview>
         <CardSection.Content>
           <CardText />
