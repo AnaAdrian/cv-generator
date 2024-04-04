@@ -21,11 +21,23 @@ export function useCopyResume() {
             const resume = previousResumes.find(resume => resume.id === resumeId);
             const newResume = { ...resume };
             newResume.title = `Copy of ${resume.title}`;
-            delete newResume.id;
+            newResume.updated_at = new Date().toISOString();
+
+            // ID is set to -1 temporary to indicate that this is a new resume
+            newResume.id = -1;
 
             // Optimistically update to the new value
-            // ID is set to -1 temporary to indicate that this is a new resume
-            queryClient.setQueryData(['resumes'], old => [...old, { ...newResume, id: -1 }]);
+            queryClient.setQueryData(['resumes'], old => {
+                const resumes = [...old, newResume];
+                return resumes.sort((a, b) => {
+                    // Convert 'updated_at' to Date objects for comparison
+                    const dateA = new Date(a.updated_at);
+                    const dateB = new Date(b.updated_at);
+
+                    // Sort in descending order (newest first)
+                    return dateB - dateA;
+                });
+            });
 
             // Return a context object with the snapshotted value
             return { previousResumes };

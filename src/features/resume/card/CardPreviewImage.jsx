@@ -6,7 +6,7 @@ function CardPreviewImage({ src, onClick, className }) {
           ? className
           : ""
       }
-      src={src || "/public/resume-placeholder.png"}
+      src={src || "/resume-placeholder.png"}
       alt={"preview image"}
       onClick={onClick}
     />
