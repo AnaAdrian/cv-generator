@@ -24,7 +24,7 @@ export default {
         fadeOut: {
           '0%': { opacity: 1 },
           '100%': { opacity: 0 },
-        },
+        }
       },
       animation: {
         fadeIn: 'fadeIn 0.15s ease-out',

@@ -23,7 +23,7 @@ export const showToast = (message, type = "success") => {
           className={`flex items-center rounded-r-lg border-l border-gray-200 p-2 text-gray-500 focus:ring-2 ${type === "error" ? "focus:ring-red-500" : "focus:ring-green-500"}`}
           onClick={() => toast.dismiss(t.id)}
         >
-          <MdClose className="" size={20} />
+          <MdClose size={20} />
         </button>
       </div>
     ),

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PiPencilSimpleBold } from "react-icons/pi";
 
 import Input from "../../ui/Input";
+import EditableHeaderButton from "./EditableHeaderButton";
 import { useUpdateResume } from "./useUpdateResume";
 
 function EditableHeader({ title, id, tableName, fieldName }) {
@@ -71,11 +72,10 @@ function EditableHeader({ title, id, tableName, fieldName }) {
       )}
 
       {!isEditing && (
-        <div className="mb-[1px] hidden text-gray-400 md:group-hover/header:inline">
-          <PiPencilSimpleBold
-            className="h-[18.5px] w-[18.5px] cursor-pointer transition-all hover:text-blue-500"
-            onClick={handleEdit}
-          />
+        <div className="mb-[1px] hidden text-gray-400 md:group-hover/header:inline ">
+          <EditableHeaderButton onClick={handleEdit} tooltipText="Rename">
+            <PiPencilSimpleBold size={18.5} />
+          </EditableHeaderButton>
         </div>
       )}
     </div>

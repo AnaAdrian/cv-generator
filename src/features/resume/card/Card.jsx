@@ -1,4 +1,4 @@
-function CardSection({ children, className, onClick }) {
+function Card({ children, className, onClick }) {
   return (
     <article
       className={`flex items-start ${className || ""}`}
@@ -9,7 +9,7 @@ function CardSection({ children, className, onClick }) {
   );
 }
 
-function CardPreview({ children }) {
+function Preview({ children }) {
   return (
     <div className="relative mr-8 h-40 w-28 cursor-pointer overflow-hidden rounded-md border md:h-[270px] md:w-48">
       {children}
@@ -17,7 +17,7 @@ function CardPreview({ children }) {
   );
 }
 
-function CardContent({ children, className }) {
+function Content({ children, className }) {
   return (
     <div className={`absolute left-full top-0 w-72 ${className || ""}`}>
       {children}
@@ -25,7 +25,7 @@ function CardContent({ children, className }) {
   );
 }
 
-CardSection.Preview = CardPreview;
-CardSection.Content = CardContent;
+Card.Preview = Preview;
+Card.Content = Content;
 
-export default CardSection;
+export default Card;

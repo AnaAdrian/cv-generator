@@ -1,4 +1,4 @@
-function CardText() {
+function NewResumeText() {
   return (
     <div className="flex-1">
       <div className="mb-1 text-sm font-normal text-gray-400 md:text-xl">
@@ -12,4 +12,4 @@ function CardText() {
   );
 }
 
-export default CardText;
+export default NewResumeText;

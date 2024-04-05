@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import CardSection from "./card/CardSection";
-import CardPreviewImage from "./card/CardPreviewImage";
+import Card from "./card/Card";
+import PreviewImage from "./card/PreviewImage";
 import CardActions from "./card/CardActions";
 
 const ResumeCard = ({ resume }) => {
@@ -8,20 +8,17 @@ const ResumeCard = ({ resume }) => {
   const customDisabled = "pointer-events-none opacity-50 grayscale";
 
   return (
-    <CardSection
-      key={resume.id}
-      className={resume.id === -1 ? customDisabled : ""}
-    >
-      <CardSection.Preview>
-        <CardPreviewImage
+    <Card key={resume.id} className={resume.id === -1 ? customDisabled : ""}>
+      <Card.Preview>
+        <PreviewImage
           src={resume.preview_image}
           onClick={() => navigate(`/app/resumes/${resume.id}/edit`)}
         />
-      </CardSection.Preview>
-      <CardSection.Content>
+      </Card.Preview>
+      <Card.Content>
         <CardActions resume={resume} />
-      </CardSection.Content>
-    </CardSection>
+      </Card.Content>
+    </Card>
   );
 };
 

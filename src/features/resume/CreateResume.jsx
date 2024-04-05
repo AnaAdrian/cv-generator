@@ -1,8 +1,8 @@
 import Button from "../../ui/Button";
 import LoaderFullPage from "../../ui/LoaderFullPage";
-import CardSection from "./card/CardSection";
-import CardPlusIcon from "./card/CardPlusIcon";
-import CardText from "./card/CardText";
+import Card from "./card/Card";
+import NewResumeIcon from "./card/NewResumeIcon";
+import NewResumeText from "./card/NewResumeText";
 import NoResumes from "./NoResumes";
 import { useCreateResume } from "./useCreateResume";
 import { useAuth } from "../auth/AuthContext";
@@ -38,17 +38,17 @@ function CreateResume({ noResumes }) {
         + New Resume
       </Button>
 
-      <CardSection
+      <Card
         onClick={handleCreateResume}
         className="hidden cursor-pointer md:flex"
       >
-        <CardSection.Preview>
-          <CardPlusIcon className=" group-hover/card:bg-blue-500" />
-        </CardSection.Preview>
-        <CardSection.Content>
-          <CardText />
-        </CardSection.Content>
-      </CardSection>
+        <Card.Preview>
+          <NewResumeIcon className="group-hover/card:bg-blue-500" />
+        </Card.Preview>
+        <Card.Content>
+          <NewResumeText />
+        </Card.Content>
+      </Card>
     </>
   );
 }
