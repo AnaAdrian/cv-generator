@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { PiArrowFatDown } from "react-icons/pi";
-
 import CardActionsButton from "./CardActionsButton";
 import CardActionsDropdown from "./CardActionsDropdown";
 import EditableHeader from "../EditableHeader";
 import { formatDateTime } from "../../../utils/helpers";
+import MobileActionsDropdown from "./MobileActionsDropdown";
 
 function CardActions({ resume }) {
   return (
@@ -30,10 +30,10 @@ function CardActions({ resume }) {
       </Link>
       <div className="flex flex-col gap-2">
         <CardActionsButton>
-          <PiArrowFatDown className="h-5 w-5 text-blue-500" />
-          Download PDF
+          <PiArrowFatDown className="h-5 w-5 text-blue-500" /> Download PDF
         </CardActionsButton>
         <CardActionsDropdown resumeId={resume.id} />
+        <MobileActionsDropdown resumeId={resume.id} />
       </div>
     </div>
   );

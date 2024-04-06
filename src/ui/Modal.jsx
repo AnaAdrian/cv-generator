@@ -31,7 +31,7 @@ function Content({ children, name }) {
 
   return createPortal(
     <>
-      <div className="fixed inset-0 z-40 animate-fadeIn bg-gray-950  bg-opacity-80"></div>
+      <div className="fixed inset-0 z-10  animate-fadeIn bg-gray-950  bg-opacity-80"></div>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div

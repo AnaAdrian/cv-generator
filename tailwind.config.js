@@ -24,12 +24,34 @@ export default {
         fadeOut: {
           '0%': { opacity: 1 },
           '100%': { opacity: 0 },
+        },
+        fadeInDown: {
+          '0%': {
+            opacity: 0,
+            transform: 'translateY(30px)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateY(0)'
+          },
+        },
+        fadeInDownShort: {
+          '0%': {
+            opacity: 0,
+            transform: 'translateY(10px)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateY(0)'
+          },
         }
       },
       animation: {
         fadeIn: 'fadeIn 0.15s ease-out',
         fadeInUp: 'fadeInUp 0.15s ease-out',
         fadeOut: 'fadeOut 0.07s ease-out forwards',
+        fadeInDown: 'fadeInDown 0.25s ease-out',
+        fadeInDownSlow: 'fadeInDownShort 0.35s ease-out',
       },
       fontFamily: {
         'sans': ['Ubuntu', 'sans-serif'],

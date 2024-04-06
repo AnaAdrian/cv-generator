@@ -1,6 +1,6 @@
-import Menu from "../../../ui/Menu";
-import CardActionsButton from "./CardActionsButton";
+import MobileModal from "../../../ui/MobileModal";
 import Modal from "../../../ui/Modal";
+import CardActionsButton from "./CardActionsButton";
 import ConfirmDelete from "../ConfirmDelete";
 import { useCopyResume } from "../useCopyResume";
 
@@ -9,7 +9,7 @@ import { AiOutlineFileText } from "react-icons/ai";
 import { PiCopy } from "react-icons/pi";
 import { TbRowRemove } from "react-icons/tb";
 
-function CardActionsDropdown({ resumeId }) {
+function MobileActionsDropdown({ resumeId }) {
   const { mutate: copyResume } = useCopyResume();
 
   function handleExportToTxt() {
@@ -22,47 +22,46 @@ function CardActionsDropdown({ resumeId }) {
   }
 
   return (
-    <div className="hidden md:flex">
+    <div className="flex md:hidden">
       <Modal>
-        <Menu>
-          <Menu.Toggle>
+        <MobileModal>
+          <MobileModal.Open>
             <CardActionsButton>
               <RxDotsHorizontal className="h-5 w-5 text-blue-500" /> More
             </CardActionsButton>
-          </Menu.Toggle>
-          <Menu.List
-            classNames="actions-dropdown"
-            className="relative flex max-w-[165px] gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
-            timeout={100}
-          >
-            <Menu.Item>
+          </MobileModal.Open>
+
+          <MobileModal.Content>
+            <MobileModal.Row>
               <CardActionsButton onClick={handleExportToTxt}>
                 <AiOutlineFileText className="h-5 w-5 text-blue-500" />
                 Export to TXT
               </CardActionsButton>
-            </Menu.Item>
-            <Menu.Item>
+            </MobileModal.Row>
+
+            <MobileModal.Row>
               <CardActionsButton onClick={handleCopy}>
                 <PiCopy className="h-5 w-5 text-blue-500" />
                 Make a copy
               </CardActionsButton>
-            </Menu.Item>
-            <Menu.Item>
+            </MobileModal.Row>
+
+            <MobileModal.Row>
               <Modal.Open opens="delete-confirm">
                 <CardActionsButton>
                   <TbRowRemove className="h-5 w-5 text-blue-500" />
                   Delete
                 </CardActionsButton>
               </Modal.Open>
-            </Menu.Item>
-          </Menu.List>
-          <Modal.Content name="delete-confirm">
-            <ConfirmDelete resumeId={resumeId} />
-          </Modal.Content>
-        </Menu>
+            </MobileModal.Row>
+          </MobileModal.Content>
+        </MobileModal>
+        <Modal.Content name="delete-confirm">
+          <ConfirmDelete resumeId={resumeId} />
+        </Modal.Content>
       </Modal>
     </div>
   );
 }
 
-export default CardActionsDropdown;
+export default MobileActionsDropdown;
