@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { PiArrowFatDown } from "react-icons/pi";
+
 import CardActionsButton from "./CardActionsButton";
 import CardActionsDropdown from "./CardActionsDropdown";
 import EditableHeader from "../EditableHeader";
-import { formatDateTime } from "../../../utils/helpers";
 import MobileActionsDropdown from "./MobileActionsDropdown";
+import { formatDateTime } from "../../../utils/helpers";
+import { PiArrowFatDown } from "react-icons/pi";
 
 function CardActions({ resume }) {
   return (

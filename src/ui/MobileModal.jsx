@@ -37,7 +37,7 @@ function Content({ children }) {
         >
           {children}
         </div>
-        <div className=" animate-fadeInDownSlow mt-4 cursor-pointer rounded-md bg-white p-3 text-center text-sm font-semibold text-blue-500">
+        <div className="animate-fadeInDownSlow mt-4 cursor-pointer rounded-md bg-white p-3 text-center text-sm font-semibold text-blue-500">
           Cancel
         </div>
       </div>

@@ -1,6 +1,6 @@
 import supabase from "./supabase";
 
-export async function getResumeById(id) {
+export async function getResume(id) {
     const { data, error } = await supabase
         .from('resumes')
         .select(`
@@ -38,6 +38,7 @@ export async function createResume(userId, obj = {}) {
 
 export async function copyResume(originalResumeId) {
     const { data, error } = await supabase.rpc('duplicate_resume', { original_resume_id: originalResumeId });
+    console.log(originalResumeId, typeof originalResumeId);
     if (error) {
         console.error("Error copying resume", error);
         throw error;

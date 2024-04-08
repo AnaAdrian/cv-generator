@@ -1,5 +1,11 @@
+import { useParams } from "react-router-dom";
+
+import ResumeForm from "../features/resume/form/ResumeForm";
+
 function EditResume() {
-  return <div></div>;
+  const { id: resumeId } = useParams();
+
+  return <ResumeForm resumeId={resumeId} />;
 }
 
 export default EditResume;

@@ -21,10 +21,10 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PasswordReset from "./pages/PasswordReset";
 import Homepage from "./pages/Homepage";
+import EditResume from "./pages/EditResume";
 import Account from "./pages/Account";
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
-import Form from "./features/resume/form/Form";
 import ProtectedRoute from "./features/auth/ProtectedRoute";
 import PublicRoute from "./features/auth/PublicRoute";
 import { showToast } from "./ui/Toast";
@@ -93,7 +93,7 @@ function App() {
             >
               <Route index element={<Dashboard />} />
               <Route path="account" element={<Account />} />
-              <Route path="resumes/:id/edit" element={<Form />} />
+              <Route path="resumes/:id/edit" element={<EditResume />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>
