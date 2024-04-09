@@ -69,6 +69,7 @@ function SendResetEmailForm({ email, onClose }) {
           labelPosition="inside"
           defaultValue={email}
           onKeyDown={handleKeyDownOnInput}
+          displayError="true"
           error={formErrors?.email?.message || formErrors?.auth?.message}
           {...register("email", {
             required: "This field is required.",

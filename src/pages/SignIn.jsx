@@ -97,6 +97,7 @@ const LoginPage = () => {
           label="Email address"
           labelPosition="inside"
           onKeyDown={handleKeyDownOnInput}
+          displayError="true"
           error={formErrors?.email?.message}
           {...register("email", {
             required: "This field is required.",
@@ -116,6 +117,7 @@ const LoginPage = () => {
             label="Password"
             labelPosition="inside"
             onKeyDown={handleKeyDownOnInput}
+            displayError="true"
             error={formErrors?.password?.message || formErrors?.auth?.message}
             {...register("password", {
               required: "This field is required.",

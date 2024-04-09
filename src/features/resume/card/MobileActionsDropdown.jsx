@@ -2,7 +2,7 @@ import MobileModal from "../../../ui/MobileModal";
 import Modal from "../../../ui/Modal";
 import CardActionsButton from "./CardActionsButton";
 import ConfirmDelete from "../ConfirmDelete";
-import { useCopyResume } from "../useCopyResume";
+import { useDuplicateResume } from "../useDuplicateResume";
 
 import { RxDotsHorizontal } from "react-icons/rx";
 import { AiOutlineFileText } from "react-icons/ai";
@@ -10,7 +10,7 @@ import { PiCopy } from "react-icons/pi";
 import { TbRowRemove } from "react-icons/tb";
 
 function MobileActionsDropdown({ resumeId }) {
-  const { mutate: copyResume } = useCopyResume();
+  const { mutate: copyResume } = useDuplicateResume();
 
   function handleExportToTxt() {
     console.log("Exporting to TXT");

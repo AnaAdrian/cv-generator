@@ -63,6 +63,7 @@ function PasswordResetForm() {
           label="Enter new password"
           labelPosition="inside"
           onKeyDown={handleKeyDownOnInput}
+          displayError="true"
           error={formErrors?.password?.message}
           {...register("password", {
             required: "This field is required.",

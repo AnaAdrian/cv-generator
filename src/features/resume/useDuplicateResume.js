@@ -1,13 +1,13 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
-import { copyResume } from "../../services/apiResume";
+import { duplicateResume } from "../../services/apiResume";
 import { showToast } from "../../ui/Toast";
 
-export function useCopyResume() {
+export function useDuplicateResume() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: copyResume,
+        mutationFn: duplicateResume,
 
         // Before the mutation, predict and apply the changes optimistically
         onMutate: async (resumeId) => {

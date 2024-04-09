@@ -10,7 +10,7 @@ import { PiArrowFatDown } from "react-icons/pi";
 function CardActions({ resume }) {
   return (
     <div className="flex flex-col text-sm md:text-base">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-.5">
         <EditableHeader
           title={resume.title}
           id={resume.id}

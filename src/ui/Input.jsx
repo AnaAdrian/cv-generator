@@ -6,11 +6,11 @@ import Error from "../ui/Error";
 const Input = forwardRef(
   (
     {
-      type,
-      label,
-      labelPosition,
+      type = "text",
+      label = "",
+      labelPosition = "outside",
+      displayError = false,
       error,
-      displayError = true,
       className,
       ...rest
     },
@@ -28,7 +28,7 @@ const Input = forwardRef(
     };
 
     return (
-      <div className="group/input">
+      <div className="group/input mb-1">
         {label && labelPosition === "outside" && (
           <label
             htmlFor={`input-${label}`}

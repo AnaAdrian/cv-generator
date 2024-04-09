@@ -71,6 +71,7 @@ const SignUpPage = () => {
           label="Email address"
           labelPosition="inside"
           onKeyDown={handleKeyDownOnInput}
+          displayError="true"
           error={formErrors?.email?.message}
           {...register("email", {
             required: "This field is required.",
@@ -85,6 +86,7 @@ const SignUpPage = () => {
           label="Password"
           labelPosition="inside"
           onKeyDown={handleKeyDownOnInput}
+          displayError="true"
           error={formErrors?.password?.message}
           {...register("password", {
             required: "This field is required.",

@@ -65,14 +65,14 @@ function EditableHeader({ title, id, tableName, fieldName }) {
       ) : (
         <div
           onClick={handleNavigate}
-          className={`max-w-52 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-base font-normal text-gray-800 transition-all hover:text-blue-500 md:text-xl`}
+          className={`mb-1 max-w-52 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-base font-normal text-gray-800 transition-all hover:text-blue-500 md:text-xl`}
         >
           {value}
         </div>
       )}
 
       {!isEditing && (
-        <div className="mb-[1px] hidden text-gray-400 md:group-hover/header:inline ">
+        <div className="mb-[5px] hidden text-gray-400 md:group-hover/header:inline ">
           <EditableHeaderButton onClick={handleEdit} tooltipText="Rename">
             <PiPencilSimpleBold size={18.5} />
           </EditableHeaderButton>
