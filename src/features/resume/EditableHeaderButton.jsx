@@ -9,9 +9,9 @@ const TOOLTIP_ANIMATION_VARIANTS = {
 
 const TOOLTIP_STYLE_VARIANTS = {
   default:
-    "absolute bottom-full mb-4 rounded bg-gray-700 px-3 py-1.5 text-sm font-light text-white drop-shadow-lg",
+    "absolute bottom-full over mb-4 whitespace-nowrap rounded text-center bg-gray-700 px-3 py-1.5 text-sm font-light text-white drop-shadow-lg",
   light:
-    "absolute bottom-full mb-2.5 rounded bg-gray-700 px-2 py-1.5 text-xs font-light text-white drop-shadow-lg",
+    "absolute bottom-full mb-2.5 rounded whitespace-nowrap text-center bg-gray-700 px-2 py-1.5 text-xs font-light text-white drop-shadow-lg",
 };
 
 const TOOLTIP_TAIL =
