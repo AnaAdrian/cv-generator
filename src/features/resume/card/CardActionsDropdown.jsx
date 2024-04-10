@@ -33,7 +33,7 @@ function CardActionsDropdown({ resumeId }) {
           <Menu.List
             classNames="actions-dropdown"
             className="relative flex max-w-[165px] gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
-            timeout={100}
+            timeout={150}
           >
             <Menu.Item>
               <CardActionsButton onClick={handleExportToTxt}>
