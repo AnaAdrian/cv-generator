@@ -7,9 +7,9 @@ function AppLayout() {
   const isEditingFormPage = pathname.includes("edit");
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center">
       {!isEditingFormPage && (
-        <div className="w-full max-w-6xl">
+        <div className="w-full md:max-w-6xl">
           <Header className="border-b">
             <MainDropdown />
           </Header>
@@ -22,7 +22,7 @@ function AppLayout() {
         </div>
       )}
 
-      <div className={`w-full ${isEditingFormPage ? "" : "max-w-6xl"}`}>
+      <div className={`w-full ${isEditingFormPage ? "" : "md:max-w-6xl"}`}>
         <Outlet />
       </div>
     </div>

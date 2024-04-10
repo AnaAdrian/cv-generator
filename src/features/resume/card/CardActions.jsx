@@ -10,12 +10,13 @@ import { PiArrowFatDown } from "react-icons/pi";
 function CardActions({ resume }) {
   return (
     <div className="flex flex-col text-sm md:text-base">
-      <div className="flex flex-col gap-.5">
+      <div className="gap-.5 flex flex-col">
         <EditableHeader
           title={resume.title}
           id={resume.id}
           tableName="resumes"
           fieldName="title"
+          iconMobileVisible={false}
         />
         <div className="cursor-default text-xs font-extralight text-gray-400">
           Updated {formatDateTime(resume.updated_at)}

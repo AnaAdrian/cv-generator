@@ -11,7 +11,9 @@ function Dashboard() {
   if (isLoading) return null;
 
   return (
-    <div className={`grid gap-2 space-y-10 ${gridClass} animate-fadeIn`}>
+    <div
+      className={`grid gap-2 space-y-10 ${gridClass} animate-fadeIn overflow-hidden md:overflow-visible`}
+    >
       <CreateResume noResumes={noResumes} />
       <ResumeList resumeData={resumeData} />
     </div>

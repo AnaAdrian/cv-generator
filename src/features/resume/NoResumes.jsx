@@ -10,7 +10,11 @@ function NoResumes({ onClick }) {
 
   return (
     <div className={`${!imageLoaded && "hidden"} flex flex-col items-center`}>
-      <Button className="w-full text-lg md:hidden" onClick={onClick}>
+      <Button
+        size="custom"
+        className="w-full py-3 text-sm md:hidden"
+        onClick={onClick}
+      >
         + New Resume
       </Button>
 

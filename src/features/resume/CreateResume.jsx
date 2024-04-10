@@ -34,7 +34,11 @@ function CreateResume({ noResumes }) {
 
   return (
     <>
-      <Button className="w-full text-lg md:hidden" onClick={handleCreateResume}>
+      <Button
+        size="custom"
+        className="w-full py-3 text-sm md:hidden"
+        onClick={handleCreateResume}
+      >
         + New Resume
       </Button>
 

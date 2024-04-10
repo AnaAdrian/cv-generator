@@ -1,7 +1,7 @@
 import MobileModal from "../../../ui/MobileModal";
 import Modal from "../../../ui/Modal";
-import CardActionsButton from "./CardActionsButton";
 import ConfirmDelete from "../ConfirmDelete";
+import Button from "../../../ui/Button";
 import { useDuplicateResume } from "../useDuplicateResume";
 
 import { RxDotsHorizontal } from "react-icons/rx";
@@ -26,32 +26,36 @@ function MobileActionsDropdown({ resumeId }) {
       <Modal>
         <MobileModal>
           <MobileModal.Open>
-            <CardActionsButton>
+            <Button variant="menuAction" size="custom">
               <RxDotsHorizontal className="h-5 w-5 text-blue-500" /> More
-            </CardActionsButton>
+            </Button>
           </MobileModal.Open>
 
           <MobileModal.Content>
             <MobileModal.Row>
-              <CardActionsButton onClick={handleExportToTxt}>
-                <AiOutlineFileText className="h-5 w-5 text-blue-500" />
+              <Button
+                variant="menuAction"
+                size="custom"
+                onClick={handleExportToTxt}
+              >
+                <AiOutlineFileText className="h-5 w-5 min-w-5 text-blue-500" />
                 Export to TXT
-              </CardActionsButton>
+              </Button>
             </MobileModal.Row>
 
             <MobileModal.Row>
-              <CardActionsButton onClick={handleCopy}>
-                <PiCopy className="h-5 w-5 text-blue-500" />
+              <Button variant="menuAction" size="custom" onClick={handleCopy}>
+                <PiCopy className="h-5 w-5 min-w-5 text-blue-500" />
                 Make a copy
-              </CardActionsButton>
+              </Button>
             </MobileModal.Row>
 
             <MobileModal.Row>
               <Modal.Open opens="delete-confirm">
-                <CardActionsButton>
-                  <TbRowRemove className="h-5 w-5 text-blue-500" />
+                <Button variant="menuAction" size="custom">
+                  <TbRowRemove className="h-5 w-5 min-w-5 text-blue-500" />
                   Delete
-                </CardActionsButton>
+                </Button>
               </Modal.Open>
             </MobileModal.Row>
           </MobileModal.Content>

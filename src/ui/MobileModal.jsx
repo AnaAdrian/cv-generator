@@ -30,14 +30,14 @@ function Content({ children }) {
   return createPortal(
     <>
       <div className="fixed inset-0 z-10 animate-fadeIn bg-gray-950 bg-opacity-80"></div>
-      <div className="animate-fadeInDown fixed bottom-5 left-0 right-0 z-40 m-4">
+      <div className="animate-fadeInDown fixed bottom-5 left-0 right-0 z-40 m-6">
         <div
           ref={ref}
-          className="flex flex-col justify-center rounded-md bg-white"
+          className="flex flex-col justify-center rounded-lg bg-white"
         >
           {children}
         </div>
-        <div className="animate-fadeInDownSlow mt-4 cursor-pointer rounded-md bg-white p-3 text-center text-sm font-semibold text-blue-500">
+        <div className="animate-fadeInDownSlow mt-4 cursor-pointer rounded-lg bg-white p-3 text-center text-sm font-semibold text-blue-500">
           Cancel
         </div>
       </div>
@@ -54,7 +54,7 @@ function Row({ children }) {
 
   return (
     <div
-      className="border-b p-5 text-sm text-gray-800 last:border-b-0"
+      className="border-b p-4 text-sm text-gray-800 last:border-b-0"
       onClick={handleClick}
     >
       {children}

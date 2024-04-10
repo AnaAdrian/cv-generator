@@ -11,7 +11,7 @@ function ConfirmDelete({ resumeId }) {
   }
 
   return (
-    <div className="flex max-w-md flex-col gap-1 px-2 md:p-4">
+    <div className="flex max-w-lg flex-col gap-1 px-2 md:p-4">
       <div className="text-lg font-semibold md:text-2xl">Delete Resume</div>
       <div className="text-sm font-thin text-gray-700 md:text-base">
         Are you sure you want to delete this resume? Once deleted this resume

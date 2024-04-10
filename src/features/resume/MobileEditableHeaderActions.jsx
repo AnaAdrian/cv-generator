@@ -20,14 +20,17 @@ function MobileEditableHeaderActions({ onEdit, onRevert }) {
         <MobileModal.Content>
           <MobileModal.Row>
             <Button variant="menuAction" size="custom" onClick={onEdit}>
-              <PiPencilSimpleBold size={18.5} className="text-blue-500" />
+              <PiPencilSimpleBold
+                size={18.5}
+                className="min-w-5 text-blue-500"
+              />
               Rename
             </Button>
           </MobileModal.Row>
 
           <MobileModal.Row>
             <Button variant="menuAction" size="custom" onClick={onRevert}>
-              <FaUndo size={14} className="text-blue-500" />
+              <FaUndo size={14} className="min-w-5 text-blue-500" />
               Revert Section Name
             </Button>
           </MobileModal.Row>
