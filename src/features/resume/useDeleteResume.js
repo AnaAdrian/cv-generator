@@ -9,6 +9,8 @@ export function useDeleteResume() {
         mutationFn: deleteResume,
         onMutate: async (resumeId) => {
             await queryClient.cancelQueries(['resumes']);
+            queryClient.removeQueries({ queryKey: ['resume', `${resumeId}`] });
+
 
             const previousResumes = queryClient.getQueryData(['resumes']);
 
