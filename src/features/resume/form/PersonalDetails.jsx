@@ -1,4 +1,5 @@
-function PersonalDetails() {
+function PersonalDetails({ resumeData }) {
+  console.log(resumeData);
   return <div></div>;
 }
 

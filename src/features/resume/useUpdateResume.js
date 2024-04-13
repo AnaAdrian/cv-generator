@@ -8,25 +8,38 @@ export function useUpdateResume() {
     return useMutation({
         mutationFn: (obj) => updateResume(obj.tableName, obj.id, obj.updates),
         onMutate: async (obj) => {
-            const { id, updates } = obj;
-            await queryClient.cancelQueries(['resumes']);
-            const previousResumes = queryClient.getQueryData(['resumes']);
-            const resume = previousResumes.find(resume => resume.id === id);
-            const newResume = { ...resume, ...updates };
-            queryClient.setQueryData(['resumes'], old => {
-                return old.map(resume => {
-                    if (resume.id === id) {
-                        return newResume;
-                    }
-                    return resume;
+            const previousResume = queryClient.getQueryData(["resume", `${obj.id}`]);
+            const previousResumes = queryClient.getQueryData(["resumes"]);
+
+            if (previousResume) {
+                queryClient.setQueryData(["resume", `${obj.id}`], (oldResume) => {
+                    return { ...oldResume, ...obj.updates };
                 });
-            });
-            return { previousResumes };
+            }
+
+            if (previousResumes) {
+                queryClient.setQueryData(["resumes"], (oldResumes) => {
+                    return oldResumes.map((resume) => {
+                        if (resume.id === Number(obj.id)) {
+                            return { ...resume, ...obj.updates };
+                        }
+                        return resume;
+                    });
+                });
+            }
+            return { previousResume, previousResumes };
         },
         onError: (error, _, context) => {
-            queryClient.setQueryData(['resumes'], context.previousResumes);
+            if (context.previousResume) {
+                queryClient.setQueryData(["resume", `${context.previousResume.id}`], context.previousResume);
+            }
+
+            if (context.previousResumes) {
+                queryClient.setQueryData(["resumes"], context.previousResumes);
+            }
             showToast("Something went wrong", "error");
             console.error(error);
+
         }
     });
 }

@@ -13,6 +13,7 @@ function EditableHeader({
   fieldName,
   defaultTitle = "",
   iconMobileVisible = true,
+  InputClassName = "",
 }) {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
@@ -66,12 +67,12 @@ function EditableHeader({
   }
 
   return (
-    <div className="group/header flex items-center gap-[4.5px]">
+    <div className={`group/header flex items-center gap-[4.5px] `}>
       {isEditing ? (
         <Input
           ref={inputRef}
           placeholder="Untitled"
-          className={`${value ? "text-gray-800" : "text-gray-400"} w-52 text-base font-normal outline-none md:text-xl`}
+          className={`${value ? "text-gray-800" : "text-gray-400"} w-52 text-base font-normal outline-none md:text-xl ${InputClassName ? InputClassName : ""}`}
           value={value}
           onChange={handleInput}
           onBlur={handleBlur}

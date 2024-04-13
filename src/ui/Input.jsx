@@ -81,9 +81,4 @@ const Input = forwardRef(
 
 Input.displayName = "Input";
 
-Input.defaultProps = {
-  type: "text",
-  labelPosition: "outside",
-};
-
 export default Input;
