@@ -1,12 +1,26 @@
-import Input from "../../../ui/Input";
+import { useRef, useState, useEffect } from "react";
 import { useUpdateResume } from "../useUpdateResume";
-import { useState } from "react";
 
 function ResumeTitle({ title, resumeId }) {
-  const [value, setValue] = useState(title);
+  const [value, setValue] = useState(title || "");
+  const inputRef = useRef(null);
   const { mutate: updateResume } = useUpdateResume();
 
-  function handleUpdateValue(e) {
+  useEffect(() => {
+    adjustInputSize();
+  }, [value]);
+
+  function adjustInputSize() {
+    if (inputRef.current) {
+      const minWidth = "90px";
+      inputRef.current.style.width = `${minWidth}`;
+
+      const scrollWidth = `${inputRef.current.scrollWidth}px`;
+      inputRef.current.style.width = scrollWidth;
+    }
+  }
+
+  function handleChange(e) {
     setValue(e.target.value);
   }
 
@@ -22,13 +36,17 @@ function ResumeTitle({ title, resumeId }) {
   }
 
   return (
-    <Input
-      placeholder="Untitled"
-      value={value}
-      onChange={handleUpdateValue}
-      onBlur={handleBlur}
-      className="font-base w-full text-center text-xl text-gray-800 outline-none"
-    />
+    <div className="group/header">
+      <input
+        ref={inputRef}
+        className="max-w-96 text-center text-2xl text-gray-800 caret-blue-500 outline-none"
+        value={value}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Untitled"
+      />
+      <div className="h-[2px] w-0 bg-blue-500 transition-all duration-100 group-focus-within/header:w-full"></div>
+    </div>
   );
 }
 
