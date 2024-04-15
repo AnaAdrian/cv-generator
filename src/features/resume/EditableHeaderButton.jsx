@@ -31,7 +31,7 @@ function EditableHeaderButton({
         <div className="w-max">{tooltipText}</div>
       </div>
       <span
-        className="cursor-pointer transition-all hover:text-blue-500"
+        className="animate-fadeIn cursor-pointer transition-all hover:text-blue-500"
         onClick={onClick}
       >
         {children}

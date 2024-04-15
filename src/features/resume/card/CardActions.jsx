@@ -17,6 +17,7 @@ function CardActions({ resume }) {
           tableName="resumes"
           fieldName="title"
           editIconMobileVisible={false}
+          showActionsOnEdit={false}
         />
         <div className="cursor-default text-xs font-extralight text-gray-400">
           Updated {formatDateTime(resume.updated_at)}

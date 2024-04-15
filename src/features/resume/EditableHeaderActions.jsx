@@ -20,6 +20,11 @@ function EditableHeaderActions({
     revertButtonClass = "flex";
   }
 
+  if (!showActionsOnEdit && isEditing) {
+    editButtonClass = "hidden";
+    revertButtonClass = "hidden";
+  }
+
   return (
     <div className="mb-[5px] flex items-end justify-center gap-0.5 text-gray-400 md:mb-1.5">
       <div className={editButtonClass}>

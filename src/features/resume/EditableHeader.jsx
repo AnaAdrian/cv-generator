@@ -21,7 +21,7 @@ function EditableHeader({
   const [hiddenValue, setHiddenValue] = useState(title);
   const inputRef = useRef(null);
   const textRef = useRef(null);
-  const isTitleChanged = defaultTitle !== "" && title !== defaultTitle;
+  const isTitleChanged = defaultTitle !== "" && value !== defaultTitle;
 
   useEffect(() => {
     adjustInputSize();
@@ -63,6 +63,7 @@ function EditableHeader({
 
   function handleRevert() {
     setValue(defaultTitle);
+    setHiddenValue(defaultTitle);
     onUpdate({
       tableName,
       id,
