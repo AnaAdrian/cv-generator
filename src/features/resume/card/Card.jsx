@@ -1,10 +1,10 @@
 function Card({ children, className, onClick }) {
   return (
     <article
-      className={`flex items-start ${className || ""}`}
+      className={`group/card flex items-start ${className || ""}`}
       onClick={onClick}
     >
-      <div className="group/card relative flex">{children}</div>
+      {children}
     </article>
   );
 }
@@ -17,12 +17,8 @@ function Preview({ children }) {
   );
 }
 
-function Content({ children, className }) {
-  return (
-    <div className={`absolute left-full top-0 w-72 ${className || ""}`}>
-      {children}
-    </div>
-  );
+function Content({ children }) {
+  return <div className="w-72">{children}</div>;
 }
 
 Card.Preview = Preview;

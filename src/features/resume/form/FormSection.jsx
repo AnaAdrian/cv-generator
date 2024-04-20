@@ -1,4 +1,4 @@
-function FormSection({ header, children }) {
+function FormSection({ children }) {
   return <div>{children}</div>;
 }
 

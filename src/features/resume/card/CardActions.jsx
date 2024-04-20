@@ -10,18 +10,17 @@ import { PiArrowFatDown } from "react-icons/pi";
 function CardActions({ resume }) {
   return (
     <div className="flex flex-col text-sm md:text-base">
-      <div className="gap-.5 flex flex-col">
-        <EditableHeader
-          title={resume.title}
-          id={resume.id}
-          tableName="resumes"
-          fieldName="title"
-          editIconMobileVisible={false}
-          showActionsOnEdit={false}
-        />
-        <div className="cursor-default text-xs font-extralight text-gray-400">
-          Updated {formatDateTime(resume.updated_at)}
-        </div>
+      <EditableHeader
+        title={resume.title}
+        id={resume.id}
+        tableName="resumes"
+        fieldName="title"
+        editIconMobileVisible={false}
+        showActionsOnEdit={false}
+        className="flex"
+      />
+      <div className="cursor-default text-xs font-extralight text-gray-400">
+        Updated {formatDateTime(resume.updated_at)}
       </div>
       <Link to={`/app/resumes/${resume.id}/edit`}>
         <div className="my-4 inline-flex items-center gap-2 rounded-md bg-[#F7F9FC] p-2 font-normal hover:bg-[#EAF6FF]">
