@@ -35,6 +35,7 @@ function EditableHeader({
   const [wasEdited, setWasEdited] = useState(false);
   const [value, setValue] = useState(title);
   const [hiddenValue, setHiddenValue] = useState(title);
+  const [isMobile, setIsMobile] = useState(false);
   const inputRef = useRef(null);
   const textRef = useRef(null);
   const minWidthRef = useRef(null);
@@ -45,7 +46,13 @@ function EditableHeader({
 
   useEffect(() => {
     adjustInputSize();
-  }, [value, isEditing]);
+    window.addEventListener("resize", handleDeviceChange);
+    return () => window.removeEventListener("resize", handleDeviceChange);
+  }, [value, isEditing, isMobile]);
+
+  function handleDeviceChange() {
+    setIsMobile(window.innerWidth < 768);
+  }
 
   function adjustInputSize() {
     if (inputRef.current && textRef.current) {

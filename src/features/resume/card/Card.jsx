@@ -11,7 +11,7 @@ function Card({ children, className, onClick }) {
 
 function Preview({ children }) {
   return (
-    <div className="relative mr-8 h-40 w-28 cursor-pointer overflow-hidden rounded-md border md:h-[270px] md:w-48">
+    <div className="relative mr-8 h-fit w-28 cursor-pointer overflow-hidden rounded-md border md:h-[270px] md:w-48">
       {children}
     </div>
   );
