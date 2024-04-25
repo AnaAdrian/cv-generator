@@ -46,18 +46,21 @@ function Content({ children }) {
   );
 }
 
-function Row({ children }) {
+function Row({ children, onClick }) {
   const { close } = useContext(MobileModalContext);
   function handleClick() {
+    onClick ? onClick() : null;
     close();
   }
 
   return (
-    <div
-      className="border-b p-4 text-sm text-gray-800 last:border-b-0"
-      onClick={handleClick}
-    >
-      {children}
+    <div className="border-b last:border-b-0">
+      <div
+        className="m-3 flex cursor-pointer flex-row items-center gap-3 p-2 text-sm font-light text-gray-800 hover:text-blue-500"
+        onClick={handleClick}
+      >
+        {children}
+      </div>
     </div>
   );
 }

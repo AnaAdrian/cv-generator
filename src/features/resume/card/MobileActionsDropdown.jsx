@@ -32,32 +32,22 @@ function MobileActionsDropdown({ resumeId }) {
           </MobileModal.Open>
 
           <MobileModal.Content>
-            <MobileModal.Row>
-              <Button
-                variant="menuAction"
-                size="custom"
-                onClick={handleExportToTxt}
-              >
-                <AiOutlineFileText className="h-5 w-5 min-w-5 text-blue-500" />
-                Export to TXT
-              </Button>
+            <MobileModal.Row onClick={handleExportToTxt}>
+              <AiOutlineFileText className="h-5 w-5 min-w-5 text-blue-500" />
+              Export to TXT
             </MobileModal.Row>
 
-            <MobileModal.Row>
-              <Button variant="menuAction" size="custom" onClick={handleCopy}>
-                <PiCopy className="h-5 w-5 min-w-5 text-blue-500" />
-                Make a copy
-              </Button>
+            <MobileModal.Row onClick={handleCopy}>
+              <PiCopy className="h-5 w-5 min-w-5 text-blue-500" />
+              Make a copy
             </MobileModal.Row>
 
-            <MobileModal.Row>
-              <Modal.Open opens="delete-confirm">
-                <Button variant="menuAction" size="custom">
-                  <TbRowRemove className="h-5 w-5 min-w-5 text-blue-500" />
-                  Delete
-                </Button>
-              </Modal.Open>
-            </MobileModal.Row>
+            <Modal.Open opens="delete-confirm">
+              <MobileModal.Row>
+                <TbRowRemove className="h-5 w-5 min-w-5 text-blue-500" />
+                Delete
+              </MobileModal.Row>
+            </Modal.Open>
           </MobileModal.Content>
         </MobileModal>
         <Modal.Content name="delete-confirm">
