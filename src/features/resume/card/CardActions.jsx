@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-import CardActionsButton from "./CardActionsButton";
 import CardActionsDropdown from "./CardActionsDropdown";
 import EditableHeader from "../EditableHeader";
 import MobileActionsDropdown from "./MobileActionsDropdown";
@@ -31,9 +30,9 @@ function CardActions({ resume }) {
         </div>
       </Link>
       <div className="flex flex-col gap-2">
-        <CardActionsButton>
+        <div className="flex cursor-pointer items-center gap-3 font-light transition-all hover:text-blue-500">
           <PiArrowFatDown className="h-5 w-5 text-blue-500" /> Download PDF
-        </CardActionsButton>
+        </div>
         <CardActionsDropdown resumeId={resume.id} />
         <MobileActionsDropdown resumeId={resume.id} />
       </div>

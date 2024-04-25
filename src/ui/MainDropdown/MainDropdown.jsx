@@ -24,27 +24,31 @@ function MainDropdown() {
         className={`rounded-lg bg-white shadow-menu ${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}
         timeout={isEditingFormPage ? 100 : 200}
       >
-        <Menu.Item className="border-b p-5">
-          {isEditingFormPage ? <DashboardItem /> : <UserSettingsItem />}
-        </Menu.Item>
+        <div className="border-b">
+          <Menu.Header className={`${isEditingFormPage ? "m-3" : "m-5"}`}>
+            {isEditingFormPage ? <DashboardItem /> : <UserSettingsItem />}
+          </Menu.Header>
+        </div>
+
         <div
-          className={`${isEditingFormPage ? "px-10" : "px-5"} flex flex-col gap-2 py-4`}
+          className={`${isEditingFormPage ? "px-12 py-3" : "px-6 py-4"} flex flex-col gap-3`}
         >
           {isEditingFormPage && (
-            <Menu.Item className={itemCommonClasses}>
-              <Link to="/app/account">Account Settings</Link>
-            </Menu.Item>
+            <Link to="/app/account">
+              <Menu.Item className={itemCommonClasses}>
+                Account Settings
+              </Menu.Item>
+            </Link>
           )}
-          <Menu.Item className={itemCommonClasses}>
-            <Link>FAQ</Link>
-          </Menu.Item>
-          <Menu.Item closeMenu={false}>
-            <span
-              className={`${itemCommonClasses} text-gray-500`}
-              onClick={signOut}
-            >
-              Log Out
-            </span>
+          <Link>
+            <Menu.Item className={itemCommonClasses}>FAQ</Menu.Item>
+          </Link>
+          <Menu.Item
+            className={`${itemCommonClasses} text-gray-500`}
+            onClick={signOut}
+            closeMenu={false}
+          >
+            Log Out
           </Menu.Item>
         </div>
       </Menu.List>

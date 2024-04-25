@@ -1,8 +1,8 @@
 import Button from "../../ui/Button";
 import LoaderFullPage from "../../ui/LoaderFullPage";
 import Card from "./card/Card";
-import NewResumeIcon from "./card/NewResumeIcon";
-import NewResumeText from "./card/NewResumeText";
+import CardDefaultIcon from "./card/CardDefaultIcon";
+import CardDefaultText from "./card/CardDefaultText";
 import NoResumes from "./NoResumes";
 import { useCreateResume } from "./useCreateResume";
 import { useAuth } from "../auth/AuthContext";
@@ -47,10 +47,10 @@ function CreateResume({ noResumes }) {
         className="hidden cursor-pointer md:flex"
       >
         <Card.Preview>
-          <NewResumeIcon className="group-hover/card:bg-blue-500" />
+          <CardDefaultIcon className="group-hover/card:bg-blue-500" />
         </Card.Preview>
         <Card.Content>
-          <NewResumeText />
+          <CardDefaultText />
         </Card.Content>
       </Card>
     </>

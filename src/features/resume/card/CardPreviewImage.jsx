@@ -1,4 +1,4 @@
-function PreviewImage({ src, onClick, className }) {
+function CardPreviewImage({ src, onClick, className }) {
   return (
     <img
       className={
@@ -13,4 +13,4 @@ function PreviewImage({ src, onClick, className }) {
   );
 }
 
-export default PreviewImage;
+export default CardPreviewImage;

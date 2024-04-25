@@ -1,4 +1,4 @@
-function NewResumeIcon() {
+function CardDefaultIcon() {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       <div
@@ -11,4 +11,4 @@ function NewResumeIcon() {
   );
 }
 
-export default NewResumeIcon;
+export default CardDefaultIcon;

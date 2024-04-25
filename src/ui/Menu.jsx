@@ -35,7 +35,7 @@ function Menu({ children, className }) {
   );
 }
 
-function MenuToggle({ children }) {
+function Toggle({ children, keepOpen = false }) {
   const { isOpen, open, close, toggleRef } = useContext(MenuContext);
 
   const handleClick = () => {
@@ -46,16 +46,23 @@ function MenuToggle({ children }) {
     open();
   };
 
-  const toggle = cloneElement(children, {
+  return cloneElement(children, {
     onClick: handleClick,
-    ref: toggleRef,
+    ref: keepOpen ? null : toggleRef,
     isOpen,
   });
-
-  return toggle;
 }
 
-function MenuList({
+function Header({ children, className }) {
+  const { close } = useContext(MenuContext);
+  return (
+    <div onClick={close} className={className}>
+      {children}
+    </div>
+  );
+}
+
+function List({
   children,
   classNames = "user",
   className = "",
@@ -81,32 +88,27 @@ function MenuList({
   );
 }
 
-function MenuItem({ children, className, closeMenu = true }) {
+function Item({ children, className, closeMenu = true, onClick }) {
   const { close } = useContext(MenuContext);
-  const ref = useRef(null);
 
-  const handleClick = (e) => {
-    const container = ref.current;
-
-    const firstChild = container.firstChild;
-
-    // If there is a child, pass the close function to it
-    if (firstChild?.contains(e.target) || !firstChild) {
-      if (closeMenu) {
-        close();
-      }
-    }
+  const handleClick = () => {
+    if (closeMenu) close();
+    if (onClick) onClick();
   };
 
   return (
-    <div ref={ref} onClick={handleClick} className={className}>
+    <div
+      onClick={handleClick}
+      className={`transition-color flex cursor-pointer items-center gap-3 font-light hover:text-blue-500 ${className}`}
+    >
       {children}
     </div>
   );
 }
 
-Menu.Toggle = MenuToggle;
-Menu.List = MenuList;
-Menu.Item = MenuItem;
+Menu.Toggle = Toggle;
+Menu.Header = Header;
+Menu.List = List;
+Menu.Item = Item;
 
 export default Menu;

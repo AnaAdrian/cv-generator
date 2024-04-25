@@ -1,5 +1,4 @@
 import Menu from "../../../ui/Menu";
-import CardActionsButton from "./CardActionsButton";
 import Modal from "../../../ui/Modal";
 import ConfirmDelete from "../ConfirmDelete";
 import { useDuplicateResume } from "../useDuplicateResume";
@@ -25,36 +24,30 @@ function CardActionsDropdown({ resumeId }) {
     <div className="relative hidden md:flex">
       <Modal>
         <Menu>
-          <Menu.Toggle>
-            <CardActionsButton>
+          <Menu.Toggle keepOpen={true}>
+            <div className="flex cursor-pointer items-center gap-3 font-light transition-all hover:text-blue-500">
               <RxDotsHorizontal className="h-5 w-5 text-blue-500" /> More
-            </CardActionsButton>
+            </div>
           </Menu.Toggle>
           <Menu.List
             classNames="actions-dropdown"
             className="absolute flex max-w-[165px] gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
             timeout={150}
           >
-            <Menu.Item>
-              <CardActionsButton onClick={handleExportToTxt}>
-                <AiOutlineFileText className="h-5 w-5 text-blue-500" />
-                Export to TXT
-              </CardActionsButton>
+            <Menu.Item onClick={handleExportToTxt}>
+              <AiOutlineFileText className="h-5 w-5 text-blue-500" />
+              Export to TXT
             </Menu.Item>
-            <Menu.Item>
-              <CardActionsButton onClick={handleCopy}>
-                <PiCopy className="h-5 w-5 text-blue-500" />
-                Make a copy
-              </CardActionsButton>
+            <Menu.Item onClick={handleCopy}>
+              <PiCopy className="h-5 w-5 text-blue-500" />
+              Make a copy
             </Menu.Item>
-            <Menu.Item>
-              <Modal.Open opens="delete-confirm">
-                <CardActionsButton>
-                  <TbRowRemove className="h-5 w-5 text-blue-500" />
-                  Delete
-                </CardActionsButton>
-              </Modal.Open>
-            </Menu.Item>
+            <Modal.Open opens="delete-confirm">
+              <Menu.Item>
+                <TbRowRemove className="h-5 w-5 text-blue-500" />
+                Delete
+              </Menu.Item>
+            </Modal.Open>
           </Menu.List>
           <Modal.Content name="delete-confirm">
             <ConfirmDelete resumeId={resumeId} />

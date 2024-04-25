@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Card from "./card/Card";
-import PreviewImage from "./card/PreviewImage";
+import CardPreviewImage from "./card/CardPreviewImage";
 import CardActions from "./card/CardActions";
 
 const ResumeCard = ({ resume }) => {
@@ -10,7 +10,7 @@ const ResumeCard = ({ resume }) => {
   return (
     <Card key={resume.id} className={resume.id === -1 ? customDisabled : ""}>
       <Card.Preview>
-        <PreviewImage
+        <CardPreviewImage
           src={resume.preview_image}
           onClick={() => navigate(`/app/resumes/${resume.id}/edit`)}
         />

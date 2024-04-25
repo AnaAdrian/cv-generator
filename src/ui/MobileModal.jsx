@@ -49,7 +49,7 @@ function Content({ children }) {
 function Row({ children, onClick }) {
   const { close } = useContext(MobileModalContext);
   function handleClick() {
-    onClick ? onClick() : null;
+    if (onClick) onClick();
     close();
   }
 
