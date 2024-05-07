@@ -1,8 +1,8 @@
 const TOOLTIP_ANIMATION_VARIANTS = {
   default:
-    "pointer-events-none transition duration-100 ease-in-out opacity-0 translate-y-2 group-hover/button:opacity-100 group-hover/button:translate-y-0",
+    "pointer-events-none transition duration-100 ease-in-out opacity-0 translate-y-2 group-hover/tooltip:opacity-100 group-hover/tooltip:translate-y-0",
   delayed:
-    "pointer-events-none transition duration-200 ease-in-out opacity-0 group-hover/button:opacity-100 group-hover/button:delay-300",
+    "pointer-events-none transition duration-200 ease-in-out opacity-0 group-hover/tooltip:opacity-100 group-hover/tooltip:delay-300",
 };
 
 const TOOLTIP_STYLE_VARIANTS = {
@@ -15,29 +15,25 @@ const TOOLTIP_STYLE_VARIANTS = {
 const TOOLTIP_TAIL =
   "after:absolute after:bottom-0 after:left-1/2 after:mb-[-6px] after:border-l-[8px] after:border-l-transparent after:border-r-[8px] after:border-r-transparent after:border-t-[6px] after:border-t-gray-800 after:-translate-x-1/2 after:content-['']";
 
-function EditableHeaderButton({
+function TooltipElement({
   children,
   onClick,
   tooltipText,
   tooltipAnimationVariant = "default",
   tooltipStyleVariant = "default",
+  className = "",
 }) {
   const tooltipAnimation = TOOLTIP_ANIMATION_VARIANTS[tooltipAnimationVariant];
   const tooltipStyle = `${TOOLTIP_STYLE_VARIANTS[tooltipStyleVariant]} ${TOOLTIP_TAIL} left-1/2 transform -translate-x-1/2 transform-origin-bottom`;
 
   return (
-    <div className="group/button relative">
+    <div className={`group/tooltip relative ${className}`}>
       <div className={`${tooltipAnimation} ${tooltipStyle}`}>
         <div className="w-max">{tooltipText}</div>
       </div>
-      <span
-        className="animate-fadeIn cursor-pointer transition-all hover:text-blue-500"
-        onClick={onClick}
-      >
-        {children}
-      </span>
+      <span onClick={onClick}>{children}</span>
     </div>
   );
 }
 
-export default EditableHeaderButton;
+export default TooltipElement;

@@ -1,4 +1,4 @@
-import PersonalDetails from "./PersonalDetails.jsx";
+import PersonalDetailsForm from "./PersonalDetailsForm.jsx";
 import LoaderFullPage from "../../../ui/LoaderFullPage.jsx";
 import EditableHeader from "../EditableHeader.jsx";
 import { useGetResume } from "../useGetResume.js";
@@ -13,15 +13,19 @@ function ResumeForm({ resumeId }) {
   return (
     <div className="mt-16">
       <EditableHeader
-        title={resumeData?.title}
-        id={resumeId}
+        title={resumeData.title}
+        id={resumeData.id}
         tableName="resumes"
         fieldName="title"
-        showOnlyInput={true}
-        variant="formTitle"
         className="flex justify-center"
-      />
-      <PersonalDetails resumeData={resumeData} />
+      >
+        <EditableHeader.Input
+          showOnlyInput={true}
+          className="max-w-96 text-center text-xl md:text-2xl"
+        />
+      </EditableHeader>
+
+      <PersonalDetailsForm resumeData={resumeData} />
     </div>
   );
 }

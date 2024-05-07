@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
   cloneElement,
+  isValidElement,
 } from "react";
 
 import { CSSTransition } from "react-transition-group";
@@ -37,6 +38,8 @@ function Menu({ children, className }) {
 
 function Toggle({ children, keepOpen = false }) {
   const { isOpen, open, close, toggleRef } = useContext(MenuContext);
+  const isReactComponent =
+    isValidElement(children) && !Object.keys(children).length;
 
   const handleClick = () => {
     if (isOpen) {
@@ -46,10 +49,17 @@ function Toggle({ children, keepOpen = false }) {
     open();
   };
 
+  if (isReactComponent) {
+    return cloneElement(children, {
+      onClick: handleClick,
+      ref: keepOpen ? null : toggleRef,
+      isOpen,
+    });
+  }
+
   return cloneElement(children, {
     onClick: handleClick,
     ref: keepOpen ? null : toggleRef,
-    isOpen,
   });
 }
 

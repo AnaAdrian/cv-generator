@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 
 import CardActionsDropdown from "./CardActionsDropdown";
-import EditableHeader from "../EditableHeader";
 import MobileActionsDropdown from "./MobileActionsDropdown";
+import EditableHeader from "../EditableHeader";
+import TooltipElement from "../../../ui/TooltipElement";
 import { formatDateTime } from "../../../utils/helpers";
-import { PiArrowFatDown } from "react-icons/pi";
+import { PiArrowFatDown, PiPencilSimpleBold } from "react-icons/pi";
 
 function CardActions({ resume }) {
   return (
@@ -14,11 +15,23 @@ function CardActions({ resume }) {
         id={resume.id}
         tableName="resumes"
         fieldName="title"
-        editIconMobileVisible={false}
-        showActionsOnEdit={false}
-        className="flex"
-      />
-      <div className="cursor-default text-xs font-extralight text-gray-400">
+        className="flex gap-[2px]"
+      >
+        <EditableHeader.Input className="max-w-52 text-base md:text-xl" />
+        <EditableHeader.Actions className="mt-[3px]">
+          <EditableHeader.Button
+            mobileVisible={false}
+            showOnEdit={false}
+            type="rename"
+          >
+            <TooltipElement tooltipText="Rename">
+              <PiPencilSimpleBold className="h-4 w-4 animate-fadeIn cursor-pointer text-gray-400 transition-all hover:text-blue-500 md:h-5 md:w-5" />
+            </TooltipElement>
+          </EditableHeader.Button>
+        </EditableHeader.Actions>
+      </EditableHeader>
+
+      <div className="mt-0.5 cursor-default text-xs font-extralight text-gray-400">
         Updated {formatDateTime(resume.updated_at)}
       </div>
       <Link to={`/app/resumes/${resume.id}/edit`}>

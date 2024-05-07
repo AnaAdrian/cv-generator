@@ -9,6 +9,7 @@ const Input = forwardRef(
       type = "text",
       label = "",
       labelPosition = "outside",
+      labelTooltip,
       displayError = false,
       error,
       className,
@@ -32,9 +33,12 @@ const Input = forwardRef(
         {label && labelPosition === "outside" && (
           <label
             htmlFor={`input-${label}`}
-            className="mb-1 block text-sm font-light text-gray-500"
+            className="pointer-events-none mb-1 block text-xs font-light text-gray-400 md:text-sm"
           >
             {label}
+            {labelTooltip && (
+              <span className="ml-1 text-gray-400">{labelTooltip}</span>
+            )}
           </label>
         )}
 
@@ -67,7 +71,7 @@ const Input = forwardRef(
           )}
 
           <div
-            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-blue-500"} transition-all duration-75 group-focus-within/input:w-full`}
+            className={`absolute bottom-0 h-0.5 w-0 ${error ? "bg-red-500" : "bg-blue-500"} transition-all duration-100 group-focus-within/input:w-full`}
           ></div>
         </div>
 

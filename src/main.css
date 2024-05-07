@@ -47,6 +47,6 @@ body {
   opacity: 1;
   transform-origin: top left;
   transition:
-    opacity 150ms,
-    transform 150ms;
+    opacity 200ms,
+    transform 200ms;
 }
