@@ -8,41 +8,58 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MobileEditableHeaderActions from "./MobileEditableHeaderActions";
+import Button from "../../ui/Button";
+import MobileModal from "../../ui/MobileModal";
 import { useUpdateResume } from "./useUpdateResume";
+import { RxDotsHorizontal } from "react-icons/rx";
+import { FaUndo } from "react-icons/fa";
+import { PiPencilSimpleBold } from "react-icons/pi";
 
 const EditableHeaderContext = createContext(null);
 
 function EditableHeader({
   children,
-  title,
   id,
+  title,
+  defaultTitle,
   tableName,
   fieldName,
-  defaultTitle,
+  sectionTitle = "",
+  currentSectionsTitles = {},
   className = "",
 }) {
   const navigate = useNavigate();
   const { mutate: onUpdate } = useUpdateResume();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(title || defaultTitle);
   const [hiddenValue, setHiddenValue] = useState(title);
+  const previousValueRef = useRef(title || defaultTitle);
   const inputRef = useRef(null);
   const textRef = useRef(null);
   const minWidthRef = useRef(null);
   const titleUpdated = defaultTitle && value !== defaultTitle;
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     adjustInputSize();
-  }, [value, isEditing]);
+  }, [value, isEditing, isMobile]);
 
   function adjustInputSize() {
-    if (inputRef.current && textRef.current) {
+    if (inputRef.current && textRef.current && minWidthRef.current) {
       const minWidth = minWidthRef.current.getBoundingClientRect().width;
       inputRef.current.style.width = `${minWidth}px`;
 
-      const rect = textRef.current.getBoundingClientRect();
-      let exactWidth = Math.max(rect.width, minWidth);
+      const textContainer = textRef.current.getBoundingClientRect();
+      let exactWidth = Math.max(textContainer.width, minWidth);
 
       inputRef.current.style.width = `${exactWidth}px`;
     }
@@ -58,25 +75,48 @@ function EditableHeader({
 
   function handleBlur() {
     setIsEditing(false);
+
+    const previousValue = previousValueRef.current;
+    const value = inputRef.current.value;
+    if (previousValue === value) return;
+
+    let updates = { [fieldName]: value.trim() || defaultTitle || "Untitled" };
+
+    if (sectionTitle) {
+      const updatedSectionsTitles = { ...currentSectionsTitles };
+      updatedSectionsTitles[sectionTitle] = value.trim();
+      updates = { [fieldName]: updatedSectionsTitles };
+    }
+
     onUpdate({
       tableName,
       id,
-      updates: { [fieldName]: value.trim() || defaultTitle || "Untitled" },
+      updates,
     });
+
     if (value.trim() === "") {
       setValue(defaultTitle || "Untitled");
+      setHiddenValue(defaultTitle || "Untitled");
     }
     setValue((prev) => prev.trim());
     setHiddenValue((prev) => prev.trim());
   }
 
   function handleRevert() {
+    let updates = { [fieldName]: defaultTitle };
+
+    if (sectionTitle) {
+      const updatedSectionsTitles = { ...currentSectionsTitles };
+      delete updatedSectionsTitles[sectionTitle];
+      updates = { [fieldName]: updatedSectionsTitles };
+    }
+
     setValue(defaultTitle);
     setHiddenValue(defaultTitle);
     onUpdate({
       tableName,
       id,
-      updates: { [fieldName]: defaultTitle },
+      updates,
     });
   }
 
@@ -126,7 +166,6 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
   const {
     inputRef,
     value,
-    defaultTitle,
     hiddenValue,
     textRef,
     minWidthRef,
@@ -145,7 +184,7 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
             ref={inputRef}
             name="title"
             placeholder="Untitled"
-            className={`${className} overflow-hidden whitespace-pre text-gray-800 caret-blue-500 outline-none`}
+            className={`${className} text-gray-800 caret-blue-500 outline-none`}
             value={value}
             onChange={handleInput}
             onBlur={handleBlur}
@@ -153,7 +192,7 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
             autoComplete="off"
           />
           <div
-            className={`${className} block h-[2px] w-0 bg-blue-500 transition-all duration-100 before:h-[2px] group-focus-within/header:w-full`}
+            className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 opacity-0 transition-all duration-100 before:h-[2px] group-focus-within/header:w-full group-focus-within/header:opacity-100`}
           ></div>
         </div>
       ) : (
@@ -167,11 +206,11 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
 
       {/* The following divs are used to calculate the width and minWidth of the input field. */}
       <div className={className}>
-        <div ref={textRef} className="invisible absolute whitespace-nowrap">
+        <div ref={textRef} className="invisible absolute">
           {hiddenValue}
         </div>
         <div ref={minWidthRef} className="invisible absolute">
-          {defaultTitle || "Untitled"}
+          {"Untitled"}
         </div>
       </div>
     </>
@@ -179,27 +218,20 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
 }
 
 function EditableHeaderActions({ children, className = "" }) {
-  const { handleEdit, handleRevert, isTitleChanged } = useContext(
-    EditableHeaderContext,
-  );
+  const { titleUpdated } = useContext(EditableHeaderContext);
 
   return (
-    <>
-      <div className={className}>
-        <div className={`${isTitleChanged ? "hidden" : ""} md:flex`}>
-          {children}
-        </div>
+    <div className={className}>
+      <div className={`${titleUpdated ? "hidden" : ""} md:flex`}>
+        {children}
       </div>
 
-      {isTitleChanged ? (
+      {titleUpdated ? (
         <div className="flex md:hidden">
-          <MobileEditableHeaderActions
-            onEdit={handleEdit}
-            onRevert={handleRevert}
-          />
+          <MobileEditableHeaderActions />
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 
@@ -238,6 +270,38 @@ function EditableHeaderButton({
 
   return (
     <div className={buttonClass}>{cloneElement(children, { onClick })}</div>
+  );
+}
+
+function MobileEditableHeaderActions() {
+  const { handleEdit, handleRevert } = useContext(EditableHeaderContext);
+  return (
+    <MobileModal>
+      <MobileModal.Open>
+        <Button variant="menuAction" size="custom">
+          <RxDotsHorizontal
+            size={18}
+            className="ml-1 text-gray-400 hover:text-blue-500"
+          />
+        </Button>
+      </MobileModal.Open>
+
+      <MobileModal.Content>
+        <MobileModal.Row>
+          <Button variant="menuAction" size="custom" onClick={handleEdit}>
+            <PiPencilSimpleBold size={18.5} className="min-w-5 text-blue-500" />
+            Rename
+          </Button>
+        </MobileModal.Row>
+
+        <MobileModal.Row>
+          <Button variant="menuAction" size="custom" onClick={handleRevert}>
+            <FaUndo size={14} className="min-w-5 text-blue-500" />
+            Revert Section Name
+          </Button>
+        </MobileModal.Row>
+      </MobileModal.Content>
+    </MobileModal>
   );
 }
 
