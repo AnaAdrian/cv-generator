@@ -25,7 +25,6 @@ function PersonalDetailsForm({ resumeData }) {
   useEffect(() => {
     const updateContentHeight = () => {
       if (contentRef.current) {
-        // console.log("New scrollHeight:", contentRef.current.scrollHeight);
         setContentHeight(contentRef.current.scrollHeight);
       }
     };
@@ -134,7 +133,7 @@ function PersonalDetailsForm({ resumeData }) {
           ref={contentRef}
           className={`my-4 space-y-3 overflow-hidden transition-all duration-200 ease-out`}
           style={{
-            height: isExpanded ? `${contentHeight}px` : "0px",
+            maxHeight: isExpanded ? `${contentHeight}px` : "0px",
             opacity: isExpanded ? 1 : 0,
           }}
         >
