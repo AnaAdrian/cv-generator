@@ -7,26 +7,21 @@ import { PiPencilSimpleBold } from "react-icons/pi";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaUndo } from "react-icons/fa";
+import { useResize } from "../../../hooks/useResize";
 
 function PersonalDetailsForm({ resumeData }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const isMobile = useResize(768);
   const contentRef = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
     const updateContentHeight = () => {
-      if (contentRef.current) {
-        setContentHeight(contentRef.current.scrollHeight);
-      }
+      requestAnimationFrame(() => {
+        if (contentRef.current) {
+          setContentHeight(contentRef.current.scrollHeight);
+        }
+      });
     };
     updateContentHeight();
   }, [isExpanded, contentRef, isMobile]);
@@ -41,40 +36,40 @@ function PersonalDetailsForm({ resumeData }) {
 
   return (
     <div className="mx-auto max-w-[800px] md:px-6 xl:px-4">
-      <EditableHeader
-        id={resumeData.id}
-        defaultTitle="Personal Details"
-        title={resumeData.section_titles?.profile || "Personal Details"}
-        tableName="resumes"
-        fieldName="section_titles"
-        sectionTitle="profile"
-        currentSectionsTitles={resumeData.section_titles}
-        className="flex gap-[2px]"
-      >
-        <EditableHeader.Input className="text-base font-semibold md:text-xl" />
-        <EditableHeader.Actions className="mb-1 flex flex-1 flex-shrink-0 items-center">
-          <EditableHeader.Button type="rename">
-            <TooltipElement
-              tooltipText="Rename"
-              tooltipAnimationVariant="delayed"
-              tooltipStyleVariant="light"
-            >
-              <PiPencilSimpleBold className="h-4 w-4 animate-fadeIn cursor-pointer text-gray-400 transition-all hover:text-blue-500 md:h-5 md:w-5" />
-            </TooltipElement>
-          </EditableHeader.Button>
-          <EditableHeader.Button type="revert">
-            <TooltipElement
-              tooltipText="Revert Section Name"
-              tooltipAnimationVariant="delayed"
-              tooltipStyleVariant="light"
-            >
-              <FaUndo className="ml-0.5 mt-[2px] h-3 w-3 animate-fadeIn cursor-pointer text-gray-400 transition-all hover:text-blue-500 md:h-4 md:w-4" />
-            </TooltipElement>
-          </EditableHeader.Button>
-        </EditableHeader.Actions>
-      </EditableHeader>
-
       <div className="my-4 space-y-3">
+        <EditableHeader
+          id={resumeData.id}
+          defaultTitle="Personal Details"
+          title={resumeData.section_titles?.profile || "Personal Details"}
+          tableName="resumes"
+          fieldName="section_titles"
+          sectionTitle="profile"
+          currentSectionsTitles={resumeData.section_titles}
+          className="flex gap-[2px]"
+        >
+          <EditableHeader.Input className="pointer-events-none text-base font-semibold md:text-xl" />
+          <EditableHeader.Actions className="mt-[1px] md:mt-[2px]">
+            <EditableHeader.Button type="rename">
+              <TooltipElement
+                tooltipText="Rename"
+                tooltipAnimationVariant="delayed"
+                tooltipStyleVariant="light"
+              >
+                <PiPencilSimpleBold className="h-4 w-4 cursor-pointer text-gray-400 transition-colors hover:text-blue-500 md:h-5 md:w-5" />
+              </TooltipElement>
+            </EditableHeader.Button>
+            <EditableHeader.Button type="revert">
+              <TooltipElement
+                tooltipText="Revert Section Name"
+                tooltipAnimationVariant="delayed"
+                tooltipStyleVariant="light"
+              >
+                <FaUndo className="ml-0.5 mt-[2px] h-3 w-3 cursor-pointer text-gray-400 transition-colors hover:text-blue-500 md:h-4 md:w-4" />
+              </TooltipElement>
+            </EditableHeader.Button>
+          </EditableHeader.Actions>
+        </EditableHeader>
+
         <div className={rowClass}>
           <div className={inputClass}>
             <FormInput
@@ -131,7 +126,7 @@ function PersonalDetailsForm({ resumeData }) {
         </div>
         <div
           ref={contentRef}
-          className={`my-4 space-y-3 overflow-hidden transition-all duration-200 ease-out`}
+          className={`my-4 space-y-3 overflow-hidden transition-all duration-200 ease-out will-change-transform`}
           style={{
             maxHeight: isExpanded ? `${contentHeight}px` : "0px",
             opacity: isExpanded ? 1 : 0,

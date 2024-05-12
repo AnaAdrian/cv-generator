@@ -14,6 +14,7 @@ import { useUpdateResume } from "./useUpdateResume";
 import { RxDotsHorizontal } from "react-icons/rx";
 import { FaUndo } from "react-icons/fa";
 import { PiPencilSimpleBold } from "react-icons/pi";
+import { useResize } from "../../hooks/useResize";
 
 const EditableHeaderContext = createContext(null);
 
@@ -30,7 +31,6 @@ function EditableHeader({
 }) {
   const navigate = useNavigate();
   const { mutate: onUpdate } = useUpdateResume();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(title || defaultTitle);
   const [hiddenValue, setHiddenValue] = useState(title);
@@ -38,16 +38,8 @@ function EditableHeader({
   const inputRef = useRef(null);
   const textRef = useRef(null);
   const minWidthRef = useRef(null);
+  const isMobile = useResize(768);
   const titleUpdated = defaultTitle && value !== defaultTitle;
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     adjustInputSize();
@@ -126,7 +118,7 @@ function EditableHeader({
   }
 
   function handleNavigate() {
-    !isEditing && navigate(`/app/resumes/${id}/edit`);
+    navigate(`/app/resumes/${id}/edit`);
   }
 
   function handleKeyDown(e) {
@@ -155,7 +147,9 @@ function EditableHeader({
         handleKeyDown,
       }}
     >
-      <div className={`group/header relative inline-block w-full ${className}`}>
+      <div
+        className={`group/header relative flex w-full items-center ${className}`}
+      >
         {children}
       </div>
     </EditableHeaderContext.Provider>
@@ -184,21 +178,23 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
             ref={inputRef}
             name="title"
             placeholder="Untitled"
-            className={`${className} text-gray-800 caret-blue-500 outline-none`}
+            className={`${className} overflow-hidden whitespace-pre text-gray-800 caret-blue-500 outline-none`}
             value={value}
             onChange={handleInput}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoComplete="off"
+            style={{ lineHeight: "26px" }}
           />
           <div
-            className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 opacity-0 transition-all duration-100 before:h-[2px] group-focus-within/header:w-full group-focus-within/header:opacity-100`}
+            className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 opacity-0 transition-all duration-100 before:h-0.5 group-focus-within/header:w-full group-focus-within/header:opacity-100`}
           ></div>
         </div>
       ) : (
         <div
           onClick={handleNavigate}
-          className={`${className} mb-[2px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-gray-800 transition-colors hover:text-blue-500`}
+          className={`${className} mb-0.5 flex cursor-pointer items-center overflow-hidden text-ellipsis whitespace-nowrap text-center text-gray-800 transition-colors hover:text-blue-500`}
+          style={{ lineHeight: "26px" }}
         >
           {value}
         </div>
@@ -219,7 +215,6 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
 
 function EditableHeaderActions({ children, className = "" }) {
   const { titleUpdated } = useContext(EditableHeaderContext);
-
   return (
     <div className={className}>
       <div className={`${titleUpdated ? "hidden" : ""} md:flex`}>
@@ -252,12 +247,14 @@ function EditableHeaderButton({
 
   const onClick = handlers[type];
 
+  const transitionClass = "transition-opacity duration-150 ease-in-out";
+
   let buttonClass = mobileVisible
-    ? "flex md:hidden md:group-hover/header:flex"
-    : "hidden md:group-hover/header:flex";
+    ? "md:opacity-0 opacity-100 group-hover/header:opacity-100"
+    : "opacity-0 md:group-hover/header:opacity-100";
 
   if (showOnEdit && isEditing) {
-    buttonClass = "flex";
+    buttonClass = "opacity-100";
   }
 
   if (!showOnEdit && isEditing) {
@@ -269,7 +266,9 @@ function EditableHeaderButton({
   }
 
   return (
-    <div className={buttonClass}>{cloneElement(children, { onClick })}</div>
+    <div className={`${buttonClass} ${transitionClass}`}>
+      {cloneElement(children, { onClick })}
+    </div>
   );
 }
 

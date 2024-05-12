@@ -18,7 +18,7 @@ function CardActions({ resume }) {
         className="flex gap-[2px]"
       >
         <EditableHeader.Input className="max-w-52 text-base md:text-xl" />
-        <EditableHeader.Actions className="mt-[3px]">
+        <EditableHeader.Actions className="mt-[1px]">
           <EditableHeader.Button
             mobileVisible={false}
             showOnEdit={false}
