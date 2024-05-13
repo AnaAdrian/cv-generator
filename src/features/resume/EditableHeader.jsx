@@ -62,10 +62,10 @@ function EditableHeader({
     setTimeout(() => {
       inputRef.current.focus();
       inputRef.current.select();
-    });
+    }, 0);
   }
 
-  function handleBlur() {
+  function handleInputBlur() {
     setIsEditing(false);
 
     const previousValue = previousValueRef.current;
@@ -112,7 +112,7 @@ function EditableHeader({
     });
   }
 
-  function handleInput(e) {
+  function handleInputChange(e) {
     setValue(e.target.value);
     setHiddenValue(e.target.value.replace(/ /g, "\u00A0"));
   }
@@ -121,10 +121,10 @@ function EditableHeader({
     navigate(`/app/resumes/${id}/edit`);
   }
 
-  function handleKeyDown(e) {
+  function handleInputKeyDown(e) {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleBlur();
+      handleInputBlur();
     }
   }
 
@@ -140,11 +140,11 @@ function EditableHeader({
         minWidthRef,
         titleUpdated,
         handleEdit,
-        handleBlur,
         handleRevert,
-        handleInput,
+        handleInputBlur,
+        handleInputChange,
+        handleInputKeyDown,
         handleNavigate,
-        handleKeyDown,
       }}
     >
       <div className={`group/header relative flex items-center ${className}`}>
@@ -162,11 +162,21 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
     textRef,
     minWidthRef,
     isEditing,
-    handleInput,
-    handleBlur,
-    handleKeyDown,
+    handleInputChange,
+    handleInputBlur,
+    handleInputKeyDown,
     handleNavigate,
   } = useContext(EditableHeaderContext);
+  const [isFocused, setIsFocused] = useState(false);
+
+  function handleFocus() {
+    setIsFocused(true);
+  }
+
+  function handleBlur() {
+    handleInputBlur();
+    setIsFocused(false);
+  }
 
   return (
     <>
@@ -178,14 +188,21 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
             placeholder="Untitled"
             className={`${className} overflow-hidden whitespace-pre text-gray-800 caret-blue-500 outline-none`}
             value={value}
-            onChange={handleInput}
+            onChange={handleInputChange}
+            onFocus={handleFocus}
             onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleInputKeyDown}
             autoComplete="off"
           />
-          <div
-            className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 opacity-0 transition-all duration-100 before:h-0.5 group-focus-within/header:w-full group-focus-within/header:opacity-100`}
-          ></div>
+          {showOnlyInput ? (
+            <div
+              className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 ${isFocused ? "w-full opacity-100 duration-100" : "opacity-0 duration-0"} ease-out before:h-0.5`}
+            ></div>
+          ) : (
+            <div
+              className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 opacity-0 transition-all duration-75 ease-out before:h-0.5 group-focus-within/header:w-full group-focus-within/header:opacity-100`}
+            ></div>
+          )}
         </div>
       ) : (
         <div
