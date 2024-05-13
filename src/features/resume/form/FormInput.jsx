@@ -15,7 +15,7 @@ function FormInput({ id, tableName, fieldName, value, ...rest }) {
 
   const { mutate: onUpdate } = useUpdateResume();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   const debouncedUpdate = useCallback(
     debounce((newValue) => {
       const previousValue = previousValueRef.current;

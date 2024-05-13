@@ -147,9 +147,7 @@ function EditableHeader({
         handleKeyDown,
       }}
     >
-      <div
-        className={`group/header relative flex w-full items-center ${className}`}
-      >
+      <div className={`group/header relative flex items-center ${className}`}>
         {children}
       </div>
     </EditableHeaderContext.Provider>
@@ -184,7 +182,6 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoComplete="off"
-            style={{ lineHeight: "26px" }}
           />
           <div
             className={`${className} mx-auto h-[2px] w-1/2 bg-blue-500 opacity-0 transition-all duration-100 before:h-0.5 group-focus-within/header:w-full group-focus-within/header:opacity-100`}
@@ -193,8 +190,7 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
       ) : (
         <div
           onClick={handleNavigate}
-          className={`${className} mb-0.5 flex cursor-pointer items-center overflow-hidden text-ellipsis whitespace-nowrap text-center text-gray-800 transition-colors hover:text-blue-500`}
-          style={{ lineHeight: "26px" }}
+          className={`${className} mb-0.5 cursor-pointer items-center truncate text-gray-800 transition-colors hover:text-blue-500`}
         >
           {value}
         </div>

@@ -17,7 +17,7 @@ function ResumeForm({ resumeId }) {
         id={resumeData.id}
         tableName="resumes"
         fieldName="title"
-        className="flex  justify-center "
+        className="justify-center"
       >
         <EditableHeader.Input
           showOnlyInput={true}

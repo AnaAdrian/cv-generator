@@ -15,7 +15,7 @@ function CardActions({ resume }) {
         id={resume.id}
         tableName="resumes"
         fieldName="title"
-        className="flex gap-[2px]"
+        className="gap-0.5"
       >
         <EditableHeader.Input className="max-w-52 text-base md:text-xl" />
         <EditableHeader.Actions className="mt-[1px]">
