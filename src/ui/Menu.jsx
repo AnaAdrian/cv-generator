@@ -4,11 +4,10 @@ import {
   useRef,
   useState,
   cloneElement,
-  isValidElement,
 } from "react";
 
-import { CSSTransition } from "react-transition-group";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { isCustomComponent } from "../utils/helpers";
 
 const MenuContext = createContext();
 
@@ -38,29 +37,24 @@ function Menu({ children, className }) {
 
 function Toggle({ children, keepOpen = false }) {
   const { isOpen, open, close, toggleRef } = useContext(MenuContext);
-  const isReactComponent =
-    isValidElement(children) && !Object.keys(children).length;
+  const isReactComponent = isCustomComponent(children);
 
   const handleClick = () => {
     if (isOpen) {
       close();
-      return;
-    }
-    open();
+    } else open();
+  };
+
+  const childProps = {
+    onClick: handleClick,
+    ref: keepOpen ? null : toggleRef,
   };
 
   if (isReactComponent) {
-    return cloneElement(children, {
-      onClick: handleClick,
-      ref: keepOpen ? null : toggleRef,
-      isOpen,
-    });
+    childProps.isOpen = isOpen;
   }
 
-  return cloneElement(children, {
-    onClick: handleClick,
-    ref: keepOpen ? null : toggleRef,
-  });
+  return cloneElement(children, childProps);
 }
 
 function Header({ children, className }) {
@@ -72,29 +66,18 @@ function Header({ children, className }) {
   );
 }
 
-function List({
-  children,
-  classNames = "user",
-  className = "",
-  timeout = 200,
-}) {
+function List({ children, className = "" }) {
   const { isOpen, listRef } = useContext(MenuContext);
 
   return (
-    <CSSTransition
-      in={isOpen}
-      timeout={{ enter: timeout, exit: 0 }}
-      classNames={classNames}
-      unmountOnExit
-      nodeRef={listRef}
+    <div
+      ref={listRef}
+      className={`absolute top-full z-10 mt-2 flex transform flex-col transition-all ease-out ${className} ${
+        isOpen ? "scale-100 opacity-100" : "scale-50 opacity-0 duration-0"
+      }`}
     >
-      <div
-        className={`absolute top-full z-10 mt-2 flex flex-col ${className}`}
-        ref={listRef}
-      >
-        {children}
-      </div>
-    </CSSTransition>
+      {children}
+    </div>
   );
 }
 

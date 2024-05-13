@@ -12,7 +12,11 @@ const UserAvatar = forwardRef(
 
       {showBorder && (
         <span
-          className={`absolute inset-0 rounded-full ${isOpen ? "border-2 border-blue-500" : "border-2 border-transparent"} transition-all duration-200 hover:border-blue-500 active:border-blue-700`}
+          className={`absolute inset-0 rounded-full border-2 transition-all duration-200 ${
+            isOpen
+              ? "border-blue-500"
+              : "border-transparent hover:border-blue-500 active:border-blue-700"
+          }`}
         />
       )}
       <img

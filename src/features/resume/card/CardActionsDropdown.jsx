@@ -29,11 +29,7 @@ function CardActionsDropdown({ resumeId }) {
               <RxDotsHorizontal className="h-5 w-5 text-blue-500" /> More
             </div>
           </Menu.Toggle>
-          <Menu.List
-            classNames="actions-dropdown"
-            className="absolute flex max-w-[165px] gap-2.5 rounded-md bg-white px-4 py-3 shadow-even"
-            timeout={150}
-          >
+          <Menu.List className="max-w-[165px] origin-top-left gap-2.5 rounded-md bg-white px-4 py-3 shadow-even duration-150">
             <Menu.Item onClick={handleExportToTxt}>
               <AiOutlineFileText className="h-5 w-5 text-blue-500" />
               Export to TXT

@@ -20,9 +20,7 @@ function MainDropdown() {
         <UserAvatar showBorder={true} />
       </Menu.Toggle>
       <Menu.List
-        classNames={isEditingFormPage ? "resume-dropdown" : "user-dropdown"}
-        className={`rounded-lg bg-white shadow-menu ${isEditingFormPage ? "w-[320px]" : "w-[280px]"}`}
-        timeout={isEditingFormPage ? 100 : 200}
+        className={`origin-top-right rounded-lg bg-white shadow-menu ${isEditingFormPage ? "w-[320px]" : "w-[280px] duration-200"}`}
       >
         <div className="border-b">
           <Menu.Header className={`${isEditingFormPage ? "m-3" : "m-5"}`}>

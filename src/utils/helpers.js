@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function checkValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -17,3 +19,9 @@ export function formatDateTime(date) {
     return formattedDate;
 }
 
+export function isCustomComponent(element) {
+    return (
+        typeof element.type === 'function' ||
+        (typeof element.type === 'object' && React.isValidElement(element))
+    );
+}
