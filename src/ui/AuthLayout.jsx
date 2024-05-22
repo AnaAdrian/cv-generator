@@ -7,7 +7,7 @@ function AuthLayout() {
   const { pathname } = useLocation();
   return (
     <>
-      <Header>
+      <Header className="p-5">
         {pathname.includes("reset-password") ? "" : <HomeButton />}
       </Header>
 

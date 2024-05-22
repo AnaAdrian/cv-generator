@@ -1,14 +1,14 @@
 import {
   cloneElement,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import Button from "../../ui/Button";
 import MobileModal from "../../ui/MobileModal";
 import { useUpdateResume } from "./useUpdateResume";
 import { RxDotsHorizontal } from "react-icons/rx";
@@ -28,34 +28,43 @@ function EditableHeader({
   sectionTitle = "",
   currentSectionsTitles = {},
   className = "",
+  width,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { mutate: onUpdate } = useUpdateResume();
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(title || defaultTitle);
   const [hiddenValue, setHiddenValue] = useState(title);
   const previousValueRef = useRef(title || defaultTitle);
   const inputRef = useRef(null);
+  const actionsRef = useRef(null);
   const textRef = useRef(null);
   const minWidthRef = useRef(null);
   const isMobile = useResize(768);
   const titleUpdated = defaultTitle && value !== defaultTitle;
 
-  useEffect(() => {
-    adjustInputSize();
-  }, [value, isEditing, isMobile]);
-
-  function adjustInputSize() {
+  const adjustInputSize = useCallback(() => {
     if (inputRef.current && textRef.current && minWidthRef.current) {
       const minWidth = minWidthRef.current.getBoundingClientRect().width;
+      const actionsWidth = actionsRef?.current?.getBoundingClientRect().width;
+      const maxWidth = width - actionsWidth - 4; // The width will be parent width - actions - gap between elements.
       inputRef.current.style.width = `${minWidth}px`;
 
       const textContainer = textRef.current.getBoundingClientRect();
       let exactWidth = Math.max(textContainer.width, minWidth);
 
+      if (exactWidth >= maxWidth) {
+        exactWidth = maxWidth;
+      }
+
       inputRef.current.style.width = `${exactWidth}px`;
     }
-  }
+  }, [width]);
+
+  useEffect(() => {
+    adjustInputSize();
+  }, [value, isEditing, isMobile, adjustInputSize]);
 
   function handleEdit() {
     setIsEditing(true);
@@ -118,7 +127,8 @@ function EditableHeader({
   }
 
   function handleNavigate() {
-    navigate(`/app/resumes/${id}/edit`);
+    if (location.pathname !== `/app/resumes/${id}/edit`)
+      navigate(`/app/resumes/${id}/edit`);
   }
 
   function handleInputKeyDown(e) {
@@ -136,6 +146,7 @@ function EditableHeader({
         defaultTitle,
         hiddenValue,
         inputRef,
+        actionsRef,
         textRef,
         minWidthRef,
         titleUpdated,
@@ -147,7 +158,9 @@ function EditableHeader({
         handleNavigate,
       }}
     >
-      <div className={`group/header relative flex items-center ${className}`}>
+      <div
+        className={`group/header relative flex min-h-7 items-center gap-[2px] ${className}`}
+      >
         {children}
       </div>
     </EditableHeaderContext.Provider>
@@ -207,7 +220,7 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
       ) : (
         <div
           onClick={handleNavigate}
-          className={`${className} mb-0.5 cursor-pointer items-center truncate text-gray-800 transition-colors hover:text-blue-500`}
+          className={`mb-0.5 ${location.pathname.includes("edit") ? "cursor-default" : "cursor-pointer hover:text-blue-500"} items-center truncate text-gray-800 ${className} `}
         >
           {value}
         </div>
@@ -215,10 +228,10 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
 
       {/* The following divs are used to calculate the width and minWidth of the input field. */}
       <div className={className}>
-        <div ref={textRef} className="invisible absolute">
+        <div ref={textRef} className="invisible absolute left-0 top-0">
           {hiddenValue}
         </div>
-        <div ref={minWidthRef} className="invisible absolute">
+        <div ref={minWidthRef} className="invisible absolute left-0 top-0">
           {"Untitled"}
         </div>
       </div>
@@ -227,10 +240,10 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
 }
 
 function EditableHeaderActions({ children, className = "" }) {
-  const { titleUpdated } = useContext(EditableHeaderContext);
+  const { titleUpdated, actionsRef } = useContext(EditableHeaderContext);
   return (
-    <div className={className}>
-      <div className={`${titleUpdated ? "hidden" : ""} md:flex`}>
+    <div ref={actionsRef}>
+      <div className={`${titleUpdated ? "hidden" : ""} md:flex ${className}`}>
         {children}
       </div>
 
@@ -290,27 +303,21 @@ function MobileEditableHeaderActions() {
   return (
     <MobileModal>
       <MobileModal.Open>
-        <Button variant="menuAction" size="custom">
-          <RxDotsHorizontal
-            size={18}
-            className="ml-1 text-gray-400 hover:text-blue-500"
-          />
-        </Button>
+        <RxDotsHorizontal
+          size={18}
+          className="ml-1 cursor-pointer text-gray-400 transition-colors hover:text-blue-500"
+        />
       </MobileModal.Open>
 
       <MobileModal.Content>
-        <MobileModal.Row>
-          <Button variant="menuAction" size="custom" onClick={handleEdit}>
-            <PiPencilSimpleBold size={18.5} className="min-w-5 text-blue-500" />
-            Rename
-          </Button>
+        <MobileModal.Row onClick={handleEdit}>
+          <PiPencilSimpleBold size={18.5} className="w-5 text-blue-500" />
+          Rename
         </MobileModal.Row>
 
-        <MobileModal.Row>
-          <Button variant="menuAction" size="custom" onClick={handleRevert}>
-            <FaUndo size={14} className="min-w-5 text-blue-500" />
-            Revert Section Name
-          </Button>
+        <MobileModal.Row onClick={handleRevert}>
+          <FaUndo size={14} className="w-5 text-blue-500" />
+          Revert Section Name
         </MobileModal.Row>
       </MobileModal.Content>
     </MobileModal>

@@ -72,7 +72,7 @@ const Input = forwardRef(
 
           <span
             className={`${error ? "bg-red-500" : "bg-blue-500"} 
-              absolute bottom-0 left-1/2 h-[2px] w-1/2 -translate-x-1/2 opacity-0 transition-all duration-100 ease-out group-focus-within/input:w-full group-focus-within/input:opacity-100`}
+              absolute bottom-0 left-1/2 h-[2px] w-1/2 -translate-x-1/2 opacity-0 transition-all duration-100 ease-in-out group-focus-within/input:w-full group-focus-within/input:opacity-100`}
           />
         </div>
 

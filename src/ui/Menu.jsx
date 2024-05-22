@@ -72,10 +72,10 @@ function List({ children, className = "" }) {
   return (
     <div
       ref={listRef}
-      className={`absolute top-full mt-2 flex transform flex-col transition-all ${className} ${
+      className={`absolute top-full mt-2 flex flex-col ${className} ${
         isOpen
-          ? "z-50 scale-100 opacity-100"
-          : " z-0 scale-75 opacity-0 duration-0"
+          ? "z-50 scale-100 opacity-100 transition-all"
+          : "pointer-events-none z-0 scale-75 opacity-0 transition-none"
       }`}
     >
       {children}

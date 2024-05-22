@@ -49,14 +49,16 @@ function Content({ children }) {
 function Row({ children, onClick }) {
   const { close } = useContext(MobileModalContext);
   function handleClick() {
-    if (onClick) onClick();
+    if (onClick) {
+      onClick();
+    }
     close();
   }
 
   return (
     <div className="border-b last:border-b-0">
       <div
-        className="m-3 flex cursor-pointer flex-row items-center gap-3 p-2 text-sm font-light text-gray-800 hover:text-blue-500"
+        className="m-3 flex cursor-pointer flex-row items-center gap-3 p-2 text-sm font-light text-gray-800 transition-colors hover:text-blue-500"
         onClick={handleClick}
       >
         {children}

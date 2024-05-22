@@ -4,7 +4,7 @@ import AuthNavigation from "../features/auth/AuthNavigation";
 function Homepage() {
   return (
     <>
-      <Header>
+      <Header className="p-5">
         <AuthNavigation />
       </Header>
     </>

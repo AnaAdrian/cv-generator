@@ -7,7 +7,7 @@ function AppLayout() {
   const isEditingFormPage = pathname.includes("edit");
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center p-5 md:p-0">
       {!isEditingFormPage && (
         <div className="w-full md:max-w-6xl">
           <Header className="border-b">
