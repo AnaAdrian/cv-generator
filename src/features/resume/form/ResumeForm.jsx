@@ -33,14 +33,14 @@ function ResumeForm({ resumeId }) {
   }
 
   return (
-    <div className="mx-auto max-w-[850px] p-5 md:p-12">
+    <div className="mx-auto max-w-[850px] py-2 md:p-12">
       <div ref={maxWidthRef}>
         <EditableHeader
           title={resumeData.title}
           id={resumeData.id}
           tableName="resumes"
           fieldName="title"
-          className="mb-10 justify-center"
+          className="mx-5 mb-10 justify-center"
         >
           <EditableHeader.Input
             showOnlyInput={true}

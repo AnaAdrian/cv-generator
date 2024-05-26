@@ -30,7 +30,7 @@ function Content({ children }) {
   return createPortal(
     <>
       <div className="fixed inset-0 z-10 animate-fadeIn bg-gray-950 bg-opacity-80"></div>
-      <div className="fixed bottom-5 left-0 right-0 z-40 m-6 animate-fadeInDown">
+      <div className="fixed bottom-5 left-0 right-0 z-40 m-5 animate-fadeInDown">
         <div
           ref={ref}
           className="flex flex-col justify-center rounded-lg bg-white"
@@ -58,7 +58,7 @@ function Row({ children, onClick }) {
   return (
     <div className="border-b last:border-b-0">
       <div
-        className="m-3 flex cursor-pointer flex-row items-center gap-3 p-2 text-sm font-light text-gray-800 transition-colors hover:text-blue-500"
+        className="m-3 flex cursor-pointer flex-row items-center gap-3 p-1.5 text-sm text-gray-800 transition-colors hover:text-blue-500"
         onClick={handleClick}
       >
         {children}

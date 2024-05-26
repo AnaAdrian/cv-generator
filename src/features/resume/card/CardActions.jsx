@@ -25,7 +25,7 @@ function CardActions({ resume }) {
             type="rename"
           >
             <TooltipElement tooltipText="Rename">
-              <PiPencilSimpleBold className="h-4 w-4 animate-fadeIn cursor-pointer text-gray-400 transition-all hover:text-blue-500 md:h-5 md:w-5" />
+              <PiPencilSimpleBold className="h-4 w-4 cursor-pointer text-gray-400 hover:text-blue-500 md:h-5 md:w-5" />
             </TooltipElement>
           </EditableHeader.Button>
         </EditableHeader.Actions>

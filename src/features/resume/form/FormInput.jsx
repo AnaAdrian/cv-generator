@@ -41,7 +41,7 @@ function FormInput({ id, tableName, fieldName, value, ...rest }) {
       label={label}
       value={inputValue}
       onChange={onChange}
-      className="h-[50px] w-full rounded-[3px] bg-slate-100 px-4 py-3 text-sm text-gray-700 focus:outline-none md:text-base"
+      className="h-11 w-full rounded-[3px] bg-slate-100 px-4 py-3 text-sm text-gray-700 focus:outline-none md:h-[50px] md:text-base"
       {...rest}
     />
   );

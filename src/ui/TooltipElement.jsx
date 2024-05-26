@@ -1,8 +1,8 @@
 const TOOLTIP_ANIMATION_VARIANTS = {
   default:
-    "pointer-events-none transition duration-100 ease-in-out opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0",
+    "pointer-events-none duration-100 ease-in-out opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0",
   delayed:
-    "pointer-events-none transition duration-200 ease-in-out opacity-0 group-hover:opacity-100 group-hover:delay-300",
+    "pointer-events-none duration-200 ease-in-out opacity-0 group-hover:opacity-100 group-hover:delay-300",
 };
 
 const TOOLTIP_STYLE_VARIANTS = {
@@ -10,6 +10,7 @@ const TOOLTIP_STYLE_VARIANTS = {
     "absolute bottom-full mb-4 whitespace-nowrap rounded text-center bg-gray-800 px-3 py-1.5 text-sm font-light text-white drop-shadow-lg",
   light:
     "absolute bottom-full mb-2.5 rounded whitespace-nowrap text-center bg-gray-800 px-2 py-1.5 text-xs font-light text-white drop-shadow-lg",
+  info: "absolute bottom-full mb-4 rounded bg-gray-800 px-3 py-2 text-sm font-light text-white drop-shadow-lg",
 };
 
 const TOOLTIP_TAIL =
@@ -21,17 +22,18 @@ function TooltipElement({
   tooltipText,
   tooltipAnimationVariant = "default",
   tooltipStyleVariant = "default",
-  className = "",
+  width = "",
 }) {
   const tooltipAnimation = TOOLTIP_ANIMATION_VARIANTS[tooltipAnimationVariant];
   const tooltipStyle = `${TOOLTIP_STYLE_VARIANTS[tooltipStyleVariant]} ${TOOLTIP_TAIL} left-1/2 transform -translate-x-1/2 transform-origin-bottom`;
 
   return (
-    <div className={`group relative inline-block ${className}`}>
+    <div className="group relative inline-block">
       <div
-        className={`${tooltipAnimation} ${tooltipStyle} translate3d-0 backface-hidden opacity-0 will-change-transform`}
+        className={`${tooltipAnimation} ${tooltipStyle} z-10 will-change-transform`}
+        style={{ width }}
       >
-        <div className="w-max">{tooltipText}</div>
+        <div className="select-none">{tooltipText}</div>
       </div>
       <span onClick={onClick}>{children}</span>
     </div>

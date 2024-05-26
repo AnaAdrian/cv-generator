@@ -54,7 +54,7 @@ export default {
         fadeInDownSlow: 'fadeInDownShort 0.35s ease-out',
       },
       fontFamily: {
-        'sans': ['Ubuntu', 'sans-serif'],
+        'sans': ['Ubuntu', 'serif'],
         "inter": ["Inter", "serif"],
       },
       boxShadow: {

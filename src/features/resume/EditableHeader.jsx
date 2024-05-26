@@ -206,6 +206,7 @@ function EditableHeaderInput({ className = "", showOnlyInput = false }) {
             onBlur={handleBlur}
             onKeyDown={handleInputKeyDown}
             autoComplete="off"
+            maxLength={100}
           />
           {showOnlyInput ? (
             <div

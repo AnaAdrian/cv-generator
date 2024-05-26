@@ -28,21 +28,29 @@ const Input = forwardRef(
       setShowPassword(!showPassword);
     };
 
+    const handleLabelClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
     return (
-      <div className="group/input mb-1">
+      <div className="mb-1">
         {label && labelPosition === "outside" && (
           <label
             htmlFor={`input-${label}`}
-            className="pointer-events-none mb-1 block text-xs font-light text-gray-400 md:text-sm"
+            className="mb-1 flex flex-row items-center gap-1 text-xs font-light text-gray-400 md:text-sm"
+            onClick={handleLabelClick}
           >
             {label}
             {labelTooltip && (
-              <span className="ml-1 text-gray-400">{labelTooltip}</span>
+              <span className="hidden items-center md:flex">
+                {labelTooltip}
+              </span>
             )}
           </label>
         )}
 
-        <div className="relative">
+        <div className="group/input relative">
           <input
             ref={ref}
             id={`input-${label ? label : "no-label"}`}
