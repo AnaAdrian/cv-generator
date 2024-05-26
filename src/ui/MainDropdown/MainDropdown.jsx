@@ -12,7 +12,7 @@ function MainDropdown() {
 
   const isEditingFormPage = pathname.includes("edit");
   const itemCommonClasses =
-    "text-sm transition-all duration-150 hover:text-blue-500 md:text-base font-thin cursor-pointer";
+    "text-sm transition-colors duration-150 hover:text-blue-500 md:text-base font-thin cursor-pointer";
 
   return (
     <Menu className="relative flex justify-end">

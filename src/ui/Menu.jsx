@@ -7,7 +7,6 @@ import {
 } from "react";
 
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { isCustomComponent } from "../utils/helpers";
 
 const MenuContext = createContext();
 
@@ -37,7 +36,6 @@ function Menu({ children, className }) {
 
 function Toggle({ children, keepOpen = false }) {
   const { isOpen, open, close, toggleRef } = useContext(MenuContext);
-  const isReactComponent = isCustomComponent(children);
 
   const handleClick = () => {
     if (isOpen) {
@@ -49,10 +47,6 @@ function Toggle({ children, keepOpen = false }) {
     onClick: handleClick,
     ref: keepOpen ? null : toggleRef,
   };
-
-  if (isReactComponent) {
-    childProps.isOpen = isOpen;
-  }
 
   return cloneElement(children, childProps);
 }
