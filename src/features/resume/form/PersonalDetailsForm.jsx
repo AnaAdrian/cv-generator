@@ -7,11 +7,15 @@ import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import { SlQuestion } from "react-icons/sl";
 import { FaUndo } from "react-icons/fa";
 import { useResize } from "../../../hooks/useResize";
+import { getCountries } from "../../../utils/apis";
 
 function PersonalDetailsForm({ resumeData, width }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [overflowVisible, setOverflowVisible] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
+  const [selectedCountry, setSelectedCountry] = useState(
+    resumeData.country || "",
+  );
   const isMobile = useResize(768);
   const contentRef = useRef(null);
 
@@ -123,6 +127,9 @@ function PersonalDetailsForm({ resumeData, width }) {
               tableName="resumes"
               fieldName="country"
               value={resumeData.country}
+              displayOptions={true}
+              optionsHandler={getCountries}
+              onSelectOption={setSelectedCountry}
             />
           </div>
           <div className={inputClass}>

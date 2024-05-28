@@ -59,7 +59,8 @@ export default {
       },
       boxShadow: {
         "menu": 'rgba(16, 56, 112, 0.32) 0px 0px 1px, rgba(16, 56, 112, 0.08) 0px 2px 4px -1px, rgba(16, 56, 112, 0.12) 0px 8px 20px -4px',
-        "even": "rgba(16, 56, 112, 0.2) 0px 0px 1px, rgba(16, 56, 112, 0.15) 0px 2px 14px"
+        "even": "rgba(16, 56, 112, 0.2) 0px 0px 1px, rgba(16, 56, 112, 0.15) 0px 2px 14px",
+        "options": 'rgba(190, 196, 213, 0.7) 0px 14px 16px -10px, rgba(190, 196, 213, 0.12) 0px 1px',
       }
     },
   },
