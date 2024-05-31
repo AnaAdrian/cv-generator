@@ -46,7 +46,6 @@ export async function duplicateResume(resumeId) {
     return data;
 }
 
-
 export async function getAllResumes() {
     const { data, error } = await supabase
         .from('resumes')
@@ -93,3 +92,36 @@ export async function calculateResumeScore(id) {
     }
     return data;
 }
+
+export async function getCountries(searchTerm, limit = 5) {
+    const { data, error } = await supabase
+        .rpc('search_countries', {
+            search_term: searchTerm,
+            limit_results: limit
+        });
+
+    if (error) {
+        console.error("Error fetching countries", error);
+        throw error;
+    }
+    return data.map(({ country, country_code }) => ({ name: country, code: country_code }));
+}
+
+export async function getCities(searchTerm, countryCode, limit = 5) {
+    if (!countryCode || !searchTerm) return [];
+
+    const { data, error } = await supabase
+        .rpc('search_cities',
+            {
+                target_country_code: countryCode,
+                search_term: searchTerm,
+                limit_results: limit
+            });
+
+    if (error) {
+        console.error("Error fetching cities", error);
+        throw error;
+    }
+    return data;
+}
+

@@ -1,9 +1,9 @@
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useRef, useState } from "react";
 import debounce from "lodash.debounce";
 
 import Input from "../../../ui/Input";
-import { useUpdateResume } from "../useUpdateResume";
 import InputOptions from "./InputOptions";
+import { useUpdateResume } from "../useUpdateResume";
 
 //eslint-disable-next-line
 function FormInput({
@@ -12,13 +12,12 @@ function FormInput({
   fieldName,
   value,
   displayOptions = false,
-  optionsHandler,
+  options,
   onSelectOption,
   ...rest
 }) {
   const [inputValue, setInputValue] = useState(value ? value : "");
   const [isFocused, setIsFocused] = useState(false);
-  const [options, setOptions] = useState([]);
   const previousValueRef = useRef(value);
   const label = fieldName
     .split("_")
@@ -26,28 +25,6 @@ function FormInput({
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   const { mutate: onUpdate } = useUpdateResume();
-
-  useEffect(() => {
-    if (!displayOptions || !optionsHandler || !isFocused) return;
-
-    const fetchOptions = async (inputValue) => {
-      try {
-        const data = await optionsHandler(inputValue);
-        setOptions(data);
-      } catch (error) {
-        console.error("Error fetching options:", error);
-      }
-    };
-
-    const debouncedFetchOptions = debounce(fetchOptions, 300);
-
-    if (inputValue) {
-      debouncedFetchOptions(inputValue);
-    }
-    return () => {
-      debouncedFetchOptions.cancel();
-    };
-  }, [inputValue, displayOptions, optionsHandler, isFocused]);
 
   // eslint-disable-next-line
   const debouncedUpdate = useCallback(
@@ -74,7 +51,6 @@ function FormInput({
   function handleSelect(e) {
     setInputValue(e.target.textContent);
     debouncedUpdate(e.target.textContent);
-    setOptions([]);
     if (onSelectOption) onSelectOption(e.target.textContent);
   }
 
@@ -85,13 +61,11 @@ function FormInput({
   function handleBlur() {
     setTimeout(() => {
       setIsFocused(false);
-      setOptions([]);
     }, 10);
-    if (onSelectOption) onSelectOption("");
   }
 
   const showOptions =
-    displayOptions && options.length > 0 && isFocused && inputValue;
+    displayOptions && options?.length > 0 && isFocused && inputValue;
 
   return (
     <div className="relative">

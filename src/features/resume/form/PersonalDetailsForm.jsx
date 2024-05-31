@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 import FormInput from "./FormInput";
 import EditableHeader from "../EditableHeader";
 import TooltipElement from "../../../ui/TooltipElement";
@@ -7,17 +9,29 @@ import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import { SlQuestion } from "react-icons/sl";
 import { FaUndo } from "react-icons/fa";
 import { useResize } from "../../../hooks/useResize";
-import { getCountries } from "../../../utils/apis";
+import { useGetCountries } from "./useGetCountries";
+import { useGetCities } from "./useGetCities";
 
 function PersonalDetailsForm({ resumeData, width }) {
+  const queryClient = useQueryClient();
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [overflowVisible, setOverflowVisible] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
-  const [selectedCountry, setSelectedCountry] = useState(
-    resumeData.country || "",
-  );
   const isMobile = useResize(768);
   const contentRef = useRef(null);
+  const [countryInputValue, setCountryInputValue] = useState(
+    resumeData.country || "",
+  );
+  const [cityInputValue, setCityInputValue] = useState("");
+
+  const { data: countries } = useGetCountries(countryInputValue);
+
+  const countryCode = queryClient
+    .getQueryData(["countries", countryInputValue])
+    ?.find((country) => country.name === countryInputValue)?.code;
+
+  const { data: cities } = useGetCities(cityInputValue, countryCode);
 
   useEffect(() => {
     const updateContentHeight = () => {
@@ -128,8 +142,8 @@ function PersonalDetailsForm({ resumeData, width }) {
               fieldName="country"
               value={resumeData.country}
               displayOptions={true}
-              optionsHandler={getCountries}
-              onSelectOption={setSelectedCountry}
+              options={countries}
+              onSelectOption={setCountryInputValue}
             />
           </div>
           <div className={inputClass}>
@@ -138,6 +152,9 @@ function PersonalDetailsForm({ resumeData, width }) {
               tableName="resumes"
               fieldName="city"
               value={resumeData.city}
+              displayOptions={true}
+              options={cities}
+              onSelectOption={setCityInputValue}
             />
           </div>
         </div>
